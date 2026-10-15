@@ -8,9 +8,10 @@ import { MoonIcon, SunIcon } from './icons'
 
 const YEAR = new Date().getFullYear()
 
+// Same pink and blue as --accent and --accent-2 in index.css.
 const BACKGROUND_LOOK = {
-  dark: { color: '#f4f4f5', accent: '#feb3ff', opacity: 0.1 },
-  light: { color: '#0a0a0b', accent: '#c026d3', opacity: 0.08 },
+  dark: { color: '#f4f4f5', tints: ['#ff4fb8', '#4ea8ff'] as [string, string], opacity: 0.11 },
+  light: { color: '#0a0a0b', tints: ['#e0157f', '#1a73e8'] as [string, string], opacity: 0.09 },
 }
 
 function LanguageToggle() {
@@ -56,7 +57,7 @@ export function Layout() {
       <header className="site-nav">
         <Link to="/" className="site-nav-brand">
           <span className="site-nav-brand-mark" />
-          CruxCast
+          <span className="site-nav-brand-name">CruxCast</span>
         </Link>
         {user && (
           <nav className="site-nav-links" aria-label={t('nav.main')}>

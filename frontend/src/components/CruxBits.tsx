@@ -25,13 +25,13 @@ export function GradeChips({ crux }: { crux: Crux }) {
   return (
     <div className="grade-row">
       {crux.gym_grade && (
-        <span className="grade-chip">
+        <span className="grade-chip grade-chip-gym">
           <small>{t('detail.gym')}</small>
           {crux.gym_grade}
         </span>
       )}
       {crux.personal_grade && (
-        <span className="grade-chip">
+        <span className="grade-chip grade-chip-felt">
           <small>{t('detail.felt')}</small>
           {crux.personal_grade}
         </span>

@@ -122,6 +122,11 @@ const en = {
     zoomToWall: 'Zoom to {{wall}}',
     zoomHint: 'Scroll or pinch to zoom, drag to move. Tap a wall name to zoom to it.',
     required: 'Pick the climb on the gym map first.',
+    areas: {
+      training: 'Gym area',
+      changing: 'Changing rooms\n& toilets',
+      reception: 'Front desk\nRestaurant\nBar',
+    },
     use: 'Use this climb',
     loading: 'Loading the gym map…',
     detailTitle: 'On the gym map',

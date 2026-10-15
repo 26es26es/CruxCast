@@ -21,6 +21,7 @@ from pydantic import BaseModel, ValidationError
 
 from app.config import settings
 from app.constants import COLOURS
+from app.gym_areas import GYM_AREAS, Area
 
 logger = logging.getLogger(__name__)
 
@@ -148,6 +149,8 @@ class GymMap(BaseModel):
     floorplan_height: float
     walls: list[Wall]
     climbs: list[MapClimb]
+    # Labelled non-climbing areas (front desk, changing rooms, ...).
+    areas: list[Area] = []
     hold_colours: list[Option] = []
     circuits: list[Option] = []
     styles: list[Tag] = []
@@ -430,6 +433,7 @@ def _fetch(slug: str) -> tuple[GymMap, str]:
             if t.type == "HOLD"
         ],
         setters=[Option(id=s.id, name=s.name.strip()) for s in gym.setters],
+        areas=GYM_AREAS.get(slug, []),
         new_days=gym.markBoulderNewDays or 7,
         out_soon_days=gym.markBoulderOutSoonDays or 7,
     )

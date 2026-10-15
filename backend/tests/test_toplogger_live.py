@@ -45,5 +45,9 @@ def test_toplogger_still_matches_our_format():
         assert all(set(getattr(c, field)) <= ids for c in gym_map.climbs), f"unknown {field}"
     colour_ids = {o.id for o in gym_map.hold_colours}
     assert all(c.hold_colour_id in colour_ids for c in gym_map.climbs), "unknown hold colours"
+    # Area labels were measured from named shapes; if those are gone, re-measure them.
+    for area in gym_map.areas:
+        assert f'id="{area.svg_id}"' in floorplan, f"plan no longer has {area.svg_id!r}"
+
     ratings = [c.rating for c in gym_map.climbs if c.rating is not None]
     assert ratings and all(0 <= r <= 100 for r in ratings), "ratings no longer 0-100"

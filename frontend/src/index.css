@@ -915,6 +915,7 @@ textarea {
 .gym-map.is-zoomable {
   /* Pinch and drag are handled by the map, not the page. */
   touch-action: none;
+  container-type: inline-size;
   cursor: grab;
 }
 
@@ -987,6 +988,39 @@ textarea {
 .gym-map-layer {
   position: absolute;
   inset: 0;
+}
+
+/* Non-climbing areas: quiet labels that scale their width with the zoom. */
+.gym-map-area {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  min-width: 4.2rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.gym-map-area > span {
+  padding: 0.2rem 0.4rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg-raised) 85%, transparent);
+  color: var(--fg-muted);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+  /* Translations put one item per line. */
+  white-space: pre-line;
+}
+
+/* On phone-sized maps the side strip is too narrow for them until you zoom in. */
+@container (max-width: 480px) {
+  .gym-map:not(.is-zoomed) .gym-map-area {
+    display: none;
+  }
 }
 
 /* Labels sit under the dots so they never block a climb. */

@@ -124,6 +124,11 @@ const nl: typeof en = {
     zoomToWall: 'Inzoomen op {{wall}}',
     zoomHint: 'Scroll of knijp om te zoomen, sleep om te verschuiven. Tik op een wandnaam om erop in te zoomen.',
     required: 'Kies eerst de klim op de plattegrond.',
+    areas: {
+      training: 'Fitness',
+      changing: 'Kleedkamers\n& toiletten',
+      reception: 'Balie\nRestaurant\nBar',
+    },
     use: 'Deze klim gebruiken',
     loading: 'Plattegrond laden…',
     detailTitle: 'Op de plattegrond',

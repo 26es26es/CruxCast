@@ -78,6 +78,17 @@ export function GymMapView({ map, climbs = [], selectedId, onSelect, pin, maxHei
         draggable={false}
       />
       <div className="gym-map-layer">
+        {/* Only on the large, zoomable maps; the small previews are too narrow. */}
+        {zoomable &&
+          map.areas.map((area) => (
+            <span
+              key={area.key}
+              className="gym-map-area"
+              style={{ ...at(area.x, area.y), width: `calc(${area.width * 100}% * var(--zoom, 1))` }}
+            >
+              <span>{t(`map.areas.${area.key}`)}</span>
+            </span>
+          ))}
         {map.walls.map((wall) => {
           if (wall.label_x == null || wall.label_y == null) return null
           // Anchor labels near an edge to that edge so they never get clipped.

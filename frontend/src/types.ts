@@ -58,6 +58,9 @@ export type FilterOption = { id: string; name: string; colour_hex: string | null
 /** A style or hold type, with TopLogger's icon as a 24×24 SVG path. */
 export type ClimbTag = { id: string; name: string; icon: string | null }
 
+/** A labelled non-climbing part of the gym, e.g. the front desk. */
+export type GymArea = { key: string; x: number; y: number; width: number }
+
 export type GymMap = {
   name: string
   /** When the backend fetched this from TopLogger. */
@@ -70,6 +73,7 @@ export type GymMap = {
   floorplan_height: number
   walls: Wall[]
   climbs: MapClimb[]
+  areas: GymArea[]
   hold_colours: FilterOption[]
   circuits: FilterOption[]
   styles: ClimbTag[]

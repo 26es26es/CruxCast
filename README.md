@@ -1,6 +1,6 @@
 # CruxCast
 
-A bouldering logbook. Every climb you log is a *crux*: its climb ID, hold colour, area in the gym, the gym's grade and your own grade, a description, how you found it, tips, and a video of your ascent.
+A bouldering logbook. Every climb you log is a *crux*: you pick it on the gym map, which fills in its wall, hold colour and grade, then add how hard it felt to you, a description, how you found it, tips, and a video of your ascent.
 
 Coming next: **How should I work on this crux?**, a machine-learning model that suggests your next move from a photo or video of where you came off.
 
@@ -8,6 +8,10 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 
 - Accounts: everyone signs up and sees only their own cruxes
 - Log, edit, search and delete cruxes
+- Pick a crux on the gym's floor plan, loaded live from [TopLogger](https://toplogger.nu); this fills in its wall, colour and grade
+- **My Gym**: the whole gym map, zoomable, with every current climb; tap one to see its details and log it
+- Zoom the map with the scroll wheel, pinch, the +/− buttons, or by tapping a wall name
+- Filter the map like TopLogger does: grade and star-rating ranges, soft/hard, colours, styles and holds (with "Not"), circuit, wall, setter, new, almost removed, suitable for short people, and whether it's already in your logbook
 - Favorites
 - Upload and play back ascent videos
 - English and Dutch
@@ -24,6 +28,7 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 | [React Router](https://reactrouter.com) | Pages and navigation |
 | [i18next](https://www.i18next.com) / [react-i18next](https://react.i18next.com) | English/Dutch translations |
 | [GSAP](https://gsap.com) | Title animations |
+| Canvas 2D API | The faded, animated climbing-icon background |
 | Plain CSS with CSS variables | Styling and the light/dark themes |
 | [oxlint](https://oxc.rs) | Linting |
 
@@ -38,8 +43,10 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 | [Alembic](https://alembic.sqlalchemy.org) | Database migrations |
 | [psycopg 3](https://www.psycopg.org) | PostgreSQL driver |
 | [pwdlib](https://github.com/frankie567/pwdlib) (Argon2) | Password hashing |
+| [HTTPX](https://www.python-httpx.org) | Fetching the gym map and climbs from TopLogger |
 | [PyJWT](https://pyjwt.readthedocs.io) | Signed login sessions, stored in an httpOnly cookie |
 | [uv](https://docs.astral.sh/uv) | Python package and version management |
+| [pytest](https://pytest.org) | Backend tests |
 
 ### Infrastructure
 
@@ -49,6 +56,22 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 | [Docker](https://www.docker.com) + Docker Compose | Running the database, backend and frontend together |
 
 Uploaded videos are stored on a Docker volume; the database stores only their file names.
+
+### Gym map (TopLogger)
+
+The gym map and its current boulders come from TopLogger's GraphQL API (`https://api.toplogger.nu/graphql`), the same unofficial API its web app uses, so it may change without notice. The backend fetches the gym set in `TOPLOGGER_GYM_SLUG` (default `beest-boulders-delft`), caches it for 10 minutes, and serves the floor plan from `/api/gym/floorplan.svg`. Nothing from TopLogger is stored in this repository. Each crux keeps its own copy of its map position, so its pin survives the gym resetting the climb.
+
+Every response from TopLogger is validated before use. If a refresh fails (TopLogger is down, or has changed its format), the backend keeps serving the last good copy from memory and the map shows how old it is; the reason is logged in the backend output. That copy lives only in memory, so after a backend restart the map needs TopLogger to be reachable again.
+
+## Tests
+
+```bash
+cd backend
+uv run pytest                                              # unit tests
+TOPLOGGER_LIVE=1 uv run pytest tests/test_toplogger_live.py  # checks TopLogger's API still matches
+```
+
+If the live check fails, TopLogger has changed its API; the fix belongs in `backend/app/toplogger.py`.
 
 ## Prerequisites
 

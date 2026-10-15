@@ -1,4 +1,4 @@
-import type { Crux, CruxFields, User } from './types'
+import type { Crux, CruxFields, GymMap, User } from './types'
 
 /** Fired when the session has expired so the app can return to the login page. */
 export const UNAUTHORIZED_EVENT = 'cruxcast:unauthorized'
@@ -91,6 +91,8 @@ export const api = {
   updateCrux: (id: number, changes: Partial<CruxFields & { is_favorite: boolean }>) =>
     request<Crux>(`/cruxes/${id}`, json('PATCH', changes)),
   deleteCrux: (id: number) => request<void>(`/cruxes/${id}`, { method: 'DELETE' }),
+
+  getGymMap: () => request<GymMap>('/gym/map'),
 
   videoUrl: (id: number) => `/api/cruxes/${id}/video`,
   uploadVideo,

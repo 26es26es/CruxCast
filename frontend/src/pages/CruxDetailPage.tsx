@@ -2,13 +2,33 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { api } from '../api'
-import { CruxMeta, GradeChips } from '../components/CruxBits'
+import { CruxMeta, GradeChips, useCruxTitle } from '../components/CruxBits'
 import { CruxForm } from '../components/CruxForm'
 import { FavoriteButton } from '../components/FavoriteButton'
 import { FloatTitle } from '../components/FloatTitle'
+import { GymMapView } from '../components/GymMapView'
 import { VideoPanel } from '../components/VideoPanel'
+import { COLOURS } from '../constants'
+import { useGymMap } from '../gymMap'
 import i18n, { errorMessage } from '../i18n'
 import type { Crux, CruxFields } from '../types'
+
+/** The crux's pin on the gym floor plan, if it has a position. */
+function CruxMapSection({ crux }: { crux: Crux }) {
+  const { t } = useTranslation()
+  const { map } = useGymMap()
+  if (crux.map_x == null || crux.map_y == null || !map) return null
+  return (
+    <section className="video-section">
+      <h2 className="section-kicker">{t('map.detailTitle')}</h2>
+      <GymMapView
+        map={map}
+        maxHeight="420px"
+        pin={{ x: crux.map_x, y: crux.map_y, colour: COLOURS[crux.colour], label: t('map.yourCrux') }}
+      />
+    </section>
+  )
+}
 
 export function CruxDetailPage() {
   const { t } = useTranslation()
@@ -19,6 +39,7 @@ export function CruxDetailPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [editing, setEditing] = useState(false)
+  const title = useCruxTitle()
 
   // Set by the new-crux page when the video upload failed after saving.
   const [initialVideoError] = useState(() => {
@@ -29,7 +50,7 @@ export function CruxDetailPage() {
   useEffect(() => {
     // Clear it from history so a reload doesn't show the error again.
     if (location.state) navigate(location.pathname, { replace: true, state: null })
-  }, [])
+  }, [location.state, location.pathname, navigate])
 
   useEffect(() => {
     api
@@ -77,10 +98,10 @@ export function CruxDetailPage() {
     return (
       <div className="page page-narrow">
         <button type="button" className="back-link link-button" style={{ border: 0 }} onClick={() => setEditing(false)}>
-          ← {crux.climb_id}
+          ← {title(crux)}
         </button>
         <div className="page-head">
-          <p className="section-kicker">{crux.climb_id}</p>
+          <p className="section-kicker">{title(crux)}</p>
           <FloatTitle text={t('form.editTitle')} />
         </div>
         <CruxForm initial={crux} submitLabel={t('common.save')} onSubmit={save} onCancel={() => setEditing(false)} />
@@ -104,7 +125,7 @@ export function CruxDetailPage() {
       <div className="page-head">
         <CruxMeta crux={crux} className="section-kicker" />
         <div className="detail-head">
-          <FloatTitle text={crux.climb_id} />
+          <FloatTitle text={title(crux)} />
           <FavoriteButton active={crux.is_favorite} onToggle={toggleFavorite} />
         </div>
         <GradeChips crux={crux} />
@@ -131,6 +152,8 @@ export function CruxDetailPage() {
           </div>
         ))}
       </dl>
+
+      <CruxMapSection crux={crux} />
 
       <VideoPanel crux={crux} onChange={setCrux} initialError={initialVideoError} />
 

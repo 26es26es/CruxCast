@@ -5,7 +5,7 @@ from sqlalchemy import select
 from app import storage
 from app.db import DbSession
 from app.models import Crux, User
-from app.schemas import CruxCreate, CruxOut, CruxUpdate
+from app.schemas import CruxCreate, CruxOut, CruxUpdate, check_location
 from app.security import CurrentUser
 
 router = APIRouter(prefix="/cruxes", tags=["cruxes"])
@@ -49,6 +49,11 @@ def update_crux(
     crux = _get_owned_crux(db, user, crux_id)
     for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(crux, field, value)
+    try:
+        check_location(crux.climb_id, crux.map_x, crux.map_y)
+    except ValueError as error:
+        db.rollback()
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(error))
     db.commit()
     db.refresh(crux)
     return CruxOut.model_validate(crux)

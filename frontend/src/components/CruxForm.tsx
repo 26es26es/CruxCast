@@ -1,8 +1,11 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { COLOUR_KEYS, COLOURS, GRADES, type Colour, type Grade } from '../constants'
+import { COLOURS, GRADES, type Colour, type Grade } from '../constants'
 import { errorMessage } from '../i18n'
-import type { CruxFields } from '../types'
+import { useGymMap } from '../gymMap'
+import type { CruxFields, MapClimb } from '../types'
+import { GymMapView } from './GymMapView'
+import { MapPickerDialog } from './MapPickerDialog'
 import { checkVideoFile, VideoDropZone } from './VideoDropZone'
 
 type Props = {
@@ -14,6 +17,8 @@ type Props = {
   uploadProgress?: number | null
   onSubmit: (fields: CruxFields, video: File | null) => Promise<void>
   onCancel: () => void
+  /** A climb from the gym map to start from (e.g. "Log this climb" on My Gym). */
+  initialClimb?: MapClimb | null
 }
 
 type Draft = Omit<CruxFields, 'colour' | 'gym_grade' | 'personal_grade'> & {
@@ -31,6 +36,76 @@ const EMPTY: Draft = {
   description: '',
   experience: '',
   tips: '',
+  map_x: null,
+  map_y: null,
+  toplogger_climb_id: null,
+}
+
+/** Fills in what TopLogger knows about a climb picked on the map. */
+function withClimb(draft: Draft, climb: MapClimb): Draft {
+  return {
+    ...draft,
+    map_x: climb.x,
+    map_y: climb.y,
+    toplogger_climb_id: climb.id,
+    colour: climb.colour,
+    area: climb.wall_name ?? '',
+    gym_grade: climb.grade ?? '',
+  }
+}
+
+type Location = Pick<Draft, 'map_x' | 'map_y' | 'toplogger_climb_id' | 'colour' | 'gym_grade' | 'area'>
+
+/** Shows which climb the crux is, on the gym map, and opens the picker. */
+function LocationSection({ location, onPick }: { location: Location; onPick: (climb: MapClimb) => void }) {
+  const { t } = useTranslation()
+  const { map, error } = useGymMap()
+  const [picking, setPicking] = useState(false)
+  const placed = location.map_x != null && location.map_y != null
+
+  return (
+    <div className="field">
+      <span className="field-label">{t('map.section')}</span>
+      {map && placed && (
+        <GymMapView
+          map={map}
+          maxHeight="280px"
+          pin={{
+            x: location.map_x!,
+            y: location.map_y!,
+            colour: location.colour ? COLOURS[location.colour] : '#9ca3af',
+            label: t('map.yourCrux'),
+          }}
+        />
+      )}
+      {placed && location.colour ? (
+        <span className="map-selection">
+          <span className="colour-dot" style={{ background: COLOURS[location.colour] }} />
+          {t('map.climbLabel', {
+            colour: t(`colours.${location.colour}`),
+            grade: location.gym_grade || '?',
+            wall: location.area,
+          })}
+        </span>
+      ) : (
+        <span className="field-hint">{t('map.hint')}</span>
+      )}
+      {error && <p className="error-text">{error}</p>}
+      <div className="map-actions">
+        <button type="button" className="pill" disabled={!map} onClick={() => setPicking(true)}>
+          {map ? (placed ? t('map.change') : t('map.pick')) : t('map.loading')}
+        </button>
+      </div>
+      {picking && map && (
+        <MapPickerDialog
+          map={map}
+          initialClimbId={location.toplogger_climb_id}
+          onPick={onPick}
+          onClose={() => setPicking(false)}
+        />
+      )}
+    </div>
+  )
 }
 
 function Field({ label, hint, children }: { label: ReactNode; hint?: string; children: ReactNode }) {
@@ -43,17 +118,25 @@ function Field({ label, hint, children }: { label: ReactNode; hint?: string; chi
   )
 }
 
-export function CruxForm({ initial, submitLabel, withVideo, uploadProgress, onSubmit, onCancel }: Props) {
+export function CruxForm({ initial, submitLabel, withVideo, uploadProgress, onSubmit, onCancel, initialClimb }: Props) {
   const { t } = useTranslation()
-  const [draft, setDraft] = useState<Draft>(() =>
-    initial ? { ...initial, personal_grade: initial.personal_grade ?? '' } : EMPTY,
-  )
+  const [draft, setDraft] = useState<Draft>(() => {
+    const start: Draft = initial
+      ? { ...initial, gym_grade: initial.gym_grade ?? '', personal_grade: initial.personal_grade ?? '' }
+      : EMPTY
+    return initialClimb ? withClimb(start, initialClimb) : start
+  })
   const [video, setVideo] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((current) => ({ ...current, [key]: value }))
+
+  const pickClimb = (climb: MapClimb) => {
+    setError(null)
+    setDraft((current) => withClimb(current, climb))
+  }
 
   const pickVideo = (file: File) => {
     const problem = checkVideoFile(file)
@@ -67,8 +150,11 @@ export function CruxForm({ initial, submitLabel, withVideo, uploadProgress, onSu
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    // The required attributes on the selects guarantee these are filled in.
-    if (!draft.colour || !draft.gym_grade) return
+    // The map pick identifies the climb; older cruxes may have a climb ID instead.
+    if (!draft.colour || (draft.map_x == null && !draft.climb_id)) {
+      setError(t('map.required'))
+      return
+    }
     setSubmitting(true)
     setError(null)
     try {
@@ -76,7 +162,7 @@ export function CruxForm({ initial, submitLabel, withVideo, uploadProgress, onSu
         {
           ...draft,
           colour: draft.colour,
-          gym_grade: draft.gym_grade,
+          gym_grade: draft.gym_grade || null,
           personal_grade: draft.personal_grade || null,
         },
         video,
@@ -87,73 +173,22 @@ export function CruxForm({ initial, submitLabel, withVideo, uploadProgress, onSu
     }
   }
 
-  const gradeOptions = GRADES.map((grade) => (
-    <option key={grade} value={grade}>
-      {grade}
-    </option>
-  ))
-
   return (
     <form className="form form-panel" onSubmit={handleSubmit}>
+      <LocationSection location={draft} onPick={pickClimb} />
+
       <div className="form-grid">
-        <Field label={t('fields.climbId')} hint={t('fields.climbIdHint')}>
-          <input
-            className="input"
-            required
-            maxLength={50}
-            value={draft.climb_id}
-            onChange={(event) => set('climb_id', event.target.value)}
-          />
-        </Field>
-        <Field
-          label={
-            <>
-              {t('fields.colour')}
-              {draft.colour && (
-                <span
-                  className="colour-dot"
-                  style={{ display: 'inline-block', marginLeft: '0.5rem', background: COLOURS[draft.colour] }}
-                />
-              )}
-            </>
-          }
-        >
-          <select required value={draft.colour} onChange={(event) => set('colour', event.target.value as Colour)}>
-            <option value="" disabled>
-              {t('common.choose')}
-            </option>
-            {COLOUR_KEYS.map((colour) => (
-              <option key={colour} value={colour}>
-                {t(`colours.${colour}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label={t('fields.area')}>
-          <input
-            className="input"
-            required
-            maxLength={100}
-            placeholder={t('fields.areaPlaceholder')}
-            value={draft.area}
-            onChange={(event) => set('area', event.target.value)}
-          />
-        </Field>
-        <Field label={t('fields.gymGrade')}>
-          <select required value={draft.gym_grade} onChange={(event) => set('gym_grade', event.target.value as Grade)}>
-            <option value="" disabled>
-              {t('common.choose')}
-            </option>
-            {gradeOptions}
-          </select>
-        </Field>
         <Field label={t('fields.personalGrade')} hint={t('fields.personalGradeHint')}>
           <select
             value={draft.personal_grade}
             onChange={(event) => set('personal_grade', event.target.value as Grade | '')}
           >
             <option value="">{t('common.notSet')}</option>
-            {gradeOptions}
+            {GRADES.map((grade) => (
+              <option key={grade} value={grade}>
+                {grade}
+              </option>
+            ))}
           </select>
         </Field>
       </div>

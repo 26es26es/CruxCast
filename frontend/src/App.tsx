@@ -6,6 +6,7 @@ import { CoachPage } from './pages/CoachPage'
 import { CruxDetailPage } from './pages/CruxDetailPage'
 import { CruxListPage } from './pages/CruxListPage'
 import { CruxNewPage } from './pages/CruxNewPage'
+import { GymPage } from './pages/GymPage'
 import { LoginPage } from './pages/LoginPage'
 import { ThemeProvider } from './theme'
 
@@ -40,6 +41,7 @@ export default function App() {
                 <Route path="/cruxes" element={<CruxListPage />} />
                 <Route path="/cruxes/new" element={<CruxNewPage />} />
                 <Route path="/cruxes/:id" element={<CruxDetailPage />} />
+                <Route path="/gym" element={<GymPage />} />
                 <Route path="/coach" element={<CoachPage />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />

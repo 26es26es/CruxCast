@@ -3,14 +3,14 @@ import { Link, NavLink, Outlet } from 'react-router'
 import { useAuth } from '../auth'
 import { LANGUAGES } from '../i18n'
 import { useTheme } from '../theme'
-import { CursorGrid } from './CursorGrid'
+import { ClimbingBackground } from './ClimbingBackground'
 import { MoonIcon, SunIcon } from './icons'
 
 const YEAR = new Date().getFullYear()
 
-const GRID_LOOK = {
-  dark: { color: '#feb3ff', maxOpacity: 0.22, gridOpacity: 0.02 },
-  light: { color: '#c026d3', maxOpacity: 0.2, gridOpacity: 0.035 },
+const BACKGROUND_LOOK = {
+  dark: { color: '#f4f4f5', accent: '#feb3ff', opacity: 0.1 },
+  light: { color: '#0a0a0b', accent: '#c026d3', opacity: 0.08 },
 }
 
 function LanguageToggle() {
@@ -50,7 +50,7 @@ export function Layout() {
   return (
     <div className="app-shell">
       <div className="site-background" aria-hidden="true">
-        <CursorGrid {...GRID_LOOK[theme]} trackWindow ignoreSelector=".site-nav, a, button, input, select, textarea, label, video" />
+        <ClimbingBackground {...BACKGROUND_LOOK[theme]} />
       </div>
 
       <header className="site-nav">
@@ -61,6 +61,7 @@ export function Layout() {
         {user && (
           <nav className="site-nav-links" aria-label={t('nav.main')}>
             <NavLink to="/cruxes">{t('nav.logCruxes')}</NavLink>
+            <NavLink to="/gym">{t('nav.myGym')}</NavLink>
             <NavLink to="/coach">{t('nav.coach')}</NavLink>
           </nav>
         )}

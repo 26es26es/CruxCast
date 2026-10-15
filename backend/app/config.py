@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     cookie_secure: bool = False
     upload_dir: Path = Path("uploads")
     max_video_mb: int = 500
+    # The gym whose TopLogger floor plan is used to pick climbs.
+    toplogger_gym_slug: str = "beest-boulders-delft"
+    toplogger_api_url: str = "https://api.toplogger.nu/graphql"
+    toplogger_uploads_url: str = "https://uploads.toplogger.nu"
 
 
 settings = Settings()

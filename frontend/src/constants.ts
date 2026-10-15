@@ -5,6 +5,7 @@ export const COLOURS = {
   orange: '#f97316',
   yellow: '#facc15',
   green: '#22c55e',
+  mint: '#9bf4ff',
   blue: '#3b82f6',
   purple: '#a855f7',
   pink: '#ec4899',
@@ -18,9 +19,10 @@ export type Colour = keyof typeof COLOURS
 
 export const COLOUR_KEYS = Object.keys(COLOURS) as Colour[]
 
-/** Fontainebleau bouldering scale, easiest to hardest. */
+/** Fontainebleau bouldering scale, easiest to hardest, matching TopLogger's. */
 export const GRADES = [
-  '3', '4', '4+', '5', '5+',
+  '3A', '3B', '3C', '4A', '4B', '4C',
+  '5A', '5A+', '5B', '5B+', '5C', '5C+',
   '6A', '6A+', '6B', '6B+', '6C', '6C+',
   '7A', '7A+', '7B', '7B+', '7C', '7C+',
   '8A', '8A+', '8B', '8B+', '8C', '8C+',

@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import (
     Boolean,
     DateTime,
+    Float,
     ForeignKey,
     String,
     Text,
@@ -38,17 +39,24 @@ class Crux(Base):
         ForeignKey("users.id", ondelete="CASCADE"), index=True
     )
     # The identifier the gym gives the climb, e.g. the number on its tag. Not unique:
-    # friends log the same climb, and gyms reuse numbers after a reset.
+    # friends log the same climb, and gyms reuse numbers after a reset. May be empty
+    # when the climb was picked on the gym map instead.
     climb_id: Mapped[str] = mapped_column(String(50))
     colour: Mapped[str] = mapped_column(String(20))
+    # The wall picked on the gym map; empty when the crux has no map position.
     area: Mapped[str] = mapped_column(String(100))
-    gym_grade: Mapped[str] = mapped_column(String(5))
+    gym_grade: Mapped[str | None] = mapped_column(String(5))
     personal_grade: Mapped[str | None] = mapped_column(String(5))
     description: Mapped[str] = mapped_column(Text, server_default="")
     experience: Mapped[str] = mapped_column(Text, server_default="")
     tips: Mapped[str] = mapped_column(Text, server_default="")
     video_filename: Mapped[str | None] = mapped_column(String(255))
     video_content_type: Mapped[str | None] = mapped_column(String(100))
+    # Where the climb is on the gym floor plan, as fractions of its width and height.
+    # Copied from TopLogger so the pin survives the climb being reset there.
+    map_x: Mapped[float | None] = mapped_column(Float)
+    map_y: Mapped[float | None] = mapped_column(Float)
+    toplogger_climb_id: Mapped[str | None] = mapped_column(String(40))
     is_favorite: Mapped[bool] = mapped_column(Boolean, server_default=false())
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

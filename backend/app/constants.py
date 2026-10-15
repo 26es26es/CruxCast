@@ -4,6 +4,7 @@ COLOURS = (
     "orange",
     "yellow",
     "green",
+    "mint",
     "blue",
     "purple",
     "pink",
@@ -13,13 +14,21 @@ COLOURS = (
     "brown",
 )
 
-# Fontainebleau bouldering scale, easiest to hardest.
+# Fontainebleau bouldering scale, easiest to hardest, as TopLogger's "FRENCH" system
+# shows it so climbs picked from the gym map keep their exact grade.
 GRADES = (
-    "3",
-    "4",
-    "4+",
-    "5",
-    "5+",
+    "3A",
+    "3B",
+    "3C",
+    "4A",
+    "4B",
+    "4C",
+    "5A",
+    "5A+",
+    "5B",
+    "5B+",
+    "5C",
+    "5C+",
     "6A",
     "6A+",
     "6B",

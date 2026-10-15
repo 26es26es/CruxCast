@@ -90,3 +90,36 @@ export type Crux = CruxFields & {
   created_at: string
   updated_at: string
 }
+
+// ---------- Board cruxes (Kilter Board) ----------
+
+/** What a hold is used for, matching the Kilter app: start, hand, top, foot only. */
+export type HoldRole = 'start' | 'hand' | 'finish' | 'foot'
+
+export type BoardHold = { id: number; role: HoldRole }
+
+export type BoardLayout = {
+  id: string
+  name: string
+  /** Board width divided by height; hold positions are fractions of each. */
+  aspect: number
+  angles: number[]
+  holds: { id: number; x: number; y: number; points: [number, number][] }[]
+}
+
+export type BoardCruxFields = {
+  name: string
+  angle: number
+  grade: Grade
+  description: string
+  is_public: boolean
+  holds: BoardHold[]
+}
+
+export type BoardCrux = BoardCruxFields & {
+  id: number
+  setter: string
+  is_mine: boolean
+  created_at: string
+  updated_at: string
+}

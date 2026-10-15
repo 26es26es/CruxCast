@@ -11,6 +11,7 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 - Pick a crux on the gym's floor plan, loaded live from [TopLogger](https://toplogger.nu); this fills in its wall, colour and grade
 - **My Gym**: the whole gym map, zoomable, with every current climb; tap one to see its details and log it
 - Zoom the map with the scroll wheel, pinch, the +/− buttons, or by tapping a wall name
+- **Board**: set your own cruxes on the Kilter Board Original (476 holds), Kilter-style: tap a hold and pick start, hand, top or foot only; give it a name, angle (0–70°) and grade; keep it private or share it publicly
 - Filter the map like TopLogger does: grade and star-rating ranges, soft/hard, colours, styles and holds (with "Not"), circuit, wall, setter, new, almost removed, suitable for short people, and whether it's already in your logbook
 - Favorites
 - Upload and play back ascent videos
@@ -56,6 +57,8 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 | [Docker](https://www.docker.com) + Docker Compose | Running the database, backend and frontend together |
 
 Uploaded videos are stored on a Docker volume; the database stores only their file names.
+
+The Kilter Board layout (`backend/app/boards/kilter_original.json`) was traced from a screenshot of the gym's board: hold positions and simplified outlines as fractions of the board's size. Lighting up the board over Bluetooth isn't supported: browsers on iPhone can't use Bluetooth, and the board's protocol isn't public.
 
 ### Gym map (TopLogger)
 

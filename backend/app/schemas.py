@@ -3,6 +3,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from app import board
 from app.constants import COLOURS, GRADES
 
 Colour = Literal[COLOURS]
@@ -112,5 +113,94 @@ class CruxOut(BaseModel):
     toplogger_climb_id: str | None
     is_favorite: bool
     has_video: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+
+# ---------- Board cruxes ----------
+
+
+class BoardHold(BaseModel):
+    id: int
+    role: board.HoldRole
+
+
+def check_board_holds(holds: list[BoardHold]) -> list[BoardHold]:
+    ids = [hold.id for hold in holds]
+    if len(set(ids)) != len(ids):
+        raise ValueError("a hold can only be used once")
+    unknown = set(ids) - board.hold_ids()
+    if unknown:
+        raise ValueError(f"unknown holds: {sorted(unknown)}")
+    starts = sum(hold.role == "start" for hold in holds)
+    finishes = sum(hold.role == "finish" for hold in holds)
+    if not 1 <= starts <= board.MAX_START_HOLDS:
+        raise ValueError("a crux needs one or two start holds")
+    if not 1 <= finishes <= board.MAX_FINISH_HOLDS:
+        raise ValueError("a crux needs one or two finish holds")
+    return holds
+
+
+def check_angle(angle: int) -> int:
+    if angle not in board.ANGLES:
+        raise ValueError(f"angle must be one of {board.ANGLES}")
+    return angle
+
+
+class BoardCruxCreate(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    name: str = Field(min_length=1, max_length=60)
+    angle: int
+    grade: Grade
+    description: str = Field("", max_length=2000)
+    is_public: bool = False
+    holds: list[BoardHold] = Field(min_length=2, max_length=60)
+
+    _angle = field_validator("angle")(check_angle)
+    _holds = field_validator("holds")(check_board_holds)
+
+
+class BoardCruxUpdate(BaseModel):
+    """Partial update: only the fields sent are changed."""
+
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    name: str | None = Field(None, min_length=1, max_length=60)
+    angle: int | None = None
+    grade: Grade | None = None
+    description: str | None = Field(None, max_length=2000)
+    is_public: bool | None = None
+    holds: list[BoardHold] | None = Field(None, min_length=2, max_length=60)
+
+    @field_validator("name", "angle", "grade", "description", "is_public", "holds")
+    @classmethod
+    def not_null(cls, value: object) -> object:
+        if value is None:
+            raise ValueError("may not be null")
+        return value
+
+    @field_validator("angle")
+    @classmethod
+    def valid_angle(cls, value: int) -> int:
+        return check_angle(value)
+
+    @field_validator("holds")
+    @classmethod
+    def valid_holds(cls, value: list[BoardHold]) -> list[BoardHold]:
+        return check_board_holds(value)
+
+
+class BoardCruxOut(BaseModel):
+    id: int
+    name: str
+    angle: int
+    grade: str
+    description: str
+    is_public: bool
+    holds: list[BoardHold]
+    setter: str
+    is_mine: bool
     created_at: datetime
     updated_at: datetime

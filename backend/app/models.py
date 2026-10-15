@@ -5,6 +5,8 @@ from sqlalchemy import (
     DateTime,
     Float,
     ForeignKey,
+    Integer,
+    JSON,
     String,
     Text,
     false,
@@ -27,6 +29,9 @@ class User(Base):
     )
 
     cruxes: Mapped[list["Crux"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+    board_cruxes: Mapped[list["BoardCrux"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
 
@@ -70,3 +75,31 @@ class Crux(Base):
     @property
     def has_video(self) -> bool:
         return self.video_filename is not None
+
+
+class BoardCrux(Base):
+    """A climb set on the Kilter Board: which holds, for what, at which angle."""
+
+    __tablename__ = "board_cruxes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    board: Mapped[str] = mapped_column(String(40))
+    name: Mapped[str] = mapped_column(String(60))
+    angle: Mapped[int] = mapped_column(Integer)
+    grade: Mapped[str] = mapped_column(String(5))
+    description: Mapped[str] = mapped_column(Text, server_default="")
+    # Public cruxes are visible to everyone; private ones only to their setter.
+    is_public: Mapped[bool] = mapped_column(Boolean, server_default=false(), index=True)
+    # [{"id": <hold id>, "role": "start" | "hand" | "finish" | "foot"}, ...]
+    holds: Mapped[list[dict]] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    user: Mapped[User] = relationship(back_populates="board_cruxes", lazy="joined")

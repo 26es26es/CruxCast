@@ -2,6 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router'
 import { AuthProvider, useAuth } from './auth'
 import { Layout } from './components/Layout'
+import { BoardCruxPage } from './pages/BoardCruxPage'
+import { BoardListPage } from './pages/BoardListPage'
+import { BoardSetPage } from './pages/BoardSetPage'
 import { CoachPage } from './pages/CoachPage'
 import { CruxDetailPage } from './pages/CruxDetailPage'
 import { CruxListPage } from './pages/CruxListPage'
@@ -42,6 +45,10 @@ export default function App() {
                 <Route path="/cruxes/new" element={<CruxNewPage />} />
                 <Route path="/cruxes/:id" element={<CruxDetailPage />} />
                 <Route path="/gym" element={<GymPage />} />
+                <Route path="/board" element={<BoardListPage />} />
+                <Route path="/board/new" element={<BoardSetPage />} />
+                <Route path="/board/:id" element={<BoardCruxPage />} />
+                <Route path="/board/:id/edit" element={<BoardSetPage />} />
                 <Route path="/coach" element={<CoachPage />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />

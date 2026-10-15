@@ -1,4 +1,4 @@
-import type { Crux, CruxFields, GymMap, User } from './types'
+import type { BoardCrux, BoardCruxFields, BoardLayout, Crux, CruxFields, GymMap, User } from './types'
 
 /** Fired when the session has expired so the app can return to the login page. */
 export const UNAUTHORIZED_EVENT = 'cruxcast:unauthorized'
@@ -93,6 +93,19 @@ export const api = {
   deleteCrux: (id: number) => request<void>(`/cruxes/${id}`, { method: 'DELETE' }),
 
   getGymMap: () => request<GymMap>('/gym/map'),
+
+  getBoardLayout: () => request<BoardLayout>('/board/layout'),
+  listBoardCruxes: (params: { scope: 'mine' | 'public'; angle?: number | null; q?: string }) => {
+    const query = new URLSearchParams({ scope: params.scope })
+    if (params.angle != null) query.set('angle', String(params.angle))
+    if (params.q?.trim()) query.set('q', params.q.trim())
+    return request<BoardCrux[]>(`/board/cruxes?${query}`)
+  },
+  getBoardCrux: (id: number) => request<BoardCrux>(`/board/cruxes/${id}`),
+  createBoardCrux: (fields: BoardCruxFields) => request<BoardCrux>('/board/cruxes', json('POST', fields)),
+  updateBoardCrux: (id: number, changes: Partial<BoardCruxFields>) =>
+    request<BoardCrux>(`/board/cruxes/${id}`, json('PATCH', changes)),
+  deleteBoardCrux: (id: number) => request<void>(`/board/cruxes/${id}`, { method: 'DELETE' }),
 
   videoUrl: (id: number) => `/api/cruxes/${id}/video`,
   uploadVideo,

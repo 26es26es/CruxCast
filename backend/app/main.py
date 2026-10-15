@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI
 
-from app.routers import auth, cruxes, gym
+from app.routers import auth, board, cruxes, gym
 
 app = FastAPI(title="CruxCast API")
 
@@ -8,6 +8,7 @@ api = APIRouter(prefix="/api")
 api.include_router(auth.router)
 api.include_router(cruxes.router)
 api.include_router(gym.router)
+api.include_router(board.router)
 
 
 @api.get("/health", tags=["meta"])

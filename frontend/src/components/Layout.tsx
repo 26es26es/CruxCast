@@ -63,6 +63,7 @@ export function Layout() {
           <nav className="site-nav-links" aria-label={t('nav.main')}>
             <NavLink to="/cruxes">{t('nav.logCruxes')}</NavLink>
             <NavLink to="/gym">{t('nav.myGym')}</NavLink>
+            <NavLink to="/board">{t('nav.board')}</NavLink>
             <NavLink to="/coach">{t('nav.coach')}</NavLink>
           </nav>
         )}

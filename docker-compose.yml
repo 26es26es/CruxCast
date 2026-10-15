@@ -1,0 +1,49 @@
+# Development stack: `docker compose up --build`, then open http://localhost:5173
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-cruxcast}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cruxcast}
+      POSTGRES_DB: ${POSTGRES_DB:-cruxcast}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-cruxcast}:${POSTGRES_PASSWORD:-cruxcast}@db:5432/${POSTGRES_DB:-cruxcast}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+      UPLOAD_DIR: /data/uploads
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - uploads:/data/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      API_PROXY_TARGET: http://backend:8000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  uploads:

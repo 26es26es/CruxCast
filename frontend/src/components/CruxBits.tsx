@@ -1,0 +1,32 @@
+import { useTranslation } from 'react-i18next'
+import { COLOURS } from '../constants'
+import type { Crux } from '../types'
+
+/** "● Red · Cave" line shown above a crux's title. */
+export function CruxMeta({ crux, className }: { crux: Crux; className: string }) {
+  const { t } = useTranslation()
+  return (
+    <span className={className}>
+      <span className="colour-dot" style={{ background: COLOURS[crux.colour] }} />
+      {t(`colours.${crux.colour}`)} · {crux.area}
+    </span>
+  )
+}
+
+export function GradeChips({ crux }: { crux: Crux }) {
+  const { t } = useTranslation()
+  return (
+    <div className="grade-row">
+      <span className="grade-chip">
+        <small>{t('detail.gym')}</small>
+        {crux.gym_grade}
+      </span>
+      {crux.personal_grade && (
+        <span className="grade-chip">
+          <small>{t('detail.felt')}</small>
+          {crux.personal_grade}
+        </span>
+      )}
+    </div>
+  )
+}

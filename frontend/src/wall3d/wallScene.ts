@@ -164,8 +164,9 @@ export class WallScene {
   private readonly sun: THREE.DirectionalLight
   private readonly grain = grainTexture()
   private readonly holdMaterials = new Map<string, THREE.MeshStandardMaterial>()
-  private readonly bolt = new THREE.CylinderGeometry(0.08, 0.08, 0.03, 20).rotateX(Math.PI / 2)
-  private readonly boltMaterial = new THREE.MeshStandardMaterial({ color: '#1d1b19', roughness: 0.5, metalness: 0.4 })
+  // Just a small dark dot where the bolt goes; holds don't need more detail than that.
+  private readonly bolt = new THREE.CircleGeometry(0.06, 16)
+  private readonly boltMaterial = new THREE.MeshBasicMaterial({ color: '#1d1b19', polygonOffset: true, polygonOffsetFactor: -2 })
   private wallKey = ''
   private frame: number | undefined
   private size = { width: 0, height: 0 }
@@ -324,7 +325,7 @@ export class WallScene {
   private material(colour: string): THREE.MeshStandardMaterial {
     let material = this.holdMaterials.get(colour)
     if (!material) {
-      material = new THREE.MeshStandardMaterial({ color: colour, roughness: 0.68, bumpMap: this.grain, bumpScale: 1.5, side: THREE.DoubleSide })
+      material = new THREE.MeshStandardMaterial({ color: colour, roughness: 0.68, bumpMap: this.grain, bumpScale: 1.5, side: THREE.DoubleSide, vertexColors: true })
       this.holdMaterials.set(colour, material)
     }
     return material
@@ -342,7 +343,7 @@ export class WallScene {
     group.add(mesh)
     if (model.bolt) {
       const bolt = new THREE.Mesh(this.bolt, this.boltMaterial)
-      bolt.position.copy(model.bolt).setZ(model.bolt.z + 0.004)
+      bolt.position.copy(model.bolt).setZ(model.bolt.z + 0.003)
       group.add(bolt)
     }
     this.holds.add(group)

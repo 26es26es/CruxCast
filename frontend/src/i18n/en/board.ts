@@ -1,0 +1,52 @@
+// Setting and browsing Kilter Board cruxes.
+
+const board = {
+  board: {
+    kicker: 'Kilter Board',
+    title: 'Board',
+    lede: 'Set your own cruxes on the Kilter Board and try everyone else’s.',
+    new: 'New board crux',
+    search: 'Search by name or setter',
+    scope: 'Show',
+    mine: 'Mine',
+    public: 'Public',
+    angle: 'Angle',
+    allAngles: 'All angles',
+    setBy: 'Set by {{name}}',
+    private: 'Private',
+    publicBadge: 'Public',
+    emptyMineTitle: 'No board cruxes yet',
+    emptyMineBody: 'Set your first one: tap holds on the board to build a crux.',
+    emptyPublicTitle: 'No public board cruxes yet',
+    emptyPublicBody: 'Make one of yours public and it shows up here for everyone.',
+    noMatches: 'Nothing matches these filters.',
+    back: '← All board cruxes',
+    setTitle: 'Set a board crux',
+    editTitle: 'Edit board crux',
+    tapHint: 'Tap a hold to choose what it’s for.',
+    name: 'Name',
+    namePlaceholder: 'e.g. Skype jump',
+    grade: 'Grade',
+    visibility: 'Who can see it',
+    publicHint: 'Public: everyone can see and climb it',
+    privateHint: 'Private: only you can see it',
+    descriptionPlaceholder: 'Beta, rules, or what makes it hard…',
+    holds: 'Holds',
+    clear: 'Clear holds',
+    save: 'Save crux',
+    confirmDelete: 'Delete this board crux? This can’t be undone.',
+    roles: {
+      start: 'Start',
+      hand: 'Hand',
+      finish: 'Top',
+      foot: 'Foot only',
+      remove: 'Remove hold',
+    },
+    issues: {
+      start: 'Pick one or two start holds (green).',
+      finish: 'Pick one or two top holds (magenta).',
+    },
+  },
+}
+
+export default board

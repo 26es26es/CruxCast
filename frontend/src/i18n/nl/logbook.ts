@@ -1,0 +1,63 @@
+import type logbookEn from '../en/logbook'
+
+const logbook: typeof logbookEn = {
+  cruxes: {
+    kicker: 'Logboek',
+    title: 'Cruxen loggen',
+    lede: 'Elke klim die je hebt gelogd, met je notities, beta en video’s.',
+    new: 'Nieuwe crux',
+    all: 'Alle',
+    favorites: 'Favorieten',
+    filter: 'Filter',
+    search: 'Zoek op ID, wand of notities',
+    count_one: '{{count}} crux',
+    count_other: '{{count}} cruxen',
+    view: 'Bekijk crux',
+    hasVideo: 'Video',
+    emptyTitle: 'Nog geen cruxen',
+    emptyBody: 'Log je eerste klim om te beginnen.',
+    emptyFavoritesTitle: 'Nog geen favorieten',
+    emptyFavoritesBody: 'Tik op de ster bij een crux om hem hier te bewaren.',
+    noMatches: 'Niets gevonden voor je zoekopdracht.',
+  },
+  fields: {
+    personalGrade: 'Jouw graad',
+    personalGradeHint: 'Hoe zwaar hij voor jou voelde',
+    description: 'Beschrijving',
+    descriptionPlaceholder: 'Hoe ziet de klim eruit? Waar zit het lastige stuk?',
+    experience: 'Hoe vond je hem?',
+    experiencePlaceholder: 'Hoe voelde het? Wat maakte het lastig?',
+    tips: 'Tips',
+    tipsPlaceholder: 'Beta, lichaamshouding, wat uiteindelijk werkte…',
+    video: 'Video van je beklimming',
+  },
+  form: {
+    newKicker: 'Nieuwe crux',
+    newTitle: 'Log een crux',
+    editTitle: 'Crux bewerken',
+    create: 'Crux loggen',
+  },
+  detail: {
+    back: '← Alle cruxen',
+    edit: 'Bewerken',
+    delete: 'Verwijderen',
+    confirmDelete: 'Deze crux verwijderen? Dit kan niet ongedaan worden gemaakt.',
+    favorite: 'Toevoegen aan favorieten',
+    unfavorite: 'Verwijderen uit favorieten',
+    gym: 'Hal',
+    felt: 'Voelde',
+    logged: 'Gelogd op {{date}}',
+    empty: 'Nog niets geschreven',
+  },
+  video: {
+    dropTitle: 'Upload een video van je beklimming',
+    dropHint: 'Sleep een video hierheen of klik om te kiezen (max. {{max}} MB)',
+    replace: 'Video vervangen',
+    remove: 'Video verwijderen',
+    confirmRemove: 'Deze video verwijderen?',
+    uploading: 'Uploaden… {{percent}}%',
+    clear: 'Verwijderen',
+  },
+}
+
+export default logbook

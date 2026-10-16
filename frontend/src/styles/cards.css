@@ -1,0 +1,209 @@
+/* Crux cards, grade chips, the favorite star and empty states. */
+
+/* ---------- Cards ---------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card-grid > li {
+  position: relative;
+}
+
+.card {
+  display: block;
+  height: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.65rem;
+  transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: translateY(-3px);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+  padding-right: 2.5rem;
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.card-title {
+  margin: 0 0 0.85rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.card-summary {
+  display: -webkit-box;
+  margin: 0.9rem 0 0;
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.card-cue {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  transition: color 0.25s ease;
+}
+
+.card-link:hover .card-cue {
+  color: var(--accent);
+}
+
+.card-favorite {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 1;
+}
+
+.colour-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+}
+
+.grade-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.grade-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Gym grade in blue, your own grade in pink. */
+.grade-chip-gym {
+  border-color: color-mix(in srgb, var(--accent-2) 50%, transparent);
+  background: var(--accent-2-soft);
+}
+
+.grade-chip-felt {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: var(--accent-soft);
+}
+
+.grade-chip small {
+  color: var(--fg-muted);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Favorite star ---------- */
+
+.favorite-button {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg-raised);
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.favorite-button:hover {
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.favorite-button:active {
+  transform: scale(0.9);
+}
+
+.favorite-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.favorite-button[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- Empty and status states ---------- */
+
+.empty-state {
+  padding: clamp(2.5rem, 8vh, 4.5rem) 1.5rem;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 14px;
+  text-align: center;
+  color: var(--fg-muted);
+}
+
+.empty-state h2 {
+  margin: 0 0 0.5rem;
+  color: var(--fg);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.empty-state p {
+  margin: 0 0 1.5rem;
+}
+
+.status-text {
+  color: var(--fg-muted);
+}
+
+.error-text {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.9rem;
+}

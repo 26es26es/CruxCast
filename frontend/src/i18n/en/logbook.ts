@@ -1,0 +1,63 @@
+// The crux logbook: list, form, crux page and ascent videos.
+
+const logbook = {
+  cruxes: {
+    kicker: 'Logbook',
+    title: 'Log Cruxes',
+    lede: 'Every climb you’ve logged, with your notes, beta and ascent videos.',
+    new: 'New crux',
+    all: 'All',
+    favorites: 'Favorites',
+    filter: 'Filter',
+    search: 'Search by ID, wall or notes',
+    count_one: '{{count}} crux',
+    count_other: '{{count}} cruxes',
+    view: 'View crux',
+    hasVideo: 'Video',
+    emptyTitle: 'No cruxes yet',
+    emptyBody: 'Log your first climb to get started.',
+    emptyFavoritesTitle: 'No favorites yet',
+    emptyFavoritesBody: 'Tap the star on a crux to keep it here.',
+    noMatches: 'Nothing matches your search.',
+  },
+  fields: {
+    personalGrade: 'Your grade',
+    personalGradeHint: 'How hard it felt to you',
+    description: 'Description',
+    descriptionPlaceholder: 'What does the climb look like? Where’s the hard part?',
+    experience: 'How did you find it?',
+    experiencePlaceholder: 'How did it feel? What made it hard?',
+    tips: 'Tips',
+    tipsPlaceholder: 'Beta, body positions, what finally worked…',
+    video: 'Ascent video',
+  },
+  form: {
+    newKicker: 'New crux',
+    newTitle: 'Log a crux',
+    editTitle: 'Edit crux',
+    create: 'Log crux',
+  },
+  detail: {
+    back: '← All cruxes',
+    edit: 'Edit',
+    delete: 'Delete',
+    confirmDelete: 'Delete this crux? This can’t be undone.',
+    favorite: 'Add to favorites',
+    unfavorite: 'Remove from favorites',
+    gym: 'Gym',
+    felt: 'Felt',
+    logged: 'Logged {{date}}',
+    empty: 'Nothing written yet',
+  },
+  video: {
+    dropTitle: 'Upload a video of your ascent',
+    dropHint: 'Drag a video here or click to choose (max {{max}} MB)',
+    replace: 'Replace video',
+    remove: 'Remove video',
+    confirmRemove: 'Remove this video?',
+    uploading: 'Uploading… {{percent}}%',
+    clear: 'Remove',
+  },
+}
+
+export default logbook

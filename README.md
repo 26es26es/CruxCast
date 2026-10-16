@@ -124,7 +124,8 @@ frontend/
   src/
     pages/           One component per screen
     components/      Reusable UI (map, filters, board, advice card, forms, ...)
-    i18n/            en.ts and nl.ts translations
+    i18n/            en/ and nl/ translations, one file per feature
+    styles/          CSS per feature, imported in order by index.css
     api.ts           Calls to the backend
     *Context.ts      Auth and theme state, with their hooks
     cachedResource.ts  Data fetched once and shared (gym map, board layout)
@@ -145,4 +146,4 @@ docker compose restart backend   # applies it on startup
 
 **Add a frontend package.** `cd frontend && npm install <package>`, then `docker compose up --build -V frontend`.
 
-**Add or change text.** Edit both `frontend/src/i18n/en.ts` and `nl.ts`. TypeScript reports an error if a key is missing from Dutch.
+**Add or change text.** Edit the matching feature file in both `frontend/src/i18n/en/` and `frontend/src/i18n/nl/`. TypeScript reports an error if a key is missing from Dutch.

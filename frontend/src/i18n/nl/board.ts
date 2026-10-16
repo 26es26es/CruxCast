@@ -1,0 +1,52 @@
+import type boardEn from '../en/board'
+
+const board: typeof boardEn = {
+  board: {
+    kicker: 'Kilter Board',
+    title: 'Board',
+    lede: 'Zet je eigen cruxen op het Kilter Board en probeer die van anderen.',
+    new: 'Nieuwe boardcrux',
+    search: 'Zoek op naam of bouwer',
+    scope: 'Toon',
+    mine: 'Van mij',
+    public: 'Openbaar',
+    angle: 'Hoek',
+    allAngles: 'Alle hoeken',
+    setBy: 'Gezet door {{name}}',
+    private: 'Privé',
+    publicBadge: 'Openbaar',
+    emptyMineTitle: 'Nog geen boardcruxen',
+    emptyMineBody: 'Zet je eerste: tik op grepen op het board om een crux te maken.',
+    emptyPublicTitle: 'Nog geen openbare boardcruxen',
+    emptyPublicBody: 'Maak een van jouw cruxen openbaar en iedereen ziet hem hier.',
+    noMatches: 'Niets gevonden met deze filters.',
+    back: '← Alle boardcruxen',
+    setTitle: 'Zet een boardcrux',
+    editTitle: 'Boardcrux bewerken',
+    tapHint: 'Tik op een greep om te kiezen waarvoor hij is.',
+    name: 'Naam',
+    namePlaceholder: 'bijv. Skype jump',
+    grade: 'Graad',
+    visibility: 'Wie kan hem zien',
+    publicHint: 'Openbaar: iedereen kan hem zien en klimmen',
+    privateHint: 'Privé: alleen jij kunt hem zien',
+    descriptionPlaceholder: 'Beta, regels of wat hem lastig maakt…',
+    holds: 'Grepen',
+    clear: 'Grepen wissen',
+    save: 'Crux opslaan',
+    confirmDelete: 'Deze boardcrux verwijderen? Dit kan niet ongedaan worden gemaakt.',
+    roles: {
+      start: 'Start',
+      hand: 'Hand',
+      finish: 'Top',
+      foot: 'Alleen voet',
+      remove: 'Greep weghalen',
+    },
+    issues: {
+      start: 'Kies één of twee startgrepen (groen).',
+      finish: 'Kies één of twee topgrepen (magenta).',
+    },
+  },
+}
+
+export default board

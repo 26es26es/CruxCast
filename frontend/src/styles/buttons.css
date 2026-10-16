@@ -1,0 +1,96 @@
+/* Pill buttons, icon buttons and segmented toggles. */
+
+/* ---------- Buttons ---------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  background: transparent;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.pill:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-hover);
+}
+
+.pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pill-primary {
+  border-color: transparent;
+  background: var(--gradient);
+  color: var(--on-accent);
+  font-weight: 500;
+  box-shadow: 0 4px 14px -6px var(--accent);
+}
+
+.pill-primary:hover {
+  border-color: transparent;
+  background: var(--gradient);
+  filter: brightness(1.08);
+}
+
+.pill-primary:disabled {
+  filter: grayscale(0.6);
+}
+
+.pill-danger {
+  color: var(--danger);
+}
+
+.pill-danger:hover {
+  border-color: var(--danger);
+}
+
+.pill-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+}
+
+.pill-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem;
+}
+
+.segmented button {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.segmented button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+.segmented button:hover {
+  color: var(--fg);
+}

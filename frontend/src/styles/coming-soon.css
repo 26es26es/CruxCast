@@ -1,0 +1,24 @@
+/* The coach placeholder page. */
+
+/* ---------- Coming soon ---------- */
+
+.coming-soon {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 760px) {
+  .coming-soon {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.coming-soon .card-meta {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.coming-soon .card-title {
+  font-size: 1.05rem;
+}

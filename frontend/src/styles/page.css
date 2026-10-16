@@ -1,0 +1,144 @@
+/* Page widths, headings, kickers, the footer and toolbars. */
+
+/* ---------- Page layout ---------- */
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: clamp(2.5rem, 7vh, 5rem) var(--page-pad) clamp(4rem, 10vh, 7rem);
+}
+
+.page-narrow {
+  max-width: 780px;
+}
+
+.page-head {
+  margin-bottom: clamp(2rem, 5vh, 3.25rem);
+}
+
+.page-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.page-lede {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.75;
+}
+
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 1rem;
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-kicker::before {
+  content: '';
+  width: 2.5rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient);
+  flex: none;
+}
+
+.float-title {
+  margin: 0 0 1rem;
+  overflow: hidden;
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.float-title {
+  padding-bottom: 0.08em;
+}
+
+.float-title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.float-title .char {
+  display: inline-block;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.925rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--gradient);
+  opacity: 0.5;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2.5rem var(--page-pad);
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- Toolbar ---------- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.search-input {
+  flex: 1 1 16rem;
+  max-width: 24rem;
+  border-radius: 999px !important;
+  padding-inline: 1.1rem !important;
+}

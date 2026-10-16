@@ -1,0 +1,66 @@
+/* The My Gym page and its climb card. */
+
+/* ---------- My Gym ---------- */
+
+.gym-page .page-head {
+  margin-bottom: 1rem;
+}
+
+.gym-page {
+  max-width: 1400px;
+}
+
+.gym-page .float-title {
+  margin-bottom: 0.25rem;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+.climb-card {
+  position: sticky;
+  z-index: 5;
+  bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+}
+
+.climb-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.9rem;
+  margin-top: 0.45rem;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+
+.climb-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.1rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.badge-new {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.badge-out {
+  border-color: #f97316;
+  color: #f97316;
+}

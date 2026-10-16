@@ -1,0 +1,120 @@
+/* Form fields and panels, and the login page. */
+
+/* ---------- Forms ---------- */
+
+.form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.35rem;
+}
+
+@media (min-width: 640px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.field {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.field-label {
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.field-hint {
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+}
+
+.input,
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-raised);
+  font-size: 0.975rem;
+  transition: border-color 0.2s ease;
+}
+
+.input:hover,
+.form select:hover,
+.form textarea:hover {
+  border-color: var(--border-strong);
+}
+
+.input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form select {
+  appearance: none;
+  padding-right: 2.5rem;
+  background-image: var(--chevron);
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+.form textarea {
+  min-height: 7rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.form-panel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-raised);
+}
+
+/* ---------- Auth ---------- */
+
+.auth-page {
+  max-width: 460px;
+}
+
+.auth-page .float-title {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+}
+
+.auth-switch {
+  margin: 1.25rem 0 0;
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent);
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+}

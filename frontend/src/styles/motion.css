@@ -1,0 +1,11 @@
+/* Respecting reduced-motion preferences site-wide. Loaded last so it wins. */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .card-link:hover {
+    transform: none;
+  }
+}

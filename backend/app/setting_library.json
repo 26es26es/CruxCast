@@ -1,0 +1,2814 @@
+[
+ {
+  "slug": "teal-prow",
+  "name": "Teal Prow",
+  "wall_type": "arete",
+  "angle": 35,
+  "gym_wall": null,
+  "grade": "6C",
+  "styles": [
+   "compression",
+   "power"
+  ],
+  "colour": "mint",
+  "description": "Squeeze your way up an overhanging prow on big pinches. Keep your hips tight to the ar\u00eate and trust the heel hooks.",
+  "holds": [
+   {
+    "x": 0.6047,
+    "y": 0.6753,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 15,
+    "role": "start"
+   },
+   {
+    "x": 0.4218,
+    "y": 0.6802,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 13,
+    "role": "start"
+   },
+   {
+    "x": 0.4716,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -25,
+    "role": "foot"
+   },
+   {
+    "x": 0.5633,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.3824,
+    "y": 0.5823,
+    "type": "sloper",
+    "size": "l",
+    "rotation": -13,
+    "role": "hand"
+   },
+   {
+    "x": 0.3738,
+    "y": 0.7973,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.629,
+    "y": 0.4733,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 15,
+    "role": "hand"
+   },
+   {
+    "x": 0.6804,
+    "y": 0.675,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -16,
+    "role": "foot"
+   },
+   {
+    "x": 0.3723,
+    "y": 0.3823,
+    "type": "macro",
+    "size": "xl",
+    "rotation": 8,
+    "role": "hand"
+   },
+   {
+    "x": 0.3334,
+    "y": 0.572,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 24,
+    "role": "foot"
+   },
+   {
+    "x": 0.6189,
+    "y": 0.2733,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 23,
+    "role": "hand"
+   },
+   {
+    "x": 0.6751,
+    "y": 0.4645,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 24,
+    "role": "foot"
+   },
+   {
+    "x": 0.3622,
+    "y": 0.1823,
+    "type": "pinch",
+    "size": "m",
+    "rotation": -8,
+    "role": "hand"
+   },
+   {
+    "x": 0.3191,
+    "y": 0.3919,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.4829,
+    "y": 0.0778,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 2,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "volume-high-step",
+  "name": "Volume High Step",
+  "wall_type": "slab",
+  "angle": -10,
+  "gym_wall": null,
+  "grade": "6A",
+  "styles": [
+   "balance"
+  ],
+  "colour": "blue",
+  "description": "A slab built around one big volume: rock over onto it with a high step, then balance up on small edges to the top.",
+  "holds": [
+   {
+    "x": 0.1232,
+    "y": 0.67,
+    "type": "sloper",
+    "size": "l",
+    "rotation": -22,
+    "role": "start"
+   },
+   {
+    "x": 0.1102,
+    "y": 0.6189,
+    "type": "edge",
+    "size": "s",
+    "rotation": -2,
+    "role": "start"
+   },
+   {
+    "x": 0.075,
+    "y": 0.8444,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 22,
+    "role": "foot"
+   },
+   {
+    "x": 0.1667,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -6,
+    "role": "foot"
+   },
+   {
+    "x": 0.2526,
+    "y": 0.5959,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 12,
+    "role": "hand"
+   },
+   {
+    "x": 0.2283,
+    "y": 0.8403,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 21,
+    "role": "foot"
+   },
+   {
+    "x": 0.3276,
+    "y": 0.7674,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -2,
+    "role": "foot"
+   },
+   {
+    "x": 0.4134,
+    "y": 0.6099,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -8,
+    "role": "hand"
+   },
+   {
+    "x": 0.4668,
+    "y": 0.8472,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -5,
+    "role": "foot"
+   },
+   {
+    "x": 0.3551,
+    "y": 0.7836,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 8,
+    "role": "foot"
+   },
+   {
+    "x": 0.5439,
+    "y": 0.534,
+    "type": "edge",
+    "size": "s",
+    "rotation": -11,
+    "role": "hand"
+   },
+   {
+    "x": 0.4867,
+    "y": 0.741,
+    "type": "volume",
+    "size": "xl",
+    "rotation": 7,
+    "role": "foot"
+   },
+   {
+    "x": 0.6189,
+    "y": 0.6833,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.7,
+    "y": 0.5341,
+    "type": "volume",
+    "size": "xl",
+    "rotation": 25,
+    "role": "hand"
+   },
+   {
+    "x": 0.7291,
+    "y": 0.7522,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 23,
+    "role": "foot"
+   },
+   {
+    "x": 0.6417,
+    "y": 0.6837,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 12,
+    "role": "foot"
+   },
+   {
+    "x": 0.7527,
+    "y": 0.3623,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 3,
+    "role": "hand"
+   },
+   {
+    "x": 0.688,
+    "y": 0.6041,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 20,
+    "role": "foot"
+   },
+   {
+    "x": 0.8277,
+    "y": 0.5284,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 16,
+    "role": "foot"
+   },
+   {
+    "x": 0.8667,
+    "y": 0.2111,
+    "type": "edge",
+    "size": "m",
+    "rotation": 6,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "big-red-jump",
+  "name": "Big Red Jump",
+  "wall_type": "overhang",
+  "angle": 10,
+  "gym_wall": null,
+  "grade": "6B+",
+  "styles": [
+   "dyno"
+  ],
+  "colour": "red",
+  "description": "Set up low on matched start holds and commit to the jump for a big jug. Generate momentum from the legs, not the arms.",
+  "holds": [
+   {
+    "x": 0.4176,
+    "y": 0.677,
+    "type": "jug",
+    "size": "m",
+    "rotation": -21,
+    "role": "start"
+   },
+   {
+    "x": 0.3443,
+    "y": 0.6786,
+    "type": "jug",
+    "size": "m",
+    "rotation": 10,
+    "role": "start"
+   },
+   {
+    "x": 0.3393,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -7,
+    "role": "foot"
+   },
+   {
+    "x": 0.4309,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 23,
+    "role": "foot"
+   },
+   {
+    "x": 0.4326,
+    "y": 0.5853,
+    "type": "edge",
+    "size": "s",
+    "rotation": -8,
+    "role": "hand"
+   },
+   {
+    "x": 0.4799,
+    "y": 0.8201,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -9,
+    "role": "foot"
+   },
+   {
+    "x": 0.3187,
+    "y": 0.4975,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 16,
+    "role": "hand"
+   },
+   {
+    "x": 0.3007,
+    "y": 0.7309,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -13,
+    "role": "foot"
+   },
+   {
+    "x": 0.4223,
+    "y": 0.4035,
+    "type": "jug",
+    "size": "m",
+    "rotation": 21,
+    "role": "hand"
+   },
+   {
+    "x": 0.4786,
+    "y": 0.6396,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -2,
+    "role": "foot"
+   },
+   {
+    "x": 0.3121,
+    "y": 0.1701,
+    "type": "macro",
+    "size": "xl",
+    "rotation": 17,
+    "role": "hand"
+   },
+   {
+    "x": 0.2732,
+    "y": 0.3728,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.3567,
+    "y": 0.0778,
+    "type": "jug",
+    "size": "m",
+    "rotation": -20,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "green-pinch-ladder",
+  "name": "Green Pinch Ladder",
+  "wall_type": "overhang",
+  "angle": 15,
+  "gym_wall": null,
+  "grade": "6C+",
+  "styles": [
+   "compression"
+  ],
+  "colour": "green",
+  "description": "Pairs of pinches either side of the body. Squeeze, move one hand at a time, and keep your feet pressing outwards.",
+  "holds": [
+   {
+    "x": 0.6951,
+    "y": 0.6827,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 6,
+    "role": "start"
+   },
+   {
+    "x": 0.5134,
+    "y": 0.6728,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 5,
+    "role": "start"
+   },
+   {
+    "x": 0.5626,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 16,
+    "role": "foot"
+   },
+   {
+    "x": 0.6542,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.7405,
+    "y": 0.587,
+    "type": "pinch",
+    "size": "m",
+    "rotation": -24,
+    "role": "hand"
+   },
+   {
+    "x": 0.7935,
+    "y": 0.7975,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 13,
+    "role": "foot"
+   },
+   {
+    "x": 0.4987,
+    "y": 0.4686,
+    "type": "volume",
+    "size": "xl",
+    "rotation": -25,
+    "role": "hand"
+   },
+   {
+    "x": 0.4752,
+    "y": 0.6723,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -11,
+    "role": "foot"
+   },
+   {
+    "x": 0.7611,
+    "y": 0.387,
+    "type": "sloper",
+    "size": "l",
+    "rotation": -19,
+    "role": "hand"
+   },
+   {
+    "x": 0.8145,
+    "y": 0.5776,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -24,
+    "role": "foot"
+   },
+   {
+    "x": 0.5192,
+    "y": 0.2686,
+    "type": "volume",
+    "size": "xl",
+    "rotation": -25,
+    "role": "hand"
+   },
+   {
+    "x": 0.5578,
+    "y": 0.4787,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -12,
+    "role": "foot"
+   },
+   {
+    "x": 0.7816,
+    "y": 0.187,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 21,
+    "role": "hand"
+   },
+   {
+    "x": 0.808,
+    "y": 0.3882,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 3,
+    "role": "foot"
+   },
+   {
+    "x": 0.6658,
+    "y": 0.0778,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 10,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "black-pearls",
+  "name": "Black Pearls",
+  "wall_type": "steep",
+  "angle": 40,
+  "gym_wall": null,
+  "grade": "7A",
+  "styles": [
+   "slopey",
+   "power"
+  ],
+  "colour": "black",
+  "description": "Big slopers on a steep wall. Stay low, keep tension through the core and slap with open hands.",
+  "holds": [
+   {
+    "x": 0.1232,
+    "y": 0.67,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 25,
+    "role": "start"
+   },
+   {
+    "x": 0.1268,
+    "y": 0.6026,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 22,
+    "role": "start"
+   },
+   {
+    "x": 0.075,
+    "y": 0.8444,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 16,
+    "role": "foot"
+   },
+   {
+    "x": 0.1667,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 8,
+    "role": "foot"
+   },
+   {
+    "x": 0.2735,
+    "y": 0.6577,
+    "type": "volume",
+    "size": "xl",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.3143,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -18,
+    "role": "foot"
+   },
+   {
+    "x": 0.3964,
+    "y": 0.5595,
+    "type": "pinch",
+    "size": "l",
+    "rotation": -1,
+    "role": "hand"
+   },
+   {
+    "x": 0.3652,
+    "y": 0.7803,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -25,
+    "role": "foot"
+   },
+   {
+    "x": 0.5614,
+    "y": 0.5858,
+    "type": "sloper",
+    "size": "l",
+    "rotation": -14,
+    "role": "hand"
+   },
+   {
+    "x": 0.6155,
+    "y": 0.8172,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -15,
+    "role": "foot"
+   },
+   {
+    "x": 0.6822,
+    "y": 0.4814,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 14,
+    "role": "hand"
+   },
+   {
+    "x": 0.6547,
+    "y": 0.6773,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -25,
+    "role": "foot"
+   },
+   {
+    "x": 0.8484,
+    "y": 0.3963,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 24,
+    "role": "hand"
+   },
+   {
+    "x": 0.8675,
+    "y": 0.6397,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -15,
+    "role": "foot"
+   },
+   {
+    "x": 0.8667,
+    "y": 0.2111,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 9,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "crimp-ladder",
+  "name": "Crimp Ladder",
+  "wall_type": "vertical",
+  "angle": 0,
+  "gym_wall": null,
+  "grade": "6B",
+  "styles": [
+   "crimpy"
+  ],
+  "colour": "yellow",
+  "description": "Straight up a vertical wall on small edges. Precise footwork and quiet hips matter more than strength.",
+  "holds": [
+   {
+    "x": 0.6701,
+    "y": 0.6745,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -15,
+    "role": "start"
+   },
+   {
+    "x": 0.5986,
+    "y": 0.6811,
+    "type": "edge",
+    "size": "s",
+    "rotation": 17,
+    "role": "start"
+   },
+   {
+    "x": 0.5927,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -6,
+    "role": "foot"
+   },
+   {
+    "x": 0.6843,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -9,
+    "role": "foot"
+   },
+   {
+    "x": 0.6701,
+    "y": 0.5859,
+    "type": "edge",
+    "size": "s",
+    "rotation": -15,
+    "role": "hand"
+   },
+   {
+    "x": 0.7284,
+    "y": 0.8102,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 21,
+    "role": "foot"
+   },
+   {
+    "x": 0.5454,
+    "y": 0.5136,
+    "type": "edge",
+    "size": "s",
+    "rotation": -2,
+    "role": "hand"
+   },
+   {
+    "x": 0.5142,
+    "y": 0.7272,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -8,
+    "role": "foot"
+   },
+   {
+    "x": 0.6509,
+    "y": 0.4132,
+    "type": "pocket",
+    "size": "m",
+    "rotation": -2,
+    "role": "hand"
+   },
+   {
+    "x": 0.6824,
+    "y": 0.6198,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.5311,
+    "y": 0.3403,
+    "type": "pocket",
+    "size": "m",
+    "rotation": -15,
+    "role": "hand"
+   },
+   {
+    "x": 0.5008,
+    "y": 0.5423,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -24,
+    "role": "foot"
+   },
+   {
+    "x": 0.5959,
+    "y": 0.2449,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 7,
+    "role": "hand"
+   },
+   {
+    "x": 0.6297,
+    "y": 0.4892,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 18,
+    "role": "foot"
+   },
+   {
+    "x": 0.4968,
+    "y": 0.1695,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.4607,
+    "y": 0.3814,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 8,
+    "role": "foot"
+   },
+   {
+    "x": 0.5309,
+    "y": 0.0778,
+    "type": "edge",
+    "size": "m",
+    "rotation": 25,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "steep-jugs",
+  "name": "Steep Jugs",
+  "wall_type": "steep",
+  "angle": 45,
+  "gym_wall": null,
+  "grade": "6A+",
+  "styles": [
+   "juggy"
+  ],
+  "colour": "orange",
+  "description": "Big holds on a steep wall: a good introduction to overhangs. Keep your arms straight and turn your hips into the wall.",
+  "holds": [
+   {
+    "x": 0.5499,
+    "y": 0.6768,
+    "type": "jug",
+    "size": "l",
+    "rotation": 15,
+    "role": "start"
+   },
+   {
+    "x": 0.4767,
+    "y": 0.6788,
+    "type": "jug",
+    "size": "l",
+    "rotation": 13,
+    "role": "start"
+   },
+   {
+    "x": 0.4716,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -25,
+    "role": "foot"
+   },
+   {
+    "x": 0.5633,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.4606,
+    "y": 0.5795,
+    "type": "jug",
+    "size": "l",
+    "rotation": 20,
+    "role": "hand"
+   },
+   {
+    "x": 0.4257,
+    "y": 0.8149,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.5455,
+    "y": 0.4763,
+    "type": "macro",
+    "size": "xl",
+    "rotation": -11,
+    "role": "hand"
+   },
+   {
+    "x": 0.5856,
+    "y": 0.7134,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 8,
+    "role": "foot"
+   },
+   {
+    "x": 0.456,
+    "y": 0.3793,
+    "type": "jug",
+    "size": "l",
+    "rotation": 24,
+    "role": "hand"
+   },
+   {
+    "x": 0.4009,
+    "y": 0.6103,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 12,
+    "role": "foot"
+   },
+   {
+    "x": 0.5232,
+    "y": 0.2767,
+    "type": "jug",
+    "size": "l",
+    "rotation": -8,
+    "role": "hand"
+   },
+   {
+    "x": 0.5552,
+    "y": 0.55,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.4347,
+    "y": 0.1797,
+    "type": "macro",
+    "size": "xl",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.4128,
+    "y": 0.4006,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -17,
+    "role": "foot"
+   },
+   {
+    "x": 0.4829,
+    "y": 0.0778,
+    "type": "jug",
+    "size": "l",
+    "rotation": -19,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "open-book",
+  "name": "Open Book",
+  "wall_type": "dihedral",
+  "angle": 0,
+  "gym_wall": null,
+  "grade": "5C",
+  "styles": [
+   "technical",
+   "balance"
+  ],
+  "colour": "purple",
+  "description": "A corner climbed by bridging between both walls. Push with your feet and use the hands mostly for balance.",
+  "holds": [
+   {
+    "x": 0.6333,
+    "y": 0.6777,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": -90,
+    "role": "start"
+   },
+   {
+    "x": 0.5599,
+    "y": 0.6779,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "start"
+   },
+   {
+    "x": 0.5549,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 17,
+    "role": "foot"
+   },
+   {
+    "x": 0.6466,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 12,
+    "role": "foot"
+   },
+   {
+    "x": 0.542,
+    "y": 0.578,
+    "type": "pinch",
+    "size": "m",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.5222,
+    "y": 0.782,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -13,
+    "role": "foot"
+   },
+   {
+    "x": 0.6328,
+    "y": 0.4776,
+    "type": "undercling",
+    "size": "m",
+    "rotation": 166,
+    "role": "hand"
+   },
+   {
+    "x": 0.6675,
+    "y": 0.6973,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 21,
+    "role": "foot"
+   },
+   {
+    "x": 0.6439,
+    "y": 0.3776,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 2,
+    "role": "hand"
+   },
+   {
+    "x": 0.6691,
+    "y": 0.5716,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 1,
+    "role": "foot"
+   },
+   {
+    "x": 0.5559,
+    "y": 0.2779,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.5074,
+    "y": 0.5021,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -7,
+    "role": "foot"
+   },
+   {
+    "x": 0.5673,
+    "y": 0.1779,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 16,
+    "role": "hand"
+   },
+   {
+    "x": 0.5546,
+    "y": 0.3938,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -13,
+    "role": "foot"
+   },
+   {
+    "x": 0.5931,
+    "y": 0.0778,
+    "type": "edge",
+    "size": "m",
+    "rotation": 7,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "sidepull-dance",
+  "name": "Sidepull Dance",
+  "wall_type": "vertical",
+  "angle": 5,
+  "gym_wall": null,
+  "grade": "6C",
+  "styles": [
+   "technical"
+  ],
+  "colour": "pink",
+  "description": "Sidepulls and underclings that only work with the right body position. Drop the knee and lean away from each hold.",
+  "holds": [
+   {
+    "x": 0.4735,
+    "y": 0.6676,
+    "type": "undercling",
+    "size": "m",
+    "rotation": 169,
+    "role": "start"
+   },
+   {
+    "x": 0.4207,
+    "y": 0.6879,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "start"
+   },
+   {
+    "x": 0.4054,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -24,
+    "role": "foot"
+   },
+   {
+    "x": 0.4971,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.2937,
+    "y": 0.5523,
+    "type": "pinch",
+    "size": "m",
+    "rotation": -11,
+    "role": "hand"
+   },
+   {
+    "x": 0.2614,
+    "y": 0.7612,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 24,
+    "role": "foot"
+   },
+   {
+    "x": 0.3894,
+    "y": 0.4188,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.3774,
+    "y": 0.6538,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -9,
+    "role": "foot"
+   },
+   {
+    "x": 0.5602,
+    "y": 0.3966,
+    "type": "undercling",
+    "size": "m",
+    "rotation": -160,
+    "role": "hand"
+   },
+   {
+    "x": 0.6119,
+    "y": 0.6389,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -2,
+    "role": "foot"
+   },
+   {
+    "x": 0.713,
+    "y": 0.3436,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 7,
+    "role": "hand"
+   },
+   {
+    "x": 0.7337,
+    "y": 0.5462,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -8,
+    "role": "foot"
+   },
+   {
+    "x": 0.7585,
+    "y": 0.2113,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 10,
+    "role": "hand"
+   },
+   {
+    "x": 0.8088,
+    "y": 0.4006,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -7,
+    "role": "foot"
+   },
+   {
+    "x": 0.5618,
+    "y": 0.194,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 7,
+    "role": "hand"
+   },
+   {
+    "x": 0.5132,
+    "y": 0.4064,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -7,
+    "role": "foot"
+   },
+   {
+    "x": 0.4471,
+    "y": 0.0778,
+    "type": "edge",
+    "size": "m",
+    "rotation": -23,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "first-steps",
+  "name": "First Steps",
+  "wall_type": "vertical",
+  "angle": 0,
+  "gym_wall": null,
+  "grade": "4C",
+  "styles": [
+   "juggy"
+  ],
+  "colour": "white",
+  "description": "Jugs and good feet all the way: a first boulder to practise straight arms and looking for footholds.",
+  "holds": [
+   {
+    "x": 0.1875,
+    "y": 0.6898,
+    "type": "pocket",
+    "size": "m",
+    "rotation": -22,
+    "role": "start"
+   },
+   {
+    "x": 0.1458,
+    "y": 0.6657,
+    "type": "jug",
+    "size": "m",
+    "rotation": -2,
+    "role": "start"
+   },
+   {
+    "x": 0.125,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -15,
+    "role": "foot"
+   },
+   {
+    "x": 0.2167,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 22,
+    "role": "foot"
+   },
+   {
+    "x": 0.2611,
+    "y": 0.5671,
+    "type": "jug",
+    "size": "m",
+    "rotation": -23,
+    "role": "hand"
+   },
+   {
+    "x": 0.2318,
+    "y": 0.7648,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 2,
+    "role": "foot"
+   },
+   {
+    "x": 0.4022,
+    "y": 0.4923,
+    "type": "jug",
+    "size": "m",
+    "rotation": 7,
+    "role": "hand"
+   },
+   {
+    "x": 0.458,
+    "y": 0.7114,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 3,
+    "role": "foot"
+   },
+   {
+    "x": 0.4746,
+    "y": 0.3646,
+    "type": "macro",
+    "size": "xl",
+    "rotation": -24,
+    "role": "hand"
+   },
+   {
+    "x": 0.4344,
+    "y": 0.6053,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.6161,
+    "y": 0.2902,
+    "type": "macro",
+    "size": "xl",
+    "rotation": -15,
+    "role": "hand"
+   },
+   {
+    "x": 0.6525,
+    "y": 0.4922,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -24,
+    "role": "foot"
+   },
+   {
+    "x": 0.6954,
+    "y": 0.1678,
+    "type": "jug",
+    "size": "m",
+    "rotation": 7,
+    "role": "hand"
+   },
+   {
+    "x": 0.6626,
+    "y": 0.4122,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 18,
+    "role": "foot"
+   },
+   {
+    "x": 0.8167,
+    "y": 0.0778,
+    "type": "jug",
+    "size": "m",
+    "rotation": 3,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "parkour-start",
+  "name": "Parkour Start",
+  "wall_type": "overhang",
+  "angle": 10,
+  "gym_wall": null,
+  "grade": "6B",
+  "styles": [
+   "coordination"
+  ],
+  "colour": "orange",
+  "description": "A running or swinging start onto big features. Time the movement and catch with the whole body.",
+  "holds": [
+   {
+    "x": 0.8542,
+    "y": 0.6657,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 16,
+    "role": "start"
+   },
+   {
+    "x": 0.8041,
+    "y": 0.6706,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 9,
+    "role": "start"
+   },
+   {
+    "x": 0.7917,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -19,
+    "role": "foot"
+   },
+   {
+    "x": 0.8833,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -2,
+    "role": "foot"
+   },
+   {
+    "x": 0.7391,
+    "y": 0.5303,
+    "type": "macro",
+    "size": "xl",
+    "rotation": -20,
+    "role": "hand"
+   },
+   {
+    "x": 0.7691,
+    "y": 0.723,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -20,
+    "role": "foot"
+   },
+   {
+    "x": 0.545,
+    "y": 0.4596,
+    "type": "macro",
+    "size": "xl",
+    "rotation": 11,
+    "role": "hand"
+   },
+   {
+    "x": 0.4928,
+    "y": 0.6609,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.4724,
+    "y": 0.2954,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 12,
+    "role": "hand"
+   },
+   {
+    "x": 0.5005,
+    "y": 0.5385,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -23,
+    "role": "foot"
+   },
+   {
+    "x": 0.2849,
+    "y": 0.2197,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 1,
+    "role": "hand"
+   },
+   {
+    "x": 0.2337,
+    "y": 0.4152,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -6,
+    "role": "foot"
+   },
+   {
+    "x": 0.1833,
+    "y": 0.0778,
+    "type": "jug",
+    "size": "m",
+    "rotation": 18,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "slug": "knife-edge",
+  "name": "Knife Edge",
+  "wall_type": "arete",
+  "angle": 5,
+  "gym_wall": null,
+  "grade": "6A+",
+  "styles": [
+   "balance",
+   "technical"
+  ],
+  "colour": "grey",
+  "description": "Up a near-vertical ar\u00eate by slapping and smearing either side. Balance beats pulling here.",
+  "holds": [
+   {
+    "x": 0.5499,
+    "y": 0.6768,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 15,
+    "role": "start"
+   },
+   {
+    "x": 0.4767,
+    "y": 0.6788,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 13,
+    "role": "start"
+   },
+   {
+    "x": 0.4716,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -25,
+    "role": "foot"
+   },
+   {
+    "x": 0.5633,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.4606,
+    "y": 0.5795,
+    "type": "edge",
+    "size": "s",
+    "rotation": 20,
+    "role": "hand"
+   },
+   {
+    "x": 0.4257,
+    "y": 0.8149,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.5356,
+    "y": 0.7305,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -16,
+    "role": "foot"
+   },
+   {
+    "x": 0.5398,
+    "y": 0.4765,
+    "type": "edge",
+    "size": "s",
+    "rotation": 8,
+    "role": "hand"
+   },
+   {
+    "x": 0.5843,
+    "y": 0.6662,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 24,
+    "role": "foot"
+   },
+   {
+    "x": 0.4648,
+    "y": 0.6126,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 23,
+    "role": "foot"
+   },
+   {
+    "x": 0.4365,
+    "y": 0.38,
+    "type": "edge",
+    "size": "s",
+    "rotation": 24,
+    "role": "hand"
+   },
+   {
+    "x": 0.3797,
+    "y": 0.617,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 5,
+    "role": "foot"
+   },
+   {
+    "x": 0.5115,
+    "y": 0.5398,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -1,
+    "role": "foot"
+   },
+   {
+    "x": 0.5463,
+    "y": 0.2759,
+    "type": "volume",
+    "size": "xl",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.591,
+    "y": 0.4968,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -17,
+    "role": "foot"
+   },
+   {
+    "x": 0.4713,
+    "y": 0.4483,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -19,
+    "role": "foot"
+   },
+   {
+    "x": 0.4581,
+    "y": 0.1789,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -9,
+    "role": "hand"
+   },
+   {
+    "x": 0.4647,
+    "y": 0.392,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.5331,
+    "y": 0.3502,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 1,
+    "role": "foot"
+   },
+   {
+    "x": 0.4829,
+    "y": 0.0778,
+    "type": "edge",
+    "size": "m",
+    "rotation": -3,
+    "role": "finish"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-la-marie-rose",
+  "name": "La Marie-Rose",
+  "wall_type": "vertical",
+  "angle": 5,
+  "grade": "6A",
+  "styles": [
+   "slopey",
+   "technical"
+  ],
+  "colour": "pink",
+  "inspired_by": "La Marie-Rose (6a), Cuvier, Fontainebleau: Ren\u00e9 Ferlet, 1946",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/La-Marie-Rose",
+  "description": "Bleau's most famous 6a, set on a gym wall. Start on two poor edges, step high, and make the long reach to a small crimp: that's the crux, and it's harder the shorter you are. Then press it out matched on the big sloping top.",
+  "holds": [
+   {
+    "x": 0.425,
+    "y": 0.6667,
+    "type": "edge",
+    "size": "s",
+    "rotation": -8,
+    "role": "start"
+   },
+   {
+    "x": 0.4917,
+    "y": 0.6778,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 10,
+    "role": "start"
+   },
+   {
+    "x": 0.5583,
+    "y": 0.5222,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 15,
+    "role": "hand"
+   },
+   {
+    "x": 0.4167,
+    "y": 0.4556,
+    "type": "edge",
+    "size": "s",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.5333,
+    "y": 0.2667,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 5,
+    "role": "hand"
+   },
+   {
+    "x": 0.5,
+    "y": 0.1111,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.4083,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.5167,
+    "y": 0.8667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 20,
+    "role": "foot"
+   },
+   {
+    "x": 0.475,
+    "y": 0.7667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.5583,
+    "y": 0.6778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.4333,
+    "y": 0.6222,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-hop-hop-hop",
+  "name": "Hop Hop Hop",
+  "wall_type": "overhang",
+  "angle": 15,
+  "grade": "7B+",
+  "styles": [
+   "dyno",
+   "power"
+  ],
+  "colour": "red",
+  "inspired_by": "Hop Hop Hop (7b+), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Hop-Hop-Hop",
+  "description": "One big jump. Set up on a poor sloper and a crimp with high feet, load the legs and throw for the jug at the top. Catch it with both hands and keep your feet from cutting too hard.",
+  "holds": [
+   {
+    "x": 0.3333,
+    "y": 0.7,
+    "type": "edge",
+    "size": "m",
+    "rotation": -5,
+    "role": "start"
+   },
+   {
+    "x": 0.4,
+    "y": 0.7111,
+    "type": "edge",
+    "size": "m",
+    "rotation": 8,
+    "role": "start"
+   },
+   {
+    "x": 0.4583,
+    "y": 0.5667,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 20,
+    "role": "hand"
+   },
+   {
+    "x": 0.3667,
+    "y": 0.5222,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.5583,
+    "y": 0.1222,
+    "type": "jug",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.3167,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.425,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.3833,
+    "y": 0.7889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -15,
+    "role": "foot"
+   },
+   {
+    "x": 0.475,
+    "y": 0.7667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-pas-de-peine",
+  "name": "Pas de Peine",
+  "wall_type": "vertical",
+  "angle": 5,
+  "grade": "7B+",
+  "styles": [
+   "crimpy",
+   "dyno"
+  ],
+  "colour": "black",
+  "inspired_by": "Pas de Peine (7b+), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Pas-de-Peine",
+  "description": "Small crimps up a near-vertical wall, finished with a jump. Pull hard on the crimp ladder, get your feet as high as they'll go, and commit to the dyno for the top edge.",
+  "holds": [
+   {
+    "x": 0.6,
+    "y": 0.6667,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -5,
+    "role": "start"
+   },
+   {
+    "x": 0.6583,
+    "y": 0.6556,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 10,
+    "role": "start"
+   },
+   {
+    "x": 0.55,
+    "y": 0.5444,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": -15,
+    "role": "hand"
+   },
+   {
+    "x": 0.65,
+    "y": 0.4778,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 12,
+    "role": "hand"
+   },
+   {
+    "x": 0.5833,
+    "y": 0.3778,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.6333,
+    "y": 0.1222,
+    "type": "edge",
+    "size": "m",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.5833,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.6833,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.6167,
+    "y": 0.7778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.5583,
+    "y": 0.7333,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.7083,
+    "y": 0.7111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-l-os-a-moelle",
+  "name": "L'Os \u00e0 Moelle",
+  "wall_type": "vertical",
+  "angle": 0,
+  "grade": "7A",
+  "styles": [
+   "crimpy",
+   "slopey"
+  ],
+  "colour": "yellow",
+  "inspired_by": "L'Os \u00e0 Moelle (7a), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/L-Os-a-Moelle",
+  "description": "Alternating crimps and slopers: crimp hard with one hand, open up and trust friction with the other. Keep your hips under the slopers and your weight on your feet.",
+  "holds": [
+   {
+    "x": 0.2,
+    "y": 0.6778,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -10,
+    "role": "start"
+   },
+   {
+    "x": 0.2583,
+    "y": 0.6667,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 15,
+    "role": "start"
+   },
+   {
+    "x": 0.325,
+    "y": 0.5444,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 20,
+    "role": "hand"
+   },
+   {
+    "x": 0.2167,
+    "y": 0.4667,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.3167,
+    "y": 0.3556,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 10,
+    "role": "hand"
+   },
+   {
+    "x": 0.2417,
+    "y": 0.2667,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.2833,
+    "y": 0.1222,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.1917,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.2833,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.25,
+    "y": 0.7667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.3167,
+    "y": 0.6889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.2083,
+    "y": 0.6111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-tango-panache",
+  "name": "Tango Panach\u00e9",
+  "wall_type": "overhang",
+  "angle": 20,
+  "grade": "7A",
+  "styles": [
+   "power",
+   "technical"
+  ],
+  "colour": "purple",
+  "inspired_by": "Tango Panach\u00e9 (7a), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Tango-Panache",
+  "description": "A mantle problem. Power up the overhang to the big volume, get both hands pressing on top of it, then rock over and stand up to match the top hold. The hard part is the press, not the pull.",
+  "holds": [
+   {
+    "x": 0.35,
+    "y": 0.7111,
+    "type": "jug",
+    "size": "m",
+    "rotation": -10,
+    "role": "start"
+   },
+   {
+    "x": 0.4167,
+    "y": 0.7,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 10,
+    "role": "start"
+   },
+   {
+    "x": 0.3333,
+    "y": 0.5667,
+    "type": "undercling",
+    "size": "m",
+    "rotation": 180,
+    "role": "hand"
+   },
+   {
+    "x": 0.4583,
+    "y": 0.4889,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.4083,
+    "y": 0.3222,
+    "type": "volume",
+    "size": "xl",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.425,
+    "y": 0.1111,
+    "type": "macro",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.3333,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.4333,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.3833,
+    "y": 0.7778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.475,
+    "y": 0.6667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-le-quatrieme-angle",
+  "name": "Le Quatri\u00e8me Angle",
+  "wall_type": "arete",
+  "angle": 10,
+  "grade": "6C",
+  "styles": [
+   "technical",
+   "balance"
+  ],
+  "colour": "orange",
+  "inspired_by": "Le Quatri\u00e8me Angle (6c), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Le-Quatrieme-Angle",
+  "description": "Up a corner of the boulder to a mantle. Use the ar\u00eate with sidepulls on both sides, then finish by pressing out onto the big sloping top: high heel, hands flat, slow and balanced.",
+  "holds": [
+   {
+    "x": 0.4583,
+    "y": 0.6778,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": -90,
+    "role": "start"
+   },
+   {
+    "x": 0.5417,
+    "y": 0.6667,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "start"
+   },
+   {
+    "x": 0.475,
+    "y": 0.5111,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.5333,
+    "y": 0.4,
+    "type": "sidepull",
+    "size": "s",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.4667,
+    "y": 0.2667,
+    "type": "edge",
+    "size": "s",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.5,
+    "y": 0.1111,
+    "type": "sloper",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.4333,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.5667,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.5417,
+    "y": 0.7556,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.425,
+    "y": 0.6,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.55,
+    "y": 0.5556,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-la-dallette",
+  "name": "La Dallette",
+  "wall_type": "slab",
+  "angle": -10,
+  "grade": "6A+",
+  "styles": [
+   "balance",
+   "technical"
+  ],
+  "colour": "mint",
+  "inspired_by": "La Dallette (6a+), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/La-Dallette",
+  "description": "A slab traverse from left to right. The hands are only there for balance: shuffle the feet across the smears and chips, keep your body off the wall, and match the edge at the far end.",
+  "holds": [
+   {
+    "x": 0.1167,
+    "y": 0.6556,
+    "type": "edge",
+    "size": "s",
+    "rotation": 0,
+    "role": "start"
+   },
+   {
+    "x": 0.175,
+    "y": 0.6444,
+    "type": "edge",
+    "size": "s",
+    "rotation": 5,
+    "role": "start"
+   },
+   {
+    "x": 0.2833,
+    "y": 0.5889,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.4167,
+    "y": 0.6111,
+    "type": "edge",
+    "size": "s",
+    "rotation": 5,
+    "role": "hand"
+   },
+   {
+    "x": 0.55,
+    "y": 0.5556,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.6833,
+    "y": 0.5778,
+    "type": "edge",
+    "size": "s",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.8,
+    "y": 0.5222,
+    "type": "crimp",
+    "size": "s",
+    "rotation": 5,
+    "role": "hand"
+   },
+   {
+    "x": 0.9,
+    "y": 0.4556,
+    "type": "edge",
+    "size": "m",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.1333,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.25,
+    "y": 0.8444,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.3667,
+    "y": 0.8556,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.4833,
+    "y": 0.8222,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.6,
+    "y": 0.8333,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 15,
+    "role": "foot"
+   },
+   {
+    "x": 0.7167,
+    "y": 0.8111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -5,
+    "role": "foot"
+   },
+   {
+    "x": 0.8333,
+    "y": 0.7889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-page-en-braille",
+  "name": "Page en Braille",
+  "wall_type": "slab",
+  "angle": -15,
+  "grade": "5C",
+  "styles": [
+   "balance",
+   "crimpy"
+  ],
+  "colour": "white",
+  "inspired_by": "Page en Braille (5+), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Page-en-Braille",
+  "description": "A slab read like braille: lots of tiny bumps for hands and feet. Feel for the best ones, trust your feet on the smallest chips and keep your heels low.",
+  "holds": [
+   {
+    "x": 0.7167,
+    "y": 0.6778,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 0,
+    "role": "start"
+   },
+   {
+    "x": 0.775,
+    "y": 0.6667,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 10,
+    "role": "start"
+   },
+   {
+    "x": 0.6917,
+    "y": 0.5667,
+    "type": "foot_chip",
+    "size": "s",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.7833,
+    "y": 0.5111,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": -10,
+    "role": "hand"
+   },
+   {
+    "x": 0.725,
+    "y": 0.4222,
+    "type": "foot_chip",
+    "size": "s",
+    "rotation": 15,
+    "role": "hand"
+   },
+   {
+    "x": 0.7917,
+    "y": 0.3333,
+    "type": "crimp",
+    "size": "xs",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.7167,
+    "y": 0.2556,
+    "type": "crimp",
+    "size": "s",
+    "rotation": -5,
+    "role": "hand"
+   },
+   {
+    "x": 0.7583,
+    "y": 0.1222,
+    "type": "edge",
+    "size": "m",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.7,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.7833,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 20,
+    "role": "foot"
+   },
+   {
+    "x": 0.7417,
+    "y": 0.8111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.6917,
+    "y": 0.7556,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.8,
+    "y": 0.7333,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 30,
+    "role": "foot"
+   },
+   {
+    "x": 0.7333,
+    "y": 0.6667,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.8083,
+    "y": 0.6111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -20,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-la-troisieme-arete",
+  "name": "La Troisi\u00e8me Ar\u00eate",
+  "wall_type": "arete",
+  "angle": 0,
+  "grade": "5C",
+  "styles": [
+   "compression",
+   "technical"
+  ],
+  "colour": "green",
+  "inspired_by": "La Troisi\u00e8me Ar\u00eate (5+), Cuvier, Fontainebleau: red circuit no. 24",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/La-Troisieme-Arete",
+  "description": "A pillar climbed on its edge. Squeeze the ar\u00eate between your hands, walk your feet up both faces, and stay close to the edge all the way to the top jug.",
+  "holds": [
+   {
+    "x": 0.4667,
+    "y": 0.6889,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "start"
+   },
+   {
+    "x": 0.5333,
+    "y": 0.6778,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "start"
+   },
+   {
+    "x": 0.475,
+    "y": 0.5556,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": -90,
+    "role": "hand"
+   },
+   {
+    "x": 0.5333,
+    "y": 0.4556,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.4667,
+    "y": 0.3444,
+    "type": "pinch",
+    "size": "s",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.525,
+    "y": 0.2444,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.5,
+    "y": 0.1111,
+    "type": "jug",
+    "size": "m",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.4333,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.5667,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.45,
+    "y": 0.7778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   },
+   {
+    "x": 0.55,
+    "y": 0.7111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.4417,
+    "y": 0.6111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   }
+  ]
+ },
+ {
+  "gym_wall": null,
+  "slug": "bleau-le-nez",
+  "name": "Le Nez",
+  "wall_type": "arete",
+  "angle": 15,
+  "grade": "6A",
+  "styles": [
+   "compression",
+   "power"
+  ],
+  "colour": "grey",
+  "inspired_by": "Le Nez (6a), Cuvier, Fontainebleau",
+  "inspired_by_url": "https://www.fontainebleau.rocks/Cuvier-Chatillon/Cuvier/Marie-Rose/Le-Nez",
+  "description": "Up the nose of the boulder: an overhanging prow. Pinch the nose, keep your hips tight to it and use toe hooks around the edge to stay on.",
+  "holds": [
+   {
+    "x": 0.45,
+    "y": 0.7,
+    "type": "sloper",
+    "size": "m",
+    "rotation": -15,
+    "role": "start"
+   },
+   {
+    "x": 0.55,
+    "y": 0.6889,
+    "type": "sloper",
+    "size": "m",
+    "rotation": 15,
+    "role": "start"
+   },
+   {
+    "x": 0.4917,
+    "y": 0.5444,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.5417,
+    "y": 0.4111,
+    "type": "sidepull",
+    "size": "m",
+    "rotation": 90,
+    "role": "hand"
+   },
+   {
+    "x": 0.4667,
+    "y": 0.2889,
+    "type": "pinch",
+    "size": "m",
+    "rotation": 0,
+    "role": "hand"
+   },
+   {
+    "x": 0.5,
+    "y": 0.1111,
+    "type": "jug",
+    "size": "l",
+    "rotation": 0,
+    "role": "finish"
+   },
+   {
+    "x": 0.425,
+    "y": 0.8889,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.575,
+    "y": 0.8778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 0,
+    "role": "foot"
+   },
+   {
+    "x": 0.55,
+    "y": 0.7778,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": 10,
+    "role": "foot"
+   },
+   {
+    "x": 0.4333,
+    "y": 0.6111,
+    "type": "foot_chip",
+    "size": "xs",
+    "rotation": -10,
+    "role": "foot"
+   }
+  ]
+ }
+]

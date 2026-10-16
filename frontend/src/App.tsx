@@ -13,6 +13,10 @@ import { CruxNewPage } from './pages/CruxNewPage'
 import { GymPage } from './pages/GymPage'
 import { LandingPage } from './pages/LandingPage'
 import { LoginPage } from './pages/LoginPage'
+import { SettingEditorPage } from './pages/SettingEditorPage'
+import { SettingGeneratePage } from './pages/SettingGeneratePage'
+import { SettingPage } from './pages/SettingPage'
+import { SettingTemplatePage } from './pages/SettingTemplatePage'
 import { TrainingFormPage } from './pages/TrainingFormPage'
 import { TrainingPage } from './pages/TrainingPage'
 import { TrainingSessionPage } from './pages/TrainingSessionPage'
@@ -58,6 +62,11 @@ export default function App() {
                 <Route path="/training/new" element={<TrainingFormPage />} />
                 <Route path="/training/:id" element={<TrainingSessionPage />} />
                 <Route path="/training/:id/edit" element={<TrainingFormPage />} />
+                <Route path="/setting" element={<SettingPage />} />
+                <Route path="/setting/generate" element={<SettingGeneratePage />} />
+                <Route path="/setting/new" element={<SettingEditorPage />} />
+                <Route path="/setting/:id" element={<SettingTemplatePage />} />
+                <Route path="/setting/:id/edit" element={<SettingEditorPage />} />
                 <Route path="/coach" element={<CoachPage />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />

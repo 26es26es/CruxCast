@@ -7,6 +7,7 @@ const app = {
     myGym: 'My Gym',
     board: 'Board',
     training: 'Training',
+    setting: 'Crux setting',
     coach: 'How should I work on this crux?',
     logout: 'Log out',
     language: 'Language',
@@ -49,6 +50,7 @@ const app = {
     board_crux_not_found: 'This board crux doesn’t exist or is private.',
     not_your_crux: 'Only the setter can change this crux.',
     session_not_found: 'This session doesn’t exist.',
+    template_not_found: 'This template doesn’t exist or is private.',
     unknown: 'Something went wrong. Try again.',
   },
 }

@@ -163,3 +163,43 @@ class SessionClimb(Base):
     session: Mapped[TrainingSession] = relationship(back_populates="climbs")
     crux: Mapped[Crux | None] = relationship(lazy="joined")
     board_crux: Mapped[BoardCrux | None] = relationship(lazy="joined")
+
+
+class RouteTemplate(Base):
+    """A route idea for setters: holds on a generic wall shape.
+
+    Library templates come with the app (no user, a fixed slug); setters' own templates
+    belong to them and can be private or shared.
+    """
+
+    __tablename__ = "route_templates"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int | None] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    # Identifies library templates so they can be updated when the app starts.
+    slug: Mapped[str | None] = mapped_column(String(60), unique=True)
+    name: Mapped[str] = mapped_column(String(60))
+    wall_type: Mapped[str] = mapped_column(String(20))
+    angle: Mapped[int] = mapped_column(Integer)
+    # Optional: the gym wall it was meant for, e.g. "Atlas".
+    gym_wall: Mapped[str | None] = mapped_column(String(60))
+    grade: Mapped[str] = mapped_column(String(5))
+    styles: Mapped[list[str]] = mapped_column(JSON)
+    colour: Mapped[str] = mapped_column(String(20))
+    description: Mapped[str] = mapped_column(Text, server_default="")
+    # Optional credit for a route modelled on a real one, e.g. a Fontainebleau classic.
+    inspired_by: Mapped[str | None] = mapped_column(String(120))
+    inspired_by_url: Mapped[str | None] = mapped_column(String(300))
+    is_public: Mapped[bool] = mapped_column(Boolean, server_default=false(), index=True)
+    # [{"x", "y", "type", "size", "rotation", "role"}, ...]
+    holds: Mapped[list[dict]] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    user: Mapped[User | None] = relationship(lazy="joined")

@@ -3,7 +3,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from app import board, training
+from app import board, setting, training
 from app.constants import COLOURS, GRADES
 
 Colour = Literal[COLOURS]
@@ -260,4 +260,65 @@ class TrainingSessionOut(BaseModel):
     effort: int | None
     notes: str
     climbs: list[SessionClimbOut]
+    created_at: datetime
+
+
+
+# ---------- Route templates (Crux setting) ----------
+
+
+def check_template_holds(holds: list[setting.RouteHold]) -> list[setting.RouteHold]:
+    starts = sum(hold.role == "start" for hold in holds)
+    finishes = sum(hold.role == "finish" for hold in holds)
+    if not 1 <= starts <= 2:
+        raise ValueError("a route needs one or two start holds")
+    if finishes != 1:
+        raise ValueError("a route needs exactly one top hold, matched with both hands")
+    return holds
+
+
+def check_template_angle(angle: int) -> int:
+    if angle not in setting.ANGLES:
+        raise ValueError("angle must be a multiple of 5 between -20 and 90")
+    return angle
+
+
+class RouteTemplateIn(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    name: str = Field(min_length=1, max_length=60)
+    wall_type: setting.WallType
+    angle: int
+    gym_wall: str | None = Field(None, max_length=60)
+    grade: Grade
+    styles: list[setting.Style] = Field([], max_length=4)
+    colour: Colour
+    description: str = Field("", max_length=2000)
+    inspired_by: str | None = Field(None, max_length=120)
+    inspired_by_url: str | None = Field(None, max_length=300, pattern=r"^https?://\S+$")
+    is_public: bool = False
+    holds: list[setting.RouteHold] = Field(min_length=2, max_length=80)
+
+    _angle = field_validator("angle")(check_template_angle)
+    _holds = field_validator("holds")(check_template_holds)
+
+
+class RouteTemplateOut(BaseModel):
+    id: int
+    name: str
+    wall_type: str
+    angle: int
+    gym_wall: str | None
+    grade: str
+    styles: list[str]
+    colour: str
+    description: str
+    inspired_by: str | None
+    inspired_by_url: str | None
+    is_public: bool
+    holds: list[setting.RouteHold]
+    # None for library templates.
+    setter: str | None
+    is_library: bool
+    is_mine: bool
     created_at: datetime

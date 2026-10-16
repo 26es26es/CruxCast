@@ -7,6 +7,7 @@ const app: typeof appEn = {
     myGym: 'Mijn hal',
     board: 'Board',
     training: 'Training',
+    setting: 'Crux zetten',
     coach: 'Hoe pak ik deze crux aan?',
     logout: 'Uitloggen',
     language: 'Taal',
@@ -49,6 +50,7 @@ const app: typeof appEn = {
     board_crux_not_found: 'Deze boardcrux bestaat niet of is privé.',
     not_your_crux: 'Alleen de bouwer kan deze crux wijzigen.',
     session_not_found: 'Deze sessie bestaat niet.',
+    template_not_found: 'Dit template bestaat niet of is privé.',
     unknown: 'Er ging iets mis. Probeer het opnieuw.',
   },
 }

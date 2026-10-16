@@ -48,7 +48,9 @@
   transition: left 0.3s ease, top 0.3s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.gym-map-controls {
+/* Also used for turning and zooming the 3D wall in Crux setting. */
+.gym-map-controls,
+.wall-view-controls {
   position: absolute;
   z-index: 4;
   top: 0.6rem;
@@ -62,7 +64,8 @@
   box-shadow: var(--shadow);
 }
 
-.gym-map-controls button {
+.gym-map-controls button,
+.wall-view-controls button {
   width: 2.25rem;
   height: 2.25rem;
   padding: 0;
@@ -74,16 +77,19 @@
   cursor: pointer;
 }
 
-.gym-map-controls button:last-child {
+.gym-map-controls button:last-child,
+.wall-view-controls button:last-child {
   border-bottom: 0;
 }
 
-.gym-map-controls button:hover:not(:disabled) {
+.gym-map-controls button:hover:not(:disabled),
+.wall-view-controls button:hover:not(:disabled) {
   background: var(--accent-soft);
   color: var(--accent);
 }
 
-.gym-map-controls button:disabled {
+.gym-map-controls button:disabled,
+.wall-view-controls button:disabled {
   opacity: 0.35;
   cursor: default;
 }

@@ -4,6 +4,7 @@ import auth from './auth'
 import logbook from './logbook'
 import gymMap from './gymMap'
 import board from './board'
+import setting from './setting'
 import training from './training'
 import landing from './landing'
 
@@ -14,6 +15,7 @@ const nl: typeof en = {
   ...gymMap,
   ...board,
   ...training,
+  ...setting,
   ...landing,
 }
 

@@ -1,0 +1,263 @@
+/* Crux setting: route templates, the wall drawing, the generator and the editor. */
+
+/* The 3D wall is drawn in a 4:3 frame, with the view controls on top of it. */
+.route-wall-frame {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  width: min(100%, calc((100dvh - 12rem) * 4 / 3));
+  margin-inline: auto;
+}
+
+.route-wall {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ece7de;
+  touch-action: none;
+}
+
+/* The 3D picture fills the frame; the SVG on top of it only holds what you click and the rings. */
+.route-wall-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.route-wall.is-overlay {
+  position: relative;
+  background: transparent;
+}
+
+.route-wall.can-orbit {
+  cursor: grab;
+}
+
+.route-wall.can-orbit:active {
+  cursor: grabbing;
+}
+
+.route-wall.is-editable .route-wall-hit {
+  cursor: crosshair;
+}
+
+/* The wall's view controls sit in a row along the top, which also fits a phone-sized wall. */
+.wall-view-controls {
+  flex-direction: row;
+}
+
+.wall-view-controls button {
+  border-bottom: 0;
+  border-right: 1px solid var(--border);
+}
+
+.wall-view-controls button:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 480px) {
+  .wall-view-controls button {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1rem;
+  }
+}
+
+.wall-view-controls button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.wall-view-hint {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.75rem;
+  margin: 0;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.45);
+  color: #fff;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
+.route-wall.is-editable .route-hold {
+  cursor: grab;
+}
+
+.route-hold-ring {
+  fill: none;
+  stroke-width: 6;
+  pointer-events: none;
+}
+
+.route-tape text {
+  fill: #fff;
+  font: 700 17px system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.wall-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+}
+
+.hold-credits {
+  margin: 0.5rem 0 0;
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+}
+
+.hold-credits a {
+  color: var(--accent);
+}
+
+.template-credit {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}
+
+.template-credit a {
+  color: var(--accent);
+}
+
+.route-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+.template-thumb {
+  width: 100%;
+  margin-bottom: 1rem;
+  pointer-events: none;
+}
+
+.template-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+
+.template-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.template-side {
+  display: grid;
+  gap: 1rem;
+}
+
+.template-side .section-kicker,
+.template-side .detail-actions {
+  margin: 0;
+}
+
+.wall-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.1rem 0.55rem 0.1rem 0.3rem;
+  border-radius: 999px;
+  background: var(--accent-2-soft);
+  color: var(--accent-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.wall-profile {
+  width: 1.4rem;
+  height: 1.1rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.wall-profile-wall {
+  stroke-width: 5;
+}
+
+/* Wall type on its own row; angle and grade side by side below it. */
+.form-grid-3 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-grid-3 > :first-child {
+  grid-column: 1 / -1;
+}
+
+.hold-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+  gap: 0.35rem;
+}
+
+.hold-type-button {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.hold-type-button:hover {
+  color: var(--fg);
+  border-color: var(--border-strong);
+}
+
+.hold-type-button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+.hold-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.setter-palette {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.setter-palette .type-picker {
+  margin: 0;
+}
+
+.hold-editor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-raised);
+}
+
+.hold-editor select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}

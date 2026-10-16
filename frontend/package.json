@@ -15,12 +15,14 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-i18next": "^17.0.16",
-    "react-router": "^8.4.0"
+    "react-router": "^8.4.0",
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.170.0",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",

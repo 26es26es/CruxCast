@@ -11,6 +11,7 @@ import type {
   TrainingSessionInput,
   User,
 } from './types'
+import type { GenerateSpec, RouteHold, RouteTemplate, RouteTemplateInput } from './setting'
 
 /** Fired when the session has expired so the app can return to the login page. */
 export const UNAUTHORIZED_EVENT = 'cruxcast:unauthorized'
@@ -132,6 +133,20 @@ export const api = {
   replaceSession: (id: number, input: TrainingSessionInput) =>
     request<TrainingSession>(`/training/sessions/${id}`, json('PUT', input)),
   deleteSession: (id: number) => request<void>(`/training/sessions/${id}`, { method: 'DELETE' }),
+  listTemplates: (params: { scope: 'library' | 'shared' | 'mine'; wallType?: string; style?: string; q?: string }) => {
+    const query = new URLSearchParams({ scope: params.scope })
+    if (params.wallType) query.set('wall_type', params.wallType)
+    if (params.style) query.set('style', params.style)
+    if (params.q?.trim()) query.set('q', params.q.trim())
+    return request<RouteTemplate[]>(`/setting/templates?${query}`)
+  },
+  getTemplate: (id: number) => request<RouteTemplate>(`/setting/templates/${id}`),
+  createTemplate: (input: RouteTemplateInput) => request<RouteTemplate>('/setting/templates', json('POST', input)),
+  replaceTemplate: (id: number, input: RouteTemplateInput) =>
+    request<RouteTemplate>(`/setting/templates/${id}`, json('PUT', input)),
+  deleteTemplate: (id: number) => request<void>(`/setting/templates/${id}`, { method: 'DELETE' }),
+  generateRoute: (spec: GenerateSpec) => request<RouteHold[]>('/setting/generate', json('POST', spec)),
+
   getAdvice: (sessionType: SessionType, on: string, excludeId?: number) => {
     const query = new URLSearchParams({ session_type: sessionType, on })
     if (excludeId !== undefined) query.set('exclude_id', String(excludeId))

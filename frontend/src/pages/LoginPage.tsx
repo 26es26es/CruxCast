@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, useLocation } from 'react-router'
+import { Navigate, useLocation, useSearchParams } from 'react-router'
 import { useAuth } from '../auth'
 import { FloatTitle } from '../components/FloatTitle'
 import { errorMessage } from '../i18n'
@@ -9,7 +9,9 @@ export function LoginPage() {
   const { t } = useTranslation()
   const { user, login, register } = useAuth()
   const location = useLocation()
-  const [mode, setMode] = useState<'login' | 'register'>('login')
+  const [search] = useSearchParams()
+  // The landing page's "Sign up" button opens straight in sign-up mode.
+  const [mode, setMode] = useState<'login' | 'register'>(search.get('mode') === 'register' ? 'register' : 'login')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)

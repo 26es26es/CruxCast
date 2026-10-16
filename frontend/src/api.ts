@@ -1,4 +1,16 @@
-import type { BoardCrux, BoardCruxFields, BoardLayout, Crux, CruxFields, GymMap, User } from './types'
+import type {
+  Advice,
+  BoardCrux,
+  BoardCruxFields,
+  BoardLayout,
+  Crux,
+  CruxFields,
+  GymMap,
+  SessionType,
+  TrainingSession,
+  TrainingSessionInput,
+  User,
+} from './types'
 
 /** Fired when the session has expired so the app can return to the login page. */
 export const UNAUTHORIZED_EVENT = 'cruxcast:unauthorized'
@@ -106,6 +118,25 @@ export const api = {
   updateBoardCrux: (id: number, changes: Partial<BoardCruxFields>) =>
     request<BoardCrux>(`/board/cruxes/${id}`, json('PATCH', changes)),
   deleteBoardCrux: (id: number) => request<void>(`/board/cruxes/${id}`, { method: 'DELETE' }),
+
+  listSessions: (params: { start?: string; end?: string; status?: 'planned' | 'done'; limit?: number } = {}) => {
+    const query = new URLSearchParams()
+    if (params.start) query.set('start', params.start)
+    if (params.end) query.set('end', params.end)
+    if (params.status) query.set('status_filter', params.status)
+    if (params.limit) query.set('limit', String(params.limit))
+    return request<TrainingSession[]>(`/training/sessions?${query}`)
+  },
+  getSession: (id: number) => request<TrainingSession>(`/training/sessions/${id}`),
+  createSession: (input: TrainingSessionInput) => request<TrainingSession>('/training/sessions', json('POST', input)),
+  replaceSession: (id: number, input: TrainingSessionInput) =>
+    request<TrainingSession>(`/training/sessions/${id}`, json('PUT', input)),
+  deleteSession: (id: number) => request<void>(`/training/sessions/${id}`, { method: 'DELETE' }),
+  getAdvice: (sessionType: SessionType, on: string, excludeId?: number) => {
+    const query = new URLSearchParams({ session_type: sessionType, on })
+    if (excludeId !== undefined) query.set('exclude_id', String(excludeId))
+    return request<Advice>(`/training/advice?${query}`)
+  },
 
   videoUrl: (id: number) => `/api/cruxes/${id}/video`,
   uploadVideo,

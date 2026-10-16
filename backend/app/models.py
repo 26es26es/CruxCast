@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from sqlalchemy import (
     Boolean,
+    Date,
     DateTime,
     Float,
     ForeignKey,
@@ -103,3 +104,62 @@ class BoardCrux(Base):
     )
 
     user: Mapped[User] = relationship(back_populates="board_cruxes", lazy="joined")
+
+
+class TrainingSession(Base):
+    """A training session, planned ahead or logged after doing it."""
+
+    __tablename__ = "training_sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    session_type: Mapped[str] = mapped_column(String(30))
+    # "planned" until it's logged, then "done".
+    status: Mapped[str] = mapped_column(String(10))
+    date: Mapped[date] = mapped_column(Date, index=True)
+    # Planned start time as "HH:MM", if any.
+    start_time: Mapped[str | None] = mapped_column(String(5))
+    duration_min: Mapped[int | None] = mapped_column(Integer)
+    # How hard it felt, 1-10. Only for logged sessions.
+    effort: Mapped[int | None] = mapped_column(Integer)
+    notes: Mapped[str] = mapped_column(Text, server_default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    climbs: Mapped[list["SessionClimb"]] = relationship(
+        back_populates="session",
+        cascade="all, delete-orphan",
+        order_by="SessionClimb.position",
+        lazy="selectin",
+    )
+
+
+class SessionClimb(Base):
+    """One climb tried in a logged session, optionally linked to a crux."""
+
+    __tablename__ = "session_climbs"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("training_sessions.id", ondelete="CASCADE"), index=True
+    )
+    position: Mapped[int] = mapped_column(Integer)
+    grade: Mapped[str | None] = mapped_column(String(5))
+    sent: Mapped[bool] = mapped_column(Boolean, server_default=false())
+    attempts: Mapped[int] = mapped_column(Integer)
+    crux_id: Mapped[int | None] = mapped_column(
+        ForeignKey("cruxes.id", ondelete="SET NULL")
+    )
+    board_crux_id: Mapped[int | None] = mapped_column(
+        ForeignKey("board_cruxes.id", ondelete="SET NULL")
+    )
+
+    session: Mapped[TrainingSession] = relationship(back_populates="climbs")
+    crux: Mapped[Crux | None] = relationship(lazy="joined")
+    board_crux: Mapped[BoardCrux | None] = relationship(lazy="joined")

@@ -10,7 +10,11 @@ import { CruxDetailPage } from './pages/CruxDetailPage'
 import { CruxListPage } from './pages/CruxListPage'
 import { CruxNewPage } from './pages/CruxNewPage'
 import { GymPage } from './pages/GymPage'
+import { LandingPage } from './pages/LandingPage'
 import { LoginPage } from './pages/LoginPage'
+import { TrainingFormPage } from './pages/TrainingFormPage'
+import { TrainingPage } from './pages/TrainingPage'
+import { TrainingSessionPage } from './pages/TrainingSessionPage'
 import { ThemeProvider } from './theme'
 
 function RequireAuth() {
@@ -38,9 +42,9 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
+              <Route index element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route element={<RequireAuth />}>
-                <Route index element={<Navigate to="/cruxes" replace />} />
                 <Route path="/cruxes" element={<CruxListPage />} />
                 <Route path="/cruxes/new" element={<CruxNewPage />} />
                 <Route path="/cruxes/:id" element={<CruxDetailPage />} />
@@ -49,6 +53,10 @@ export default function App() {
                 <Route path="/board/new" element={<BoardSetPage />} />
                 <Route path="/board/:id" element={<BoardCruxPage />} />
                 <Route path="/board/:id/edit" element={<BoardSetPage />} />
+                <Route path="/training" element={<TrainingPage />} />
+                <Route path="/training/new" element={<TrainingFormPage />} />
+                <Route path="/training/:id" element={<TrainingSessionPage />} />
+                <Route path="/training/:id/edit" element={<TrainingFormPage />} />
                 <Route path="/coach" element={<CoachPage />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />

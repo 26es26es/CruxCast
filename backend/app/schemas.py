@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from app import board
+from app import board, training
 from app.constants import COLOURS, GRADES
 
 Colour = Literal[COLOURS]
@@ -204,3 +204,76 @@ class BoardCruxOut(BaseModel):
     is_mine: bool
     created_at: datetime
     updated_at: datetime
+
+
+
+# ---------- Training sessions ----------
+
+
+class SessionClimbIn(BaseModel):
+    grade: Grade | None = None
+    sent: bool = False
+    attempts: int = Field(1, ge=1, le=99)
+    crux_id: int | None = None
+    board_crux_id: int | None = None
+
+    @model_validator(mode="after")
+    def one_link(self) -> "SessionClimbIn":
+        if self.crux_id is not None and self.board_crux_id is not None:
+            raise ValueError("link a climb to a gym crux or a board crux, not both")
+        return self
+
+
+class TrainingSessionIn(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    session_type: training.SessionType
+    status: Literal["planned", "done"]
+    date: date
+    start_time: str | None = Field(None, pattern=r"^([01]\d|2[0-3]):[0-5]\d$")
+    duration_min: int | None = Field(None, ge=5, le=600)
+    effort: int | None = Field(None, ge=1, le=10)
+    notes: str = Field("", max_length=2000)
+    climbs: list[SessionClimbIn] = Field([], max_length=100)
+
+    @model_validator(mode="after")
+    def complete_when_done(self) -> "TrainingSessionIn":
+        if self.status == "done" and (self.duration_min is None or self.effort is None):
+            raise ValueError("a logged session needs its duration and effort")
+        if self.status == "planned" and (self.effort is not None or self.climbs):
+            raise ValueError("effort and climbs are only for logged sessions")
+        return self
+
+
+class LinkedCrux(BaseModel):
+    id: int
+    climb_id: str
+    colour: str
+    gym_grade: str | None
+
+
+class LinkedBoardCrux(BaseModel):
+    id: int
+    name: str
+    grade: str
+
+
+class SessionClimbOut(BaseModel):
+    grade: str | None
+    sent: bool
+    attempts: int
+    crux: LinkedCrux | None
+    board_crux: LinkedBoardCrux | None
+
+
+class TrainingSessionOut(BaseModel):
+    id: int
+    session_type: str
+    status: str
+    date: date
+    start_time: str | None
+    duration_min: int | None
+    effort: int | None
+    notes: str
+    climbs: list[SessionClimbOut]
+    created_at: datetime

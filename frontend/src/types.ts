@@ -123,3 +123,54 @@ export type BoardCrux = BoardCruxFields & {
   created_at: string
   updated_at: string
 }
+
+// ---------- Training ----------
+
+export type SessionType = 'gym_workout' | 'power_bouldering' | 'calm_bouldering' | 'board' | 'rest'
+
+export type SessionClimbInput = {
+  grade: Grade | null
+  sent: boolean
+  attempts: number
+  crux_id: number | null
+  board_crux_id: number | null
+}
+
+export type SessionClimb = {
+  grade: Grade | null
+  sent: boolean
+  attempts: number
+  crux: { id: number; climb_id: string; colour: Colour; gym_grade: Grade | null } | null
+  board_crux: { id: number; name: string; grade: Grade } | null
+}
+
+export type TrainingSessionInput = {
+  session_type: SessionType
+  status: 'planned' | 'done'
+  /** yyyy-mm-dd */
+  date: string
+  start_time: string | null
+  duration_min: number | null
+  effort: number | null
+  notes: string
+  climbs: SessionClimbInput[]
+}
+
+export type TrainingSession = Omit<TrainingSessionInput, 'climbs'> & {
+  id: number
+  climbs: SessionClimb[]
+  created_at: string
+}
+
+export type AdviceStep = { key: string; minutes: number; params: Record<string, string | number> }
+
+export type Advice = {
+  session_type: SessionType
+  intensity: 'low' | 'medium' | 'high'
+  total_minutes: number
+  warm_up: AdviceStep[]
+  main: AdviceStep[]
+  cool_down: AdviceStep[]
+  reasons: { code: string; params: Record<string, string | number> }[]
+  suggest_instead: SessionType[]
+}

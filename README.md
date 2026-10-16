@@ -6,11 +6,13 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 
 ## Features
 
+- A public landing page explaining CruxCast and its improvement loop
 - Accounts: everyone signs up and sees only their own cruxes
 - Log, edit, search and delete cruxes
 - Pick a crux on the gym's floor plan, loaded live from [TopLogger](https://toplogger.nu); this fills in its wall, colour and grade
 - **My Gym**: the whole gym map, zoomable, with every current climb; tap one to see its details and log it
 - Zoom the map with the scroll wheel, pinch, the +/− buttons, or by tapping a wall name
+- **Training**: plan sessions in a week planner, log what you did (type, duration, effort and the climbs you tried), and get a warm-up, session plan and cool-down that adapt to your last two sessions, with the reasons explained
 - **Board**: set your own cruxes on the Kilter Board Original (476 holds), Kilter-style: tap a hold and pick start, hand, top or foot only; give it a name, angle (0–70°) and grade; keep it private or share it publicly
 - Filter the map like TopLogger does: grade and star-rating ranges, soft/hard, colours, styles and holds (with "Not"), circuit, wall, setter, new, almost removed, suitable for short people, and whether it's already in your logbook
 - Favorites
@@ -57,6 +59,8 @@ Coming next: **How should I work on this crux?**, a machine-learning model that 
 | [Docker](https://www.docker.com) + Docker Compose | Running the database, backend and frontend together |
 
 Uploaded videos are stored on a Docker volume; the database stores only their file names.
+
+The training advice is rule-based (`backend/app/training.py`): a template per session type, adjusted by how recent, hard and long your last two logged sessions were and which grades you sent. It returns structured steps and reason codes, so the frontend can translate them and an AI layer could rewrite them later.
 
 The Kilter Board layout (`backend/app/boards/kilter_original.json`) was traced from a screenshot of the gym's board: hold positions and simplified outlines as fractions of the board's size. Lighting up the board over Bluetooth isn't supported: browsers on iPhone can't use Bluetooth, and the board's protocol isn't public.
 

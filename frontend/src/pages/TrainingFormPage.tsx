@@ -1,13 +1,14 @@
-import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router'
 import { api } from '../api'
 import { AdviceCard } from '../components/AdviceCard'
-import { useCruxTitle } from '../components/CruxBits'
 import { FloatTitle } from '../components/FloatTitle'
+import { SessionTypePicker } from '../components/SessionTypePicker'
 import { GRADES, type Grade } from '../constants'
+import { useCruxTitle } from '../cruxTitle'
 import { errorMessage } from '../i18n'
-import { isoDate, SESSION_TYPES, TYPE_COLOURS } from '../training'
+import { isoDate } from '../training'
 import type { Advice, BoardCrux, Crux, SessionClimbInput, SessionType, TrainingSessionInput } from '../types'
 
 const NEW_CLIMB: SessionClimbInput = { grade: null, sent: false, attempts: 1, crux_id: null, board_crux_id: null }
@@ -157,21 +158,7 @@ export function TrainingFormPage() {
       <form className="form form-panel" onSubmit={save}>
         <div className="field">
           <span className="field-label">{t('training.type')}</span>
-          <div className="type-picker" role="group" aria-label={t('training.type')}>
-            {SESSION_TYPES.map((value) => (
-              <button
-                key={value}
-                type="button"
-                className="pill"
-                aria-pressed={input.session_type === value}
-                style={{ '--type-colour': TYPE_COLOURS[value] } as CSSProperties}
-                onClick={() => set('session_type', value)}
-              >
-                <span className="type-dot" />
-                {t(`training.types.${value}`)}
-              </button>
-            ))}
-          </div>
+          <SessionTypePicker value={input.session_type} onChange={(type) => set('session_type', type)} />
         </div>
 
         <div className="form-grid">

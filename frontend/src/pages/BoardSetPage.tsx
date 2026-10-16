@@ -2,9 +2,10 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import { api } from '../api'
-import { gradeLabel, holdIssues, ROLE_COLOURS, ROLES, useBoardLayout } from '../board'
+import { gradeLabel, holdIssues, useBoardLayout } from '../board'
 import { Switch } from '../components/FilterControls'
 import { KilterBoard } from '../components/KilterBoard'
+import { RoleLegend } from '../components/RoleLegend'
 import { GRADES, type Grade } from '../constants'
 import { errorMessage } from '../i18n'
 import type { BoardCruxFields } from '../types'
@@ -71,8 +72,6 @@ export function BoardSetPage() {
       setSaving(false)
     }
   }
-
-  const count = (role: (typeof ROLES)[number]) => fields.holds.filter((hold) => hold.role === role).length
 
   return (
     <div className="page board-page">
@@ -151,14 +150,7 @@ export function BoardSetPage() {
 
           <div className="field">
             <span className="field-label">{t('board.holds')}</span>
-            <ul className="role-legend">
-              {ROLES.map((role) => (
-                <li key={role}>
-                  <span className="role-ring" style={{ borderColor: ROLE_COLOURS[role] }} />
-                  {t(`board.roles.${role}`)} <strong>{count(role)}</strong>
-                </li>
-              ))}
-            </ul>
+            <RoleLegend holds={fields.holds} />
           </div>
 
           {triedSaving &&

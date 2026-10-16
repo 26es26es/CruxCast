@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Outlet } from 'react-router'
-import { useAuth } from '../auth'
+import { useAuth } from '../authContext'
 import { LANGUAGES } from '../i18n'
-import { useTheme } from '../theme'
+import { useTheme } from '../themeContext'
 import { ClimbingBackground } from './ClimbingBackground'
 import { MoonIcon, SunIcon } from './icons'
 

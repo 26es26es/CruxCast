@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { api } from './api'
+import { CachedResource, useCachedResource } from './cachedResource'
 import type { Grade } from './constants'
-import { errorMessage } from './i18n'
 import type { BoardHold, BoardLayout, HoldRole } from './types'
 
 /** Ring colours, as in the Kilter app. */
@@ -41,27 +40,9 @@ export function holdIssues(holds: BoardHold[]): string[] {
 }
 
 // The layout never changes while the app runs, so fetch it once.
-let layoutRequest: Promise<BoardLayout> | null = null
+const boardLayout = new CachedResource(() => api.getBoardLayout())
 
 export function useBoardLayout(): { layout: BoardLayout | null; error: string | null } {
-  const [state, setState] = useState<{ layout: BoardLayout | null; error: string | null }>({
-    layout: null,
-    error: null,
-  })
-
-  useEffect(() => {
-    let active = true
-    layoutRequest ??= api.getBoardLayout()
-    layoutRequest
-      .then((layout) => active && setState({ layout, error: null }))
-      .catch((caught) => {
-        layoutRequest = null
-        if (active) setState({ layout: null, error: errorMessage(caught) })
-      })
-    return () => {
-      active = false
-    }
-  }, [])
-
-  return state
+  const { data, error } = useCachedResource(boardLayout)
+  return { layout: data, error }
 }

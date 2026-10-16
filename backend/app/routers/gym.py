@@ -10,7 +10,7 @@ router = APIRouter(prefix="/gym", tags=["gym"])
 @router.get("/map")
 def gym_map(_: CurrentUser) -> toplogger.GymMap:
     try:
-        return toplogger.get_gym_map(settings.toplogger_gym_slug)
+        return toplogger.gym_maps.get_map(settings.toplogger_gym_slug)
     except toplogger.GymMapUnavailable:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "gym_map_unavailable")
 
@@ -18,7 +18,7 @@ def gym_map(_: CurrentUser) -> toplogger.GymMap:
 @router.get("/floorplan.svg")
 def floorplan(_: CurrentUser) -> Response:
     try:
-        svg = toplogger.get_floorplan_svg(settings.toplogger_gym_slug)
+        svg = toplogger.gym_maps.get_floorplan(settings.toplogger_gym_slug)
     except toplogger.GymMapUnavailable:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "gym_map_unavailable")
     return Response(

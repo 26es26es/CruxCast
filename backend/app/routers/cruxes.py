@@ -5,6 +5,7 @@ from sqlalchemy import select
 from app import storage
 from app.db import DbSession
 from app.models import Crux, User
+from app.routers.common import get_owned
 from app.schemas import CruxCreate, CruxOut, CruxUpdate, check_location
 from app.security import CurrentUser
 
@@ -12,11 +13,7 @@ router = APIRouter(prefix="/cruxes", tags=["cruxes"])
 
 
 def _get_owned_crux(db: DbSession, user: User, crux_id: int) -> Crux:
-    crux = db.get(Crux, crux_id)
-    # Someone else's crux is reported as missing so ids don't leak.
-    if crux is None or crux.user_id != user.id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "crux_not_found")
-    return crux
+    return get_owned(db, Crux, crux_id, user, "crux_not_found")
 
 
 @router.get("")

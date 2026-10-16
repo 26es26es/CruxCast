@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import type { Crux } from '../types'
-import { CruxMeta, GradeChips, useCruxTitle } from './CruxBits'
+import { useCruxTitle } from '../cruxTitle'
+import { CruxMeta, GradeChips } from './CruxBits'
 import { FavoriteButton } from './FavoriteButton'
 
 type Props = {

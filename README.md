@@ -109,18 +109,25 @@ Stop with `Ctrl+C`, or `docker compose down`. Your data lives in Docker volumes 
 backend/
   app/
     main.py          FastAPI app, mounts everything under /api
-    models.py        Database tables (User, Crux)
+    models.py        Database tables (users, cruxes, board cruxes, training sessions)
     schemas.py       Request/response shapes and validation
     security.py      Password hashing and the session cookie
     storage.py       Saving uploaded videos to disk
-    routers/         auth.py and cruxes.py endpoints
+    training.py      Rule-based session advice (context, draft and one function per rule)
+    board.py         The Kilter Board layout and its rules
+    gym_areas.py     Labels for the gym's non-climbing areas
+    toplogger/       TopLogger integration: client, conversions, floor plan, cached service
+    routers/         One module of endpoints per feature, plus shared helpers
   migrations/        Alembic database migrations
+  tests/             pytest tests (one live TopLogger check, opt-in)
 frontend/
   src/
     pages/           One component per screen
-    components/      Shared UI (nav, cards, form, video upload, background grid)
+    components/      Reusable UI (map, filters, board, advice card, forms, ...)
     i18n/            en.ts and nl.ts translations
     api.ts           Calls to the backend
+    *Context.ts      Auth and theme state, with their hooks
+    cachedResource.ts  Data fetched once and shared (gym map, board layout)
 docker-compose.yml
 ```
 

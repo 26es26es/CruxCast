@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router'
-import { AuthProvider, useAuth } from './auth'
+import { AuthProvider } from './auth'
+import { useAuth } from './authContext'
 import { Layout } from './components/Layout'
 import { BoardCruxPage } from './pages/BoardCruxPage'
 import { BoardListPage } from './pages/BoardListPage'

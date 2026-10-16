@@ -6,6 +6,7 @@ from sqlalchemy import select
 from app import training
 from app.db import DbSession
 from app.models import BoardCrux, Crux, SessionClimb, TrainingSession, User
+from app.routers.common import get_owned
 from app.schemas import (
     LinkedBoardCrux,
     LinkedCrux,
@@ -50,10 +51,7 @@ def _out(session: TrainingSession) -> TrainingSessionOut:
 
 
 def _own_session(db: DbSession, user: User, session_id: int) -> TrainingSession:
-    session = db.get(TrainingSession, session_id)
-    if session is None or session.user_id != user.id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "session_not_found")
-    return session
+    return get_owned(db, TrainingSession, session_id, user, "session_not_found")
 
 
 def _apply(db: DbSession, user: User, session: TrainingSession, payload: TrainingSessionIn) -> None:

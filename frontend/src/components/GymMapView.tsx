@@ -1,5 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useClimbLabel } from '../gymMap'
+import { cssVars } from '../style'
 import type { GymMap, MapClimb, Wall } from '../types'
 import { useZoomPan } from './useZoomPan'
 
@@ -40,12 +42,8 @@ export function GymMapView({ map, climbs = [], selectedId, onSelect, pin, maxHei
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const climbLabel = (climb: MapClimb) =>
-    t('map.climbLabel', {
-      colour: t(`colours.${climb.colour}`),
-      grade: climb.grade ?? '',
-      wall: climb.wall_name ?? '',
-    })
+  const label = useClimbLabel()
+  const climbLabel = (climb: MapClimb) => label({ colour: climb.colour, grade: climb.grade, wall: climb.wall_name })
 
   /** Zooms to the area covered by a wall's climbs (all of them, not just filtered). */
   const focusWall = (wall: Wall) => {
@@ -59,13 +57,13 @@ export function GymMapView({ map, climbs = [], selectedId, onSelect, pin, maxHei
     focusOn({ left: Math.min(...xs), top: Math.min(...ys), right: Math.max(...xs), bottom: Math.max(...ys) })
   }
 
-  const frameStyle = {
+  const frameStyle = cssVars({
     '--map-ratio': map.floorplan_width / map.floorplan_height,
     '--map-max-height': maxHeight,
     '--zoom': view.scale,
     '--pan-x': `${view.x}px`,
     '--pan-y': `${view.y}px`,
-  } as CSSProperties
+  })
 
   const classes = ['gym-map', zoomable && 'is-zoomable', view.scale > 1 && 'is-zoomed', animating && 'is-animating']
 
@@ -111,7 +109,7 @@ export function GymMapView({ map, climbs = [], selectedId, onSelect, pin, maxHei
           )
         })}
         {climbs.map((climb) => {
-          const style = { ...at(climb.x, climb.y), '--dot': climb.colour_hex } as CSSProperties
+          const style = { ...at(climb.x, climb.y), ...cssVars({ '--dot': climb.colour_hex }) }
           return onSelect ? (
             <button
               key={climb.id}
@@ -130,7 +128,7 @@ export function GymMapView({ map, climbs = [], selectedId, onSelect, pin, maxHei
         {pin && (
           <span
             className="gym-map-pin"
-            style={{ ...at(pin.x, pin.y), '--dot': pin.colour } as CSSProperties}
+            style={{ ...at(pin.x, pin.y), ...cssVars({ '--dot': pin.colour }) }}
             role="img"
             aria-label={pin.label}
             title={pin.label}

@@ -1,21 +1,13 @@
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import { api } from '../api'
 import { AdviceCard } from '../components/AdviceCard'
+import { ClimbLink } from '../components/ClimbLink'
 import { errorMessage } from '../i18n'
+import { cssVars } from '../style'
 import { formatMinutes, parseDate, TYPE_COLOURS } from '../training'
-import type { Advice, SessionClimb, TrainingSession } from '../types'
-
-export function ClimbLink({ climb }: { climb: SessionClimb }) {
-  const { t } = useTranslation()
-  if (climb.crux) {
-    const title = climb.crux.climb_id || `${t(`colours.${climb.crux.colour}`)} ${climb.crux.gym_grade ?? ''}`.trim()
-    return <Link to={`/cruxes/${climb.crux.id}`}>{title}</Link>
-  }
-  if (climb.board_crux) return <Link to={`/board/${climb.board_crux.id}`}>{climb.board_crux.name}</Link>
-  return null
-}
+import type { Advice, TrainingSession } from '../types'
 
 export function TrainingSessionPage() {
   const { t, i18n } = useTranslation()
@@ -59,7 +51,7 @@ export function TrainingSessionPage() {
       {!session && !error && <p className="status-text">{t('common.loading')}</p>}
       {session && (
         <>
-          <div className="page-head" style={{ '--type-colour': TYPE_COLOURS[session.session_type] } as CSSProperties}>
+          <div className="page-head" style={cssVars({ '--type-colour': TYPE_COLOURS[session.session_type] })}>
             <p className="section-kicker">
               <span className="type-dot" />
               {t(`training.${session.status}`)}

@@ -1,24 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { api, UNAUTHORIZED_EVENT } from './api'
+import { AuthContext } from './authContext'
 import type { User } from './types'
-
-type AuthContextValue = {
-  user: User | null
-  /** False until we know whether a session cookie exists. */
-  ready: boolean
-  login: (username: string, password: string) => Promise<void>
-  register: (username: string, password: string) => Promise<void>
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -52,10 +35,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext value={{ user, ready, login, register, logout }}>{children}</AuthContext>
   )
-}
-
-export function useAuth(): AuthContextValue {
-  const value = useContext(AuthContext)
-  if (!value) throw new Error('useAuth must be used inside AuthProvider')
-  return value
 }

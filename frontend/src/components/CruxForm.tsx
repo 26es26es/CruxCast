@@ -1,12 +1,11 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { COLOURS, GRADES, type Colour, type Grade } from '../constants'
+import { GRADES, type Colour, type Grade } from '../constants'
 import { errorMessage } from '../i18n'
-import { useGymMap } from '../gymMap'
 import type { CruxFields, MapClimb } from '../types'
-import { GymMapView } from './GymMapView'
-import { MapPickerDialog } from './MapPickerDialog'
-import { checkVideoFile, VideoDropZone } from './VideoDropZone'
+import { LocationSection } from './LocationSection'
+import { checkVideoFile } from '../video'
+import { VideoDropZone } from './VideoDropZone'
 
 type Props = {
   initial?: CruxFields
@@ -52,60 +51,6 @@ function withClimb(draft: Draft, climb: MapClimb): Draft {
     area: climb.wall_name ?? '',
     gym_grade: climb.grade ?? '',
   }
-}
-
-type Location = Pick<Draft, 'map_x' | 'map_y' | 'toplogger_climb_id' | 'colour' | 'gym_grade' | 'area'>
-
-/** Shows which climb the crux is, on the gym map, and opens the picker. */
-function LocationSection({ location, onPick }: { location: Location; onPick: (climb: MapClimb) => void }) {
-  const { t } = useTranslation()
-  const { map, error } = useGymMap()
-  const [picking, setPicking] = useState(false)
-  const placed = location.map_x != null && location.map_y != null
-
-  return (
-    <div className="field">
-      <span className="field-label">{t('map.section')}</span>
-      {map && placed && (
-        <GymMapView
-          map={map}
-          maxHeight="280px"
-          pin={{
-            x: location.map_x!,
-            y: location.map_y!,
-            colour: location.colour ? COLOURS[location.colour] : '#9ca3af',
-            label: t('map.yourCrux'),
-          }}
-        />
-      )}
-      {placed && location.colour ? (
-        <span className="map-selection">
-          <span className="colour-dot" style={{ background: COLOURS[location.colour] }} />
-          {t('map.climbLabel', {
-            colour: t(`colours.${location.colour}`),
-            grade: location.gym_grade || '?',
-            wall: location.area,
-          })}
-        </span>
-      ) : (
-        <span className="field-hint">{t('map.hint')}</span>
-      )}
-      {error && <p className="error-text">{error}</p>}
-      <div className="map-actions">
-        <button type="button" className="pill" disabled={!map} onClick={() => setPicking(true)}>
-          {map ? (placed ? t('map.change') : t('map.pick')) : t('map.loading')}
-        </button>
-      </div>
-      {picking && map && (
-        <MapPickerDialog
-          map={map}
-          initialClimbId={location.toplogger_climb_id}
-          onPick={onPick}
-          onClose={() => setPicking(false)}
-        />
-      )}
-    </div>
-  )
 }
 
 function Field({ label, hint, children }: { label: ReactNode; hint?: string; children: ReactNode }) {

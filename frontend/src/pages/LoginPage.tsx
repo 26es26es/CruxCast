@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useLocation, useSearchParams } from 'react-router'
-import { useAuth } from '../auth'
+import { useAuth } from '../authContext'
 import { FloatTitle } from '../components/FloatTitle'
 import { errorMessage } from '../i18n'
 

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { useAuth } from '../auth'
+import { useAuth } from '../authContext'
 import { FloatTitle } from '../components/FloatTitle'
 
 // The loop CruxCast is built around, in order, with the tab each step lives in.

@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import { api } from '../api'
 import { AdviceCard } from '../components/AdviceCard'
 import { FloatTitle } from '../components/FloatTitle'
+import { SessionTypePicker } from '../components/SessionTypePicker'
 import { errorMessage } from '../i18n'
-import { addDays, formatMinutes, isoDate, SESSION_TYPES, TYPE_COLOURS, weekStart } from '../training'
+import { cssVars } from '../style'
+import { addDays, formatMinutes, isoDate, TYPE_COLOURS, weekStart } from '../training'
 import type { Advice, SessionType, TrainingSession } from '../types'
 
 // Remembered while the app is open.
@@ -17,7 +19,7 @@ function SessionChip({ session }: { session: TrainingSession }) {
     <Link
       to={`/training/${session.id}`}
       className={`session-chip is-${session.status}`}
-      style={{ '--type-colour': TYPE_COLOURS[session.session_type] } as CSSProperties}
+      style={cssVars({ '--type-colour': TYPE_COLOURS[session.session_type] })}
     >
       <span className="session-chip-type">{t(`training.types.${session.session_type}`)}</span>
       <span className="session-chip-meta">
@@ -90,21 +92,7 @@ export function TrainingPage() {
       <section className="training-block">
         <h2 className="section-kicker">{t('training.advisorTitle')}</h2>
         <p className="status-text">{t('training.advisorHint')}</p>
-        <div className="type-picker" role="group" aria-label={t('training.type')}>
-          {SESSION_TYPES.map((value) => (
-            <button
-              key={value}
-              type="button"
-              className="pill"
-              aria-pressed={type === value}
-              style={{ '--type-colour': TYPE_COLOURS[value] } as CSSProperties}
-              onClick={() => setType(value)}
-            >
-              <span className="type-dot" />
-              {t(`training.types.${value}`)}
-            </button>
-          ))}
-        </div>
+        <SessionTypePicker value={type} onChange={setType} />
         {advice && <AdviceCard advice={advice} onSwitchType={setType} />}
         <div className="detail-actions">
           <button type="button" className="pill pill-primary" onClick={() => navigate(`/training/new?mode=plan&type=${type}&date=${today}`)}>

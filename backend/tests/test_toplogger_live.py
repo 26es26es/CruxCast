@@ -12,8 +12,8 @@ import os
 
 import pytest
 
-from app import toplogger
 from app.config import settings
+from app.toplogger import TopLoggerClient
 
 pytestmark = pytest.mark.skipif(
     os.environ.get("TOPLOGGER_LIVE") != "1", reason="set TOPLOGGER_LIVE=1 to run"
@@ -21,7 +21,7 @@ pytestmark = pytest.mark.skipif(
 
 
 def test_toplogger_still_matches_our_format():
-    gym_map, floorplan = toplogger._fetch(settings.toplogger_gym_slug)
+    gym_map, floorplan = TopLoggerClient().fetch(settings.toplogger_gym_slug)
 
     assert gym_map.walls, "no walls returned"
     assert gym_map.climbs, "no climbs with a map position returned"

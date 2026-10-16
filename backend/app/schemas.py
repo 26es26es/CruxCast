@@ -30,6 +30,13 @@ class UserOut(BaseModel):
 MapCoordinate = Annotated[float, Field(ge=0, le=1)]
 
 
+def reject_null(value: object) -> object:
+    """For partial updates: a field may be left out, but not set to null."""
+    if value is None:
+        raise ValueError("may not be null")
+    return value
+
+
 def check_location(climb_id: str, map_x: float | None, map_y: float | None) -> None:
     """A crux needs a climb ID, a spot on the gym map, or both."""
     if (map_x is None) != (map_y is None):
@@ -80,20 +87,9 @@ class CruxUpdate(BaseModel):
     is_favorite: bool | None = None
 
     # personal_grade, gym_grade and the map fields are the only ones that may be cleared with null.
-    @field_validator(
-        "climb_id",
-        "colour",
-        "area",
-        "description",
-        "experience",
-        "tips",
-        "is_favorite",
-    )
-    @classmethod
-    def not_null(cls, value: object) -> object:
-        if value is None:
-            raise ValueError("may not be null")
-        return value
+    _not_null = field_validator(
+        "climb_id", "colour", "area", "description", "experience", "tips", "is_favorite"
+    )(reject_null)
 
 
 class CruxOut(BaseModel):
@@ -174,22 +170,10 @@ class BoardCruxUpdate(BaseModel):
     is_public: bool | None = None
     holds: list[BoardHold] | None = Field(None, min_length=2, max_length=60)
 
-    @field_validator("name", "angle", "grade", "description", "is_public", "holds")
-    @classmethod
-    def not_null(cls, value: object) -> object:
-        if value is None:
-            raise ValueError("may not be null")
-        return value
-
-    @field_validator("angle")
-    @classmethod
-    def valid_angle(cls, value: int) -> int:
-        return check_angle(value)
-
-    @field_validator("holds")
-    @classmethod
-    def valid_holds(cls, value: list[BoardHold]) -> list[BoardHold]:
-        return check_board_holds(value)
+    # Declared before the checks below, so null is rejected before they run.
+    _not_null = field_validator("name", "angle", "grade", "description", "is_public", "holds")(reject_null)
+    _angle = field_validator("angle")(check_angle)
+    _holds = field_validator("holds")(check_board_holds)
 
 
 class BoardCruxOut(BaseModel):

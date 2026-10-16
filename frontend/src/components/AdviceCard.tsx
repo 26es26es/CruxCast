@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cssVars } from '../style'
 import { formatMinutes, TYPE_COLOURS } from '../training'
 import type { Advice, AdviceStep, SessionType } from '../types'
 
@@ -48,7 +48,7 @@ export function AdviceCard({ advice, onSwitchType }: Props) {
   const when = useWhen()
 
   return (
-    <div className="advice-card" style={{ '--type-colour': TYPE_COLOURS[advice.session_type] } as CSSProperties}>
+    <div className="advice-card" style={cssVars({ '--type-colour': TYPE_COLOURS[advice.session_type] })}>
       <div className="advice-head">
         <div>
           <p className="advice-total">{formatMinutes(advice.total_minutes)}</p>

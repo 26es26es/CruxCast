@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { api } from '../api'
 import { errorMessage } from '../i18n'
 import type { Crux } from '../types'
-import { checkVideoFile, VideoDropZone } from './VideoDropZone'
+import { checkVideoFile } from '../video'
+import { VideoDropZone } from './VideoDropZone'
 
 type Props = {
   crux: Crux

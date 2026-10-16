@@ -1,5 +1,6 @@
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cssVars } from '../style'
 import { activeFilterCount, DEFAULT_FILTERS, filterClimbs, type MapFilters } from '../mapFilters'
 import type { GymMap, MapClimb } from '../types'
 import { GymMapView } from './GymMapView'
@@ -34,7 +35,7 @@ export function GymExplorer({ map, loggedIds, selected, onSelect, height, initia
   const count = activeFilterCount(filters)
 
   return (
-    <div className="explorer" style={{ '--explorer-height': height } as CSSProperties}>
+    <div className="explorer" style={cssVars({ '--explorer-height': height })}>
       <div className="map-toolbar">
         <button
           type="button"

@@ -1,41 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { api } from './api'
-import { errorMessage } from './i18n'
+import { CachedResource, useCachedResource } from './cachedResource'
+import type { Colour, Grade } from './constants'
 import type { GymMap } from './types'
 
 // The backend refreshes from TopLogger every 10 minutes; ask again after that.
-const MAX_AGE_MS = 10 * 60 * 1000
-
-// Shared across components so the map is fetched once, not per component.
-let cached: { request: Promise<GymMap>; at: number } | null = null
-
-function loadGymMap(): Promise<GymMap> {
-  if (!cached || Date.now() - cached.at > MAX_AGE_MS) {
-    cached = { request: api.getGymMap(), at: Date.now() }
-  }
-  return cached.request
-}
+const gymMap = new CachedResource(() => api.getGymMap(), 10 * 60 * 1000)
 
 export function useGymMap(): { map: GymMap | null; error: string | null } {
-  const [state, setState] = useState<{ map: GymMap | null; error: string | null }>({
-    map: null,
-    error: null,
-  })
+  const { data, error } = useCachedResource(gymMap)
+  return { map: data, error }
+}
 
-  useEffect(() => {
-    let active = true
-    loadGymMap()
-      .then((map) => active && setState({ map, error: null }))
-      .catch((caught) => {
-        cached = null
-        if (active) setState({ map: null, error: errorMessage(caught) })
-      })
-    return () => {
-      active = false
-    }
-  }, [])
-
-  return state
+/** "Purple 5B on Atlas" for a climb on the gym map. */
+export function useClimbLabel(): (climb: { colour: Colour; grade: Grade | null | ''; wall: string | null }) => string {
+  const { t } = useTranslation()
+  return ({ colour, grade, wall }) =>
+    t('map.climbLabel', { colour: t(`colours.${colour}`), grade: grade || '?', wall: wall ?? '' })
 }
 
 /** "5 minutes ago", in the current language. */

@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { api } from '../api'
+import { ClimbName } from '../components/ClimbName'
 import { FloatTitle } from '../components/FloatTitle'
 import { GymExplorer } from '../components/GymExplorer'
-import { timeAgo, useGymMap } from '../gymMap'
+import { MapFreshness } from '../components/MapFreshness'
+import { useGymMap } from '../gymMap'
 import { isNewClimb, isOutSoon } from '../mapFilters'
 import type { Crux, GymMap, MapClimb } from '../types'
 
@@ -31,14 +33,7 @@ function ClimbCard({
   return (
     <aside className="climb-card" aria-live="polite">
       <div className="climb-card-main">
-        <span className="map-selection">
-          <span className="colour-dot" style={{ background: climb.colour_hex }} />
-          {t('map.climbLabel', {
-            colour: t(`colours.${climb.colour}`),
-            grade: climb.grade ?? '',
-            wall: climb.wall_name ?? '',
-          })}
-        </span>
+        <ClimbName colour={climb.colour} colourHex={climb.colour_hex} grade={climb.grade} wall={climb.wall_name} />
         <div className="climb-card-meta">
           {isNewClimb(climb, map) && <span className="badge badge-new">{t('filters.new')}</span>}
           {isOutSoon(climb, map) && climb.out_planned_at && (
@@ -70,7 +65,7 @@ function ClimbCard({
 }
 
 export function GymPage() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { map, error } = useGymMap()
   const [cruxes, setCruxes] = useState<Crux[]>([])
   const [selected, setSelected] = useState<MapClimb | null>(null)
@@ -92,9 +87,7 @@ export function GymPage() {
         <p className="section-kicker">{map?.name ?? t('nav.myGym')}</p>
         <FloatTitle text={t('gym.title')} />
         {map && (
-          <p className={map.stale ? 'map-freshness is-stale' : 'map-freshness'}>
-            {t(map.stale ? 'map.stale' : 'map.updated', { ago: timeAgo(map.updated_at, i18n.language) })}
-          </p>
+          <MapFreshness map={map} />
         )}
       </div>
 

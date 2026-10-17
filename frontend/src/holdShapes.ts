@@ -85,6 +85,52 @@ export function holesPath(d: string): string {
  * radius) and the faces between them. The face against the wall is left out.
  */
 export type Solid = { points: [number, number, number][]; faces: number[][] }
+
+type Flat = [number, number]
+
+/**
+ * A flat-topped volume: a footprint on the wall and the same shape, smaller and `height` out,
+ * as its top, joined by sloping sides. The top can be shifted to make one side steeper.
+ */
+function slab(footprint: Flat[], options: { top: number; height: number; shift?: Flat }): Solid {
+  const n = footprint.length
+  const [cx, cy] = footprint.reduce(([x, y], [px, py]) => [x + px / n, y + py / n], [0, 0])
+  const [sx, sy] = options.shift ?? [0, 0]
+  const top = footprint.map(([x, y]): [number, number, number] => [cx + (x - cx) * options.top + sx, cy + (y - cy) * options.top + sy, options.height])
+  return {
+    points: [...footprint.map(([x, y]): [number, number, number] => [x, y, 0]), ...top],
+    faces: [Array.from({ length: n }, (_, i) => n + i), ...footprint.map((_, i) => [i, (i + 1) % n, n + ((i + 1) % n), n + i])],
+  }
+}
+
+/** A faceted dome, like a quarter of a football: rings of flat panels up to a point. */
+function facetedDome(segments: number, rings: [number, number][], apex: number): Solid {
+  const points: [number, number, number][] = []
+  for (const [ring, [radius, height]] of rings.entries()) {
+    for (let k = 0; k < segments; k++) {
+      // Each ring is turned half a panel, so the panels interlock like a ball's.
+      const angle = ((k + (ring % 2) / 2) / segments) * Math.PI * 2
+      points.push([Math.cos(angle) * radius, Math.sin(angle) * radius * 0.9, height])
+    }
+  }
+  points.push([0, 0, apex])
+  const faces: number[][] = []
+  for (let ring = 0; ring < rings.length - 1; ring++) {
+    for (let k = 0; k < segments; k++) {
+      const [a, b] = [ring * segments + k, ring * segments + ((k + 1) % segments)]
+      const [c, d] = [(ring + 1) * segments + k, (ring + 1) * segments + ((k + 1) % segments)]
+      faces.push([a, b, c], [b, d, c])
+    }
+  }
+  const last = (rings.length - 1) * segments
+  for (let k = 0; k < segments; k++) faces.push([last + k, last + ((k + 1) % segments), points.length - 1])
+  return { points, faces }
+}
+
+const regular = (corners: number, turn = 0): Flat[] =>
+  Array.from({ length: corners }, (_, k) => [Math.cos((k / corners) * Math.PI * 2 + turn), Math.sin((k / corners) * Math.PI * 2 + turn)])
+
+/** The volume shapes, in the order of VOLUME_NAMES. */
 export const VOLUME_SOLIDS: Solid[] = [
   // A pyramid on a triangular base.
   {
@@ -96,7 +142,79 @@ export const VOLUME_SOLIDS: Solid[] = [
     points: [[-1, 0.6, 0], [1, 0.6, 0], [0.8, -0.8, 0], [-0.6, -0.8, 0], [-0.5, -0.15, 0.75], [0.7, -0.15, 0.75]],
     faces: [[0, 1, 5, 4], [1, 2, 5], [2, 3, 4, 5], [3, 0, 4]],
   },
+  // A flat triangle with a steep bottom edge.
+  slab([[-1, 0.75], [1, 0.75], [0, -1]], { top: 0.55, height: 0.32, shift: [0, 0.12] }),
+  // A low rectangular box.
+  slab([[-1, -0.6], [1, -0.6], [1, 0.6], [-1, 0.6]], { top: 0.72, height: 0.34, shift: [0, 0.08] }),
+  // A hexagon.
+  slab(regular(6), { top: 0.6, height: 0.4 }),
+  // A diamond, standing on a point.
+  slab([[0, -1], [0.72, 0], [0, 1], [-0.72, 0]], { top: 0.38, height: 0.42 }),
+  // A chevron (boomerang): two arms meeting at the top.
+  {
+    points: [
+      [-1, 0.25, 0], [0, -0.8, 0], [1, 0.25, 0], [0.72, 0.6, 0], [0, -0.22, 0], [-0.72, 0.6, 0],
+      [-0.82, 0.3, 0.3], [0, -0.58, 0.3], [0.82, 0.3, 0.3], [0.66, 0.46, 0.3], [0, -0.3, 0.3], [-0.66, 0.46, 0.3],
+    ],
+    // The top is concave, so it is two flat quads, one per arm.
+    faces: [[6, 7, 10, 11], [7, 8, 9, 10], [0, 1, 7, 6], [1, 2, 8, 7], [2, 3, 9, 8], [3, 4, 10, 9], [4, 5, 11, 10], [5, 0, 6, 11]],
+  },
+  // A quarter-ball made of flat panels.
+  facetedDome(8, [[1, 0], [0.82, 0.42], [0.46, 0.72]], 0.82),
+  // A flake: a lopsided wedge, steep on one side.
+  {
+    points: [[-1, 0.7, 0], [0.9, 0.5, 0], [0.6, -0.9, 0], [-0.8, -0.6, 0], [-0.65, -0.35, 0.72], [0.45, -0.62, 0.66]],
+    faces: [[0, 1, 5, 4], [1, 2, 5], [2, 3, 4, 5], [3, 0, 4]],
+  },
 ]
+
+/** Names for the volume shapes (translation keys under setting.volumes). */
+export const VOLUME_NAMES = ['pyramid', 'wedge', 'triangle', 'rectangle', 'hexagon', 'diamond', 'chevron', 'quarterBall', 'flake'] as const
+
+/**
+ * The shapes each hold type comes in, by name (translation keys under setting.shapes). Underclings
+ * are jugs turned upside down, so they share the jugs' shapes.
+ */
+const JUG_SHAPES = ['bucket', 'ear', 'horn', 'rail', 'ladder', 'thumbCatch', 'deep'] as const
+export const HOLD_VARIANTS: Record<Exclude<HoldType, 'volume'>, readonly string[]> = {
+  jug: JUG_SHAPES,
+  undercling: JUG_SHAPES,
+  crimp: ['crimpRail', 'scallop', 'halfMoon', 'micro', 'ripple'],
+  edge: ['shelf', 'incutEdge', 'ramp', 'ledge', 'cutlass', 'wire'],
+  sloper: ['dome', 'dish', 'roll', 'lip', 'vintage', 'blob'],
+  pinch: ['fin', 'block', 'tufa', 'ridge', 'wedgePinch'],
+  pocket: ['mono', 'two', 'three', 'slot', 'incutPocket', 'slopingPocket', 'eye', 'twin'],
+  sidepull: ['flake', 'blade', 'sideJug', 'sideHorn'],
+  foot_chip: ['nub', 'miniLedge', 'disc', 'dimple'],
+  macro: ['scooped', 'wave', 'bowl', 'jugMacro', 'dualtex'],
+}
+
+/** How many shapes a hold type has to choose from. */
+export function shapeCount(type: HoldType): number {
+  return type === 'volume' ? VOLUME_SOLIDS.length : HOLD_VARIANTS[type].length
+}
+
+/** A shape's name (a key under setting.shapes, or setting.volumes for volumes). */
+export function shapeName(type: HoldType, variant: number): string {
+  return type === 'volume' ? VOLUME_NAMES[variant % VOLUME_NAMES.length] : HOLD_VARIANTS[type][variant % HOLD_VARIANTS[type].length]
+}
+
+/**
+ * Fixes each hold's shape to the one it shows now. Without a fixed shape a hold picks one from its
+ * position, so it would change shape while being dragged in the editor.
+ */
+export function withFixedShapes<T extends { type: HoldType; x: number; y: number; variant?: number | null }>(holds: T[]): T[] {
+  return holds.map((hold) => (hold.variant != null ? hold : { ...hold, variant: shapeOf(hold) }))
+}
+
+/** Big features other holds can be bolted onto (volumes and macros). */
+export const SUPPORTS: ReadonlySet<HoldType> = new Set<HoldType>(['volume', 'macro'])
+
+/** The shape a hold uses: the setter's choice, or one picked from its position. */
+export function shapeOf(hold: { type: HoldType; x: number; y: number; variant?: number | null }): number {
+  const count = shapeCount(hold.type)
+  return hold.variant != null ? hold.variant % count : variantIndex(hold.x, hold.y, count)
+}
 
 /** The outline used for small icons (the first variant). */
 export function iconPath(type: HoldType): string {

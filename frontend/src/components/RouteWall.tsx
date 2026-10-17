@@ -2,8 +2,8 @@ import { lazy, Suspense, useCallback, useEffect, useId, useMemo, useRef, useStat
 import { useTranslation } from 'react-i18next'
 import { ROLE_COLOURS } from '../board'
 import { COLOURS } from '../constants'
-import { HOLD_RELIEF, HOLD_SHAPES, holesPath, iconPath, JUG_INCUT, mixColour, outerPath, reliefScale, shadeColour, variantIndex, VOLUME_SOLIDS } from '../holdShapes'
-import { FACE_ASPECT, RADIUS, type HoldSize, type HoldType, type RouteHold, type WallType } from '../setting'
+import { HOLD_RELIEF, HOLD_SHAPES, holesPath, iconPath, JUG_INCUT, mixColour, outerPath, reliefScale, shadeColour, shapeOf, SUPPORTS, variantIndex, VOLUME_SOLIDS } from '../holdShapes'
+import { FACE_ASPECT, RADIUS, turned, type HoldSize, type HoldType, type RouteHold, type WallType } from '../setting'
 import { add, cross, dot, MAT_FACE, MAX_ZOOM, sub, WALL_LENGTH_M, WALL_WIDTH_M, WallView, type Vec } from '../wallPerspective'
 import { holdManifest, type HoldModelEntry } from '../wall3d/holdManifest'
 import { canDraw3d } from '../wall3d/support'
@@ -147,7 +147,7 @@ function WallScene({ id, view, simple }: { id: Scope; view: WallView; simple: bo
   )
 }
 
-type DrawnHold = Pick<RouteHold, 'x' | 'y' | 'type' | 'size' | 'rotation'>
+type DrawnHold = Pick<RouteHold, 'x' | 'y' | 'type' | 'size' | 'rotation' | 'variant'>
 type Spot = ReturnType<WallView['place']>
 
 /**
@@ -184,7 +184,7 @@ function Hold({
   const at = (height: number, scale = 1, shift = { x: 0, y: 0 }) =>
     `translate(${spot.x + spot.lift.x * height} ${spot.y + spot.lift.y * height}) matrix(${a} ${b} ${c} ${d} 0 0) translate(${shift.x} ${shift.y}) rotate(${hold.rotation}) scale(${radius * scale})`
   const shapes = HOLD_SHAPES[hold.type]
-  const shape = shapes[variantIndex(hold.x, hold.y, shapes.length)]
+  const shape = shapes[hold.variant != null ? hold.variant % shapes.length : variantIndex(hold.x, hold.y, shapes.length)]
   const outline = outerPath(shape)
   const relief = HOLD_RELIEF[hold.type]
   const depth = relief.depth * radius
@@ -236,7 +236,7 @@ function Hold({
 
 /** A volume as a solid: each face lit by the way it points, faces turned away from you left out. */
 function Volume({ id, view, spot, hold, colour, radius, shadow }: { id: Scope; view: WallView; spot: Spot; hold: DrawnHold; colour: string; radius: number; shadow: boolean }) {
-  const solid = VOLUME_SOLIDS[variantIndex(hold.x, hold.y, VOLUME_SOLIDS.length)]
+  const solid = VOLUME_SOLIDS[shapeOf(hold)]
   const turn = (hold.rotation * Math.PI) / 180
   const { across, down, out } = spot.axes
   const inWorld = ([x, y, h]: [number, number, number], shift = 0): Vec => {
@@ -321,8 +321,13 @@ type Props = {
   onWallClick?: (x: number, y: number) => void
   /** Editing: a hold was clicked (without dragging). */
   onHoldClick?: (index: number) => void
-  /** Editing: a hold was dragged to a new spot, in face fractions. */
-  onHoldMove?: (index: number, x: number, y: number) => void
+  /**
+   * Editing: a hold was dragged to a new spot, in face fractions. Dragging a volume or macro also
+   * moves the holds on it; they come as `riders` with their new spots.
+   */
+  onHoldMove?: (index: number, x: number, y: number, riders?: { index: number; x: number; y: number }[]) => void
+  /** Editing: the selected hold was turned with its handle, to `rotation` degrees clockwise. */
+  onHoldRotate?: (index: number, rotation: number) => void
   /** Small previews: no grain, T-nuts or hold shadows, which are invisible at that size but costly to paint. */
   simple?: boolean
   className?: string
@@ -339,6 +344,7 @@ export function RouteWall({
   onWallClick,
   onHoldClick,
   onHoldMove,
+  onHoldRotate,
   simple = false,
   className,
 }: Props) {
@@ -347,7 +353,10 @@ export function RouteWall({
   // useId can contain characters (like ':') that break url(#…) references.
   const prefix = `wall${useId().replace(/[^a-zA-Z0-9]/g, '')}-`
   const id: Scope = (name) => `${prefix}${name}`
-  const drag = useRef<{ index: number; moved: boolean } | null>(null)
+  // The hold being dragged, and how far its centre is from where it was grabbed (in face fractions).
+  const drag = useRef<{ index: number; moved: boolean; offset: { x: number; y: number }; riders: { index: number; dx: number; dy: number }[] } | null>(null)
+  // The hold being turned with its rotation handle.
+  const rotating = useRef<number | null>(null)
   const editable = Boolean(onWallClick || onHoldMove)
   // Background holds are placed once per route shape, so they don't jump around while you edit.
   const holdCount = holds.length
@@ -365,6 +374,14 @@ export function RouteWall({
   const use3d = !simple && canDraw3d()
   const [ready3d, setReady3d] = useState(false)
   const markReady = useCallback(() => setReady3d(true), [])
+  // Route holds the 3D wall seated on a volume or macro, and where (so clicks and rings line up with them).
+  const [raised, setRaised] = useState<(Vec | null)[]>([])
+  /** Where a route hold is drawn: on the wall, or on the volume it sits on. */
+  const spotOf = (index: number) => {
+    const onWall = view.place(holds[index].x, holds[index].y)
+    const lifted = drawn3d ? raised[index] : null
+    return lifted ? { ...onWall, ...view.toScreen(lifted) } : onWall
+  }
   const drawn3d = use3d && ready3d
   const tapes = useMemo(
     () =>
@@ -386,18 +403,65 @@ export function RouteWall({
     if (!editable || event.button !== 0) return
     event.stopPropagation()
     svgRef.current?.setPointerCapture(event.pointerId)
-    drag.current = { index, moved: false }
+    // Keep the hold where it was grabbed, so it doesn't jump to centre on the pointer
+    // (a volume is moved by a grip below it).
+    const grabbed = toFace(event)
+    const offset = grabbed ? { x: holds[index].x - grabbed.x, y: holds[index].y - grabbed.y } : { x: 0, y: 0 }
+    // Holds sitting on a volume or macro (over it when the drag starts) move along with it.
+    const base = holds[index]
+    const reach = RADIUS[base.size]
+    const riders = SUPPORTS.has(base.type)
+      ? holds.flatMap((hold, i) =>
+          i !== index && !SUPPORTS.has(hold.type) && Math.hypot(hold.x - base.x, (hold.y - base.y) * FACE_ASPECT) < reach
+            ? [{ index: i, dx: hold.x - base.x, dy: hold.y - base.y }]
+            : [],
+        )
+      : []
+    drag.current = { index, moved: false, offset, riders }
+  }
+
+  const startRotate = (index: number) => (event: ReactPointerEvent) => {
+    if (event.button !== 0) return
+    event.stopPropagation()
+    svgRef.current?.setPointerCapture(event.pointerId)
+    rotating.current = index
+  }
+
+  /** Turns the hold so its handle points at the pointer, in 5° steps. */
+  const rotateTowards = (event: ReactPointerEvent, index: number) => {
+    const matrix = svgRef.current?.getScreenCTM()
+    if (!matrix) return
+    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse())
+    const centre = spotOf(index)
+    const degrees = (Math.atan2(point.y - centre.y, point.x - centre.x) * 180) / Math.PI + 90
+    onHoldRotate?.(index, turned(Math.round(degrees / 5) * 5, 0))
   }
 
   const onPointerMove = (event: ReactPointerEvent) => {
+    if (rotating.current !== null) {
+      rotateTowards(event, rotating.current)
+      return
+    }
     if (!drag.current || !onHoldMove) return
     const point = toFace(event)
     if (!point) return
     drag.current.moved = true
-    onHoldMove(drag.current.index, point.x, point.y)
+    const { offset, riders } = drag.current
+    const keepOnWall = (x: number, y: number) => ({ x: Math.min(Math.max(x, 0.02), 0.98), y: Math.min(Math.max(y, 0.02), 1 - MAT_FACE - 0.02) })
+    const to = keepOnWall(point.x + offset.x, point.y + offset.y)
+    onHoldMove(
+      drag.current.index,
+      to.x,
+      to.y,
+      riders.map((rider) => ({ index: rider.index, ...keepOnWall(to.x + rider.dx, to.y + rider.dy) })),
+    )
   }
 
   const onPointerUp = (event: ReactPointerEvent) => {
+    if (rotating.current !== null) {
+      rotating.current = null
+      return
+    }
     const current = drag.current
     drag.current = null
     if (current) {
@@ -433,7 +497,7 @@ export function RouteWall({
         <polygon key={index} className="route-wall-hit" points={polygon(view, view.corners(panel))} fill="transparent" />
       ))}
       {holds.map((hold, index) => {
-        const { x, y, unit, visible } = view.place(hold.x, hold.y)
+        const { x, y, unit, visible } = spotOf(index)
         if (!visible) return null
         const radius = RADIUS[hold.size] * WALL_WIDTH_M * unit
         return (
@@ -445,7 +509,20 @@ export function RouteWall({
           >
             {drawn3d ? (
               // The hold itself is in the 3D picture underneath; this is what you click and drag.
-              <circle cx={x} cy={y} r={radius * 1.15 + 6} fill="transparent" />
+              SUPPORTS.has(hold.type) && editable ? (
+                // Volumes and macros: only their outline picks them up, so a click inside sets a hold on them.
+                <>
+                  <circle cx={x} cy={y} r={radius * 1.05} fill="none" stroke="transparent" strokeWidth={44} pointerEvents="stroke" />
+                  {/* A grip below the volume to drag it around (or click to select it). */}
+                  <g className="route-move-grip" transform={`translate(${x} ${y + radius * 1.05 + 34})`} aria-label={t('setting.moveVolume')}>
+                    <title>{t('setting.moveVolume')}</title>
+                    <circle r={22} />
+                    <path d="M0-13V13M-13 0H13M0-13l-5 5M0-13l5 5M0 13l-5-5M0 13l5-5M-13 0l5-5M-13 0l5 5M13 0l-5-5M13 0l-5 5" />
+                  </g>
+                </>
+              ) : (
+                <circle cx={x} cy={y} r={radius * 1.15 + 6} fill="transparent" />
+              )
             ) : (
               <Hold id={id} view={view} hold={hold} colour={colour} shadow={!simple && !look.moving} rough={look.moving} />
             )}
@@ -468,6 +545,10 @@ export function RouteWall({
                 strokeDasharray={index === selected ? '16 9' : hold.role === 'foot' ? '12 8' : undefined}
               />
             )}
+            {index === selected && onHoldRotate && (
+              // A handle on the ring, pointing the way the hold's grip faces: drag it round to turn the hold.
+              <RotateHandle x={x} y={y} ring={radius * 1.3 + 12} rotation={hold.rotation} label={t('setting.rotation')} onPointerDown={startRotate(index)} />
+            )}
           </g>
         )
       })}
@@ -480,7 +561,7 @@ export function RouteWall({
       <div className="route-wall-frame">
         {use3d && (
           <Suspense fallback={null}>
-            <Wall3D view={view} wallKey={`${wallType}:${angle}`} holds={holds} colour={colour} others={others} tapes={tapes} moving={look.moving} onReady={markReady} />
+            <Wall3D view={view} wallKey={`${wallType}:${angle}`} holds={holds} colour={colour} others={others} tapes={tapes} moving={look.moving} onReady={markReady} onRaised={setRaised} />
           </Suspense>
         )}
         {wall}
@@ -512,6 +593,17 @@ export function RouteWall({
       </div>
       {use3d && <HoldCredits />}
     </>
+  )
+}
+
+function RotateHandle({ x, y, ring, rotation, label, onPointerDown }: { x: number; y: number; ring: number; rotation: number; label: string; onPointerDown: (event: ReactPointerEvent) => void }) {
+  const angle = ((rotation - 90) * Math.PI) / 180
+  const [dx, dy] = [Math.cos(angle), Math.sin(angle)]
+  return (
+    <g className="route-rotate-handle" data-no-orbit onPointerDown={onPointerDown} role="slider" aria-label={label} aria-valuenow={rotation}>
+      <line x1={x + dx * ring} y1={y + dy * ring} x2={x + dx * (ring + 30)} y2={y + dy * (ring + 30)} />
+      <circle cx={x + dx * (ring + 44)} cy={y + dy * (ring + 44)} r={16} />
+    </g>
   )
 }
 

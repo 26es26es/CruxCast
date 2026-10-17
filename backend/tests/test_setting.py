@@ -156,3 +156,24 @@ def test_diagonal_ends_on_the_other_side(seed):
 def test_every_path_finishes_higher_than_it_starts(path):
     holds = generate(spec(path=path))
     assert min(h.y for h in holds if h.role == "finish") < min(h.y for h in holds if h.role == "start")
+
+
+def test_templates_accept_huge_volumes_and_a_chosen_shape():
+    hold = {"x": 0.5, "y": 0.5, "type": "jug", "size": "m", "rotation": 0}
+    base = {"name": "Volumes", "wall_type": "vertical", "angle": 0, "grade": "6A", "styles": [], "colour": "red"}
+    holds = [
+        {**hold, "role": "start", "x": 0.4, "y": 0.8},
+        {**hold, "role": "finish", "x": 0.4, "y": 0.1},
+        {**hold, "role": "hand", "type": "volume", "size": "xxl", "variant": 4},
+    ]
+    template = RouteTemplateIn(**base, holds=holds)
+    assert template.holds[2].size == "xxl" and template.holds[2].variant == 4
+    with pytest.raises(ValidationError):
+        RouteTemplateIn(**base, holds=[*holds[:2], {**holds[2], "variant": 99}])
+
+
+@pytest.mark.parametrize("seed", range(10))
+def test_generated_routes_leave_the_biggest_sizes_to_setters(seed):
+    for hold in generate(spec(style="power", wall_type="steep", angle=40, seed=seed)):
+        assert hold.size != "xxl"
+        assert hold.variant is None

@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import { mixColour, variantIndex } from '../holdShapes'
+import { mixColour, shapeOf, SUPPORTS } from '../holdShapes'
 import { RADIUS, type RouteHold } from '../setting'
 import { cross, WALL_LENGTH_M, WALL_WIDTH_M, type Panel, type Vec, type WallView } from '../wallPerspective'
-import { holdModel, VARIANTS } from './holdGeometry'
+import { holdModel } from './holdGeometry'
 
 // The climbing wall as a lit 3D scene: plywood panels with T-nuts, crash mats, the floor,
 // and the holds with real shadows. The camera copies a WallView's projection exactly, so the
@@ -18,7 +18,7 @@ const MAT_HEIGHT = 0.3
 // START and TOP tape, in metres.
 const TAPE_M: [number, number] = [0.26, 0.075]
 
-export type SceneHold = Pick<RouteHold, 'x' | 'y' | 'type' | 'size' | 'rotation'>
+export type SceneHold = Pick<RouteHold, 'x' | 'y' | 'type' | 'size' | 'rotation' | 'variant'>
 /** START or TOP tape stuck to the wall under a hold. */
 export type Tape = { hold: SceneHold; label: string; colour: string }
 
@@ -127,6 +127,28 @@ function tapeTexture(label: string, colour: string): THREE.CanvasTexture {
   return texture
 }
 
+/** A soft round shadow: dark in the middle, fading out to nothing at the edge. */
+function contactTexture(): THREE.CanvasTexture {
+  const size = 128
+  const canvas = document.createElement('canvas')
+  canvas.width = canvas.height = size
+  const g = canvas.getContext('2d')!
+  const gradient = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2)
+  gradient.addColorStop(0, 'rgba(0, 0, 0, 0.65)')
+  gradient.addColorStop(0.55, 'rgba(0, 0, 0, 0.45)')
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
+  g.fillStyle = gradient
+  g.fillRect(0, 0, size, size)
+  return new THREE.CanvasTexture(canvas)
+}
+
+/** Very dark colours as charcoal (keeping their hue), so light and shadow still show on them. */
+function visibleColour(hex: string): string {
+  const colour = new THREE.Color(hex)
+  const luminance = 0.2126 * colour.r + 0.7152 * colour.g + 0.0722 * colour.b
+  return luminance < 0.06 ? mixColour(hex, '#55585f', 0.75) : hex
+}
+
 /** A flat quad through four world corners, with texture coordinates 0..1 across and up. */
 function quad(corners: Vec[]): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry()
@@ -164,6 +186,14 @@ export class WallScene {
   private readonly sun: THREE.DirectionalLight
   private readonly grain = grainTexture()
   private readonly holdMaterials = new Map<string, THREE.MeshStandardMaterial>()
+  private readonly contactDisc = new THREE.CircleGeometry(1, 40)
+  private readonly contactMaterial = new THREE.MeshBasicMaterial({
+    map: contactTexture(),
+    transparent: true,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -4,
+  })
   // Just a small dark dot where the bolt goes; holds don't need more detail than that.
   private readonly bolt = new THREE.CircleGeometry(0.06, 16)
   private readonly boltMaterial = new THREE.MeshBasicMaterial({ color: '#1d1b19', polygonOffset: true, polygonOffsetFactor: -2 })
@@ -235,16 +265,31 @@ export class WallScene {
   }
 
   /** Places the route's holds, other routes' holds and the tape (skipped if none of them changed). */
-  setHolds(view: WallView, route: SceneHold[], colour: string, others: (SceneHold & { colour: string })[], tapes: Tape[]) {
+  /**
+   * Places the route's holds, other routes' holds and the tape (skipped if none of them changed).
+   * Volumes and macros go up first, and any hold over one sits on its surface instead of the wall.
+   * Returns where each route hold ended up when it sits on something (null for ones on the wall),
+   * or undefined if nothing changed.
+   */
+  setHolds(view: WallView, route: SceneHold[], colour: string, others: (SceneHold & { colour: string })[], tapes: Tape[]): (Vec | null)[] | undefined {
     const key = [route, colour, others, tapes, this.wallKey]
-    if (key.every((part, i) => part === this.holdsKey[i])) return
+    if (key.every((part, i) => part === this.holdsKey[i])) return undefined
     this.holdsKey = key
     this.clear(this.holds, false)
-    for (const hold of route) this.addHold(view, hold, colour)
     // Other routes' holds are toned towards the wall's colour so the route stands out.
-    for (const hold of others) this.addHold(view, hold, mixColour(hold.colour, PLYWOOD, 0.5))
+    const all = [...route.map((hold) => ({ hold, colour })), ...others.map((hold) => ({ hold, colour: mixColour(hold.colour, PLYWOOD, 0.5) }))]
+    const supports: THREE.Object3D[] = []
+    for (const { hold, colour: own } of all) if (SUPPORTS.has(hold.type)) supports.push(this.addHold(view, hold, own, []).group)
+    this.holds.updateMatrixWorld(true)
+    const raised: (Vec | null)[] = route.map(() => null)
+    for (const [index, { hold, colour: own }] of all.entries()) {
+      if (SUPPORTS.has(hold.type)) continue
+      const { raisedTo } = this.addHold(view, hold, own, supports)
+      if (index < route.length) raised[index] = raisedTo
+    }
     for (const tape of tapes) this.addTape(view, tape)
     this.renderer.shadowMap.needsUpdate = true
+    return raised
   }
 
   /** Forgets which holds are placed, so the next setHolds builds them again (e.g. with new models). */
@@ -303,6 +348,9 @@ export class WallScene {
     this.bolt.dispose()
     this.boltMaterial.dispose()
     for (const material of this.holdMaterials.values()) material.dispose()
+    this.contactDisc.dispose()
+    this.contactMaterial.map?.dispose()
+    this.contactMaterial.dispose()
     this.renderer.dispose()
   }
 
@@ -322,22 +370,67 @@ export class WallScene {
       .multiply(new THREE.Matrix4().makeScale(radius, radius, radius))
   }
 
-  private material(colour: string): THREE.MeshStandardMaterial {
-    let material = this.holdMaterials.get(colour)
+  /**
+   * The material for a hold or a volume. Holds have a slight sheen (worn smooth by hands) and
+   * volumes are matte, so a hold catches highlights a same-coloured volume behind it doesn't.
+   * Very dark colours are drawn as charcoal, as black plastic looks under gym lights; pure
+   * black would hide the hold's shape entirely.
+   */
+  private material(colour: string, kind: 'hold' | 'volume' | 'smooth'): THREE.MeshStandardMaterial {
+    const key = `${kind}:${colour}`
+    let material = this.holdMaterials.get(key)
     if (!material) {
-      material = new THREE.MeshStandardMaterial({ color: colour, roughness: 0.68, bumpMap: this.grain, bumpScale: 1.5, side: THREE.DoubleSide, vertexColors: true })
-      this.holdMaterials.set(colour, material)
+      material = new THREE.MeshStandardMaterial({
+        color: visibleColour(colour),
+        // The smooth zone of a dual-texture hold is glossy and nearly free of grain.
+        roughness: { hold: 0.45, volume: 0.9, smooth: 0.16 }[kind],
+        bumpMap: this.grain,
+        bumpScale: { hold: 1.2, volume: 1.8, smooth: 0.12 }[kind],
+        side: THREE.DoubleSide,
+        vertexColors: true,
+      })
+      this.holdMaterials.set(key, material)
     }
     return material
   }
 
-  private addHold(view: WallView, hold: SceneHold, colour: string) {
+  /**
+   * Where a hold over a volume or macro sits: on the first surface hit looking straight down onto
+   * the wall at its spot, facing out from that surface, with "up" kept as close to the wall's up as it can.
+   */
+  private onSupport(view: WallView, hold: SceneHold, radius: number, supports: THREE.Object3D[]): THREE.Matrix4 | null {
+    if (!supports.length) return null
+    const spot = view.place(hold.x, hold.y)
+    const panel = view.panelAt(hold.x * WALL_WIDTH_M, (1 - hold.y) * WALL_LENGTH_M)
+    const wallNormal = vector(cross(panel.eu, panel.ev)).normalize()
+    const from = vector(spot.world).addScaledVector(wallNormal, 3)
+    const hit = new THREE.Raycaster(from, wallNormal.clone().negate(), 0, 3.05).intersectObjects(supports, true)[0]
+    if (!hit?.face) return null
+    const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
+    if (normal.dot(wallNormal) < 0) normal.negate()
+    const wallUp = vector(panel.ev)
+    let up = wallUp.clone().addScaledVector(normal, -wallUp.dot(normal))
+    // On a face pointing straight up or down, fall back to "away from the wall" as up.
+    if (up.lengthSq() < 1e-4) up = wallNormal.clone().addScaledVector(normal, -wallNormal.dot(normal))
+    up.normalize()
+    const across = new THREE.Vector3().crossVectors(up, normal)
+    return new THREE.Matrix4()
+      .makeBasis(across, up, normal)
+      .setPosition(hit.point.addScaledVector(normal, 0.002))
+      .multiply(new THREE.Matrix4().makeRotationZ((-hold.rotation * Math.PI) / 180))
+      .multiply(new THREE.Matrix4().makeScale(radius, radius, radius))
+  }
+
+  private addHold(view: WallView, hold: SceneHold, colour: string, supports: THREE.Object3D[]) {
     const radius = RADIUS[hold.size] * WALL_WIDTH_M
-    const model = holdModel(hold.type, variantIndex(hold.x, hold.y, VARIANTS))
+    const model = holdModel(hold.type, shapeOf(hold))
     const group = new THREE.Group()
     group.matrixAutoUpdate = false
-    group.matrix.copy(this.placeOnWall(view, hold, radius))
-    const mesh = new THREE.Mesh(model.geometry, this.material(colour))
+    const onTop = this.onSupport(view, hold, radius, supports)
+    group.matrix.copy(onTop ?? this.placeOnWall(view, hold, radius))
+    const surface = this.material(colour, SUPPORTS.has(hold.type) ? 'volume' : 'hold')
+    // Dual-texture shapes come in two groups: textured, then smooth.
+    const mesh = new THREE.Mesh(model.geometry, model.geometry.groups.length > 1 ? [surface, this.material(colour, 'smooth')] : surface)
     mesh.castShadow = true
     mesh.receiveShadow = true
     group.add(mesh)
@@ -346,7 +439,18 @@ export class WallScene {
       bolt.position.copy(model.bolt).setZ(model.bolt.z + 0.003)
       group.add(bolt)
     }
+    if (onTop) {
+      // A soft dark patch on the volume around the hold's base, so it stands out even in the same colour.
+      const shadow = new THREE.Mesh(this.contactDisc, this.contactMaterial)
+      shadow.scale.set(1.35, 1.35, 1)
+      shadow.position.z = 0.004
+      shadow.renderOrder = 1
+      group.add(shadow)
+    }
     this.holds.add(group)
+    group.updateMatrixWorld(true)
+    const raisedTo: Vec | null = onTop ? (new THREE.Vector3().setFromMatrixPosition(onTop).toArray() as Vec) : null
+    return { group, raisedTo }
   }
 
   private addTape(view: WallView, tape: Tape) {
@@ -366,15 +470,24 @@ export class WallScene {
   }
 
   /** Empties a group, freeing what was made for it (hold meshes share cached geometry, so that stays). */
+  private isShared(material: THREE.Material): boolean {
+    for (const shared of this.holdMaterials.values()) if (shared === material) return true
+    return false
+  }
+
   private clear(group: THREE.Group, ownsGeometry: boolean) {
     group.traverse((object) => {
       if (object instanceof THREE.Mesh || object instanceof THREE.LineSegments) {
         if (ownsGeometry || object.geometry.type === 'PlaneGeometry') object.geometry.dispose()
-        const material = object.material as THREE.Material & { map?: THREE.Texture | null }
-        // Wall and tape materials belong to one mesh each; hold materials are shared and kept.
-        if (ownsGeometry || material.map) {
-          material.map?.dispose()
-          material.dispose()
+        // Dual-texture holds have two materials; everything else has one.
+        const materials = (Array.isArray(object.material) ? object.material : [object.material]) as (THREE.Material & { map?: THREE.Texture | null })[]
+        for (const material of materials) {
+          // Wall and tape materials belong to one mesh each; hold and contact-shadow materials are shared and kept.
+          if (material === this.contactMaterial || this.isShared(material)) continue
+          if (ownsGeometry || material.map) {
+            material.map?.dispose()
+            material.dispose()
+          }
         }
       }
     })

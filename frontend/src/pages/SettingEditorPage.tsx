@@ -8,14 +8,17 @@ import { Switch } from '../components/FilterControls'
 import { FloatTitle } from '../components/FloatTitle'
 import { RoleLegend } from '../components/RoleLegend'
 import { ColourPicker, HoldTypeToggles, WallFields } from '../components/RouteOptions'
+import { HoldList } from '../components/HoldList'
 import { RouteWall } from '../components/RouteWall'
 import { useGymMap } from '../gymMap'
 import { errorMessage } from '../i18n'
+import { shapeCount, shapeName, shapeOf, withFixedShapes } from '../holdShapes'
 import {
   DEFAULT_ANGLES,
   DEFAULT_SIZE,
   HOLD_TYPES,
   routeIssues,
+  turned,
   withSingleTop,
   SIZES,
   STYLES,
@@ -52,9 +55,11 @@ export function SettingEditorPage() {
   const navigate = useNavigate()
   const { map } = useGymMap()
   const editing = id !== undefined
-  const [draft, setDraft] = useState<RouteTemplateInput | null>(() =>
-    editing ? null : ((location.state as { draft?: RouteTemplateInput } | null)?.draft ?? EMPTY),
-  )
+  const [draft, setDraft] = useState<RouteTemplateInput | null>(() => {
+    if (editing) return null
+    const start = (location.state as { draft?: RouteTemplateInput } | null)?.draft ?? EMPTY
+    return { ...start, holds: withFixedShapes(start.holds) }
+  })
   const [selected, setSelected] = useState<number | null>(null)
   const [palette, setPalette] = useState<{ type: HoldType; role: HoldRole }>({ type: 'jug', role: 'hand' })
   const [showRoles, setShowRoles] = useState(true)
@@ -73,22 +78,46 @@ export function SettingEditorPage() {
           return
         }
         const { name, wall_type, angle, gym_wall, grade, styles, colour, description, inspired_by, inspired_by_url, is_public, holds } = template
-        setDraft({ name, wall_type, angle, gym_wall, grade, styles, colour, description, inspired_by, inspired_by_url, is_public, holds })
+        setDraft({ name, wall_type, angle, gym_wall, grade, styles, colour, description, inspired_by, inspired_by_url, is_public, holds: withFixedShapes(holds) })
       })
       .catch((caught) => setError(errorMessage(caught)))
   }, [editing, id, navigate])
 
-  // Delete removes the selected hold, unless you're typing in a field.
+  // With a hold selected: Delete removes it, R turns it clockwise (Shift+R anticlockwise),
+  // unless you're typing in a field.
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       const typing = (event.target as HTMLElement).closest('input, textarea, select')
-      if (selected === null || typing || (event.key !== 'Delete' && event.key !== 'Backspace')) return
+      if (selected === null || typing) return
+      if (event.key === 'Escape') {
+        setSelected(null)
+        return
+      }
+      if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault()
+        const by = event.shiftKey ? -15 : 15
+        setDraft((current) =>
+          current ? { ...current, holds: current.holds.map((hold, i) => (i === selected ? { ...hold, rotation: turned(hold.rotation, by) } : hold)) } : current,
+        )
+        return
+      }
+      if (event.key !== 'Delete' && event.key !== 'Backspace') return
       event.preventDefault()
       setDraft((current) => (current ? { ...current, holds: current.holds.filter((_, i) => i !== selected) } : current))
       setSelected(null)
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
+  }, [selected])
+
+  // Clicking anywhere outside the wall and the selected hold's controls lets go of the hold.
+  useEffect(() => {
+    if (selected === null) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (!(event.target as Element).closest('.route-wall-frame, .hold-editor')) setSelected(null)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => document.removeEventListener('pointerdown', onPointerDown)
   }, [selected])
 
   if (!draft) {
@@ -105,6 +134,11 @@ export function SettingEditorPage() {
   const issues = routeIssues(draft.holds)
 
   const addHold = (x: number, y: number) => {
+    // With a hold selected, a click on the empty wall just lets go of it; the next click places one.
+    if (selected !== null) {
+      setSelected(null)
+      return
+    }
     const newHold: RouteHold = {
       x, y,
       type: palette.type,
@@ -112,6 +146,8 @@ export function SettingEditorPage() {
       rotation: palette.type === 'undercling' ? 180 : 0,
       role: palette.role,
     }
+    // The shape is chosen once, where it's placed, and then kept wherever the hold is moved.
+    newHold.variant = shapeOf(newHold)
     const holds = [...draft.holds, newHold]
     set({ holds: newHold.role === 'finish' ? withSingleTop(holds, holds.length - 1) : holds })
     setSelected(draft.holds.length)
@@ -179,10 +215,12 @@ export function SettingEditorPage() {
             showOtherHolds={showOthers}
             onWallClick={addHold}
             onHoldClick={(index) => setSelected(index === selected ? null : index)}
-            onHoldMove={(index, x, y) => {
+            onHoldMove={(index, x, y, riders = []) => {
               setSelected(index)
-              setHold(index, { x, y })
+              const moved = new Map([[index, { x, y }], ...riders.map((rider): [number, { x: number; y: number }] => [rider.index, { x: rider.x, y: rider.y }])])
+              set({ holds: draft.holds.map((hold, i) => ({ ...hold, ...moved.get(i) })) })
             }}
+            onHoldRotate={(index, rotation) => setHold(index, { rotation })}
           />
           {hold && selected !== null && (
             <div className="hold-editor" aria-label={t('setting.selectedHold')}>
@@ -207,12 +245,32 @@ export function SettingEditorPage() {
                   </option>
                 ))}
               </select>
-              <button type="button" className="pill pill-icon" aria-label={t('setting.rotateLeft')} onClick={() => setHold(selected, { rotation: ((hold.rotation - 15 + 540) % 360) - 180 })}>
-                ⟲
-              </button>
-              <button type="button" className="pill pill-icon" aria-label={t('setting.rotateRight')} onClick={() => setHold(selected, { rotation: ((hold.rotation + 15 + 540) % 360) - 180 })}>
-                ⟳
-              </button>
+              <select aria-label={t('setting.shape')} value={shapeOf(hold)} onChange={(e) => setHold(selected, { variant: Number(e.target.value) })}>
+                {Array.from({ length: shapeCount(hold.type) }, (_, n) => (
+                  <option key={n} value={n}>
+                    {hold.type === 'volume' ? t(`setting.volumes.${shapeName('volume', n)}`) : t(`setting.shapes.${shapeName(hold.type, n)}`)}
+                  </option>
+                ))}
+              </select>
+              <div className="rotation-control">
+                <span className="field-label">{t('setting.rotation')}</span>
+                <button type="button" className="pill pill-icon" aria-label={t('setting.rotateLeft')} title={t('setting.rotateLeft')} onClick={() => setHold(selected, { rotation: turned(hold.rotation, -15) })}>
+                  ⟲
+                </button>
+                <input
+                  type="range"
+                  min={-180}
+                  max={180}
+                  step={5}
+                  value={hold.rotation}
+                  aria-label={t('setting.rotation')}
+                  onChange={(e) => setHold(selected, { rotation: Number(e.target.value) })}
+                />
+                <button type="button" className="pill pill-icon" aria-label={t('setting.rotateRight')} title={t('setting.rotateRight')} onClick={() => setHold(selected, { rotation: turned(hold.rotation, 15) })}>
+                  ⟳
+                </button>
+                <output>{hold.rotation}°</output>
+              </div>
               <button
                 type="button"
                 className="pill pill-danger"
@@ -223,6 +281,7 @@ export function SettingEditorPage() {
               >
                 {t('setting.removeHold')}
               </button>
+              <p className="hold-editor-hint">{t('setting.rotateHint')}</p>
             </div>
           )}
           <div className="wall-options">
@@ -230,6 +289,7 @@ export function SettingEditorPage() {
             <Switch label={t('setting.showRoles')} checked={showRoles} onChange={setShowRoles} />
             <Switch label={t('setting.showOtherHolds')} checked={showOthers} onChange={setShowOthers} />
           </div>
+          <HoldList holds={draft.holds} />
         </div>
 
         <form className="board-side form form-panel" onSubmit={save}>

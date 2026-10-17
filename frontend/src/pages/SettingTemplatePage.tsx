@@ -5,6 +5,7 @@ import { api } from '../api'
 import { COLOURS } from '../constants'
 import { Switch } from '../components/FilterControls'
 import { RoleLegend } from '../components/RoleLegend'
+import { HoldList } from '../components/HoldList'
 import { RouteWall } from '../components/RouteWall'
 import { TemplateSummary } from '../components/TemplateBits'
 import { errorMessage } from '../i18n'
@@ -60,6 +61,7 @@ export function SettingTemplatePage() {
               <Switch label={t('setting.showRoles')} checked={showRoles} onChange={setShowRoles} />
               <Switch label={t('setting.showOtherHolds')} checked={showOthers} onChange={setShowOthers} />
             </div>
+            <HoldList holds={template.holds} />
           </div>
           <aside className="board-side form-panel template-side">
             <p className="section-kicker">{template.setter ?? t('setting.libraryBadge')}</p>

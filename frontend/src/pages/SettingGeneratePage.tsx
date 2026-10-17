@@ -6,6 +6,7 @@ import { COLOURS, type Colour } from '../constants'
 import { FloatTitle } from '../components/FloatTitle'
 import { RoleLegend } from '../components/RoleLegend'
 import { ColourPicker, HoldTypeToggles, WallFields } from '../components/RouteOptions'
+import { HoldList } from '../components/HoldList'
 import { RouteWall } from '../components/RouteWall'
 import { errorMessage } from '../i18n'
 import { DEFAULT_ANGLES, HOLD_TYPES, PATHS, STYLES, type GenerateSpec, type RouteHold, type Style } from '../setting'
@@ -89,6 +90,7 @@ export function SettingGeneratePage() {
             <RoleLegend />
             <Switch label={t('setting.showOtherHolds')} checked={showOthers} onChange={setShowOthers} />
           </div>
+          <HoldList holds={holds} />
         </div>
         <div className="board-side form form-panel">
           <WallFields

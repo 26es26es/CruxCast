@@ -35,8 +35,9 @@ HoldType = Literal[
 HOLD_TYPES: tuple[str, ...] = (
     "jug", "crimp", "edge", "sloper", "pinch", "pocket", "sidepull", "undercling", "foot_chip", "volume", "macro",
 )
-HoldSize = Literal["xs", "s", "m", "l", "xl"]
-SIZES: tuple[str, ...] = ("xs", "s", "m", "l", "xl")
+# xxl is for big volumes (about 90 cm across).
+HoldSize = Literal["xs", "s", "m", "l", "xl", "xxl"]
+SIZES: tuple[str, ...] = ("xs", "s", "m", "l", "xl", "xxl")
 
 Path = Literal["auto", "up", "diagonal", "traverse", "zigzag"]
 PATHS: tuple[str, ...] = ("auto", "up", "diagonal", "traverse", "zigzag")
@@ -55,6 +56,8 @@ class RouteHold(BaseModel):
     # Degrees clockwise.
     rotation: int = Field(0, ge=-180, le=180)
     role: HoldRole
+    # Which shape of its type the setter picked (e.g. which volume); None lets the app choose.
+    variant: int | None = Field(None, ge=0, le=15)
 
 
 class GenerateSpec(BaseModel):
@@ -78,7 +81,7 @@ WALL_HEIGHT_M = 4.5
 # The face is drawn 0.75 times as high as it is wide; distances use the width as unit.
 FACE_ASPECT = WALL_HEIGHT_M / WALL_WIDTH_M
 # Rough radius of each hold size in metres: a foot chip ~7 cm across, a jug ~17 cm, a volume ~45 cm.
-RADIUS_M = {"xs": 0.035, "s": 0.055, "m": 0.085, "l": 0.12, "xl": 0.22}
+RADIUS_M = {"xs": 0.035, "s": 0.055, "m": 0.085, "l": 0.12, "xl": 0.22, "xxl": 0.45}
 # The same as a fraction of the wall's width (what the frontend draws with).
 RADIUS = {size: round(r / WALL_WIDTH_M, 4) for size, r in RADIUS_M.items()}
 # Crash mats cover the bottom of the wall.
@@ -211,7 +214,8 @@ class _Setter:
             index -= 1
         if self.steepness > 0.6 and kind in ("jug", "pinch", "sloper"):
             index += 1
-        return SIZES[max(1, min(index, len(SIZES) - 2))]
+        # Generated holds stay between small and large; the biggest sizes are picked by hand.
+        return SIZES[max(1, min(index, SIZES.index("l")))]
 
     def _rotation(self, kind: str, side: int) -> int:
         if kind == "sidepull":

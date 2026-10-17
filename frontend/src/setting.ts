@@ -16,10 +16,11 @@ export const HOLD_TYPES = [
 ] as const
 export type HoldType = (typeof HOLD_TYPES)[number]
 
-export const SIZES = ['xs', 's', 'm', 'l', 'xl'] as const
+// xxl is for big volumes (about 90 cm across).
+export const SIZES = ['xs', 's', 'm', 'l', 'xl', 'xxl'] as const
 export type HoldSize = (typeof SIZES)[number]
 /** Hold radius as a fraction of the 6 m wall's width (same as the backend's RADIUS). */
-export const RADIUS: Record<HoldSize, number> = { xs: 0.0058, s: 0.0092, m: 0.0142, l: 0.02, xl: 0.0367 }
+export const RADIUS: Record<HoldSize, number> = { xs: 0.0058, s: 0.0092, m: 0.0142, l: 0.02, xl: 0.0367, xxl: 0.075 }
 /** Usual size per type, for holds placed by hand. */
 export const DEFAULT_SIZE: Record<HoldType, HoldSize> = {
   jug: 'm', crimp: 's', edge: 's', sloper: 'l', pinch: 'm', pocket: 'm', sidepull: 'm', undercling: 'm',
@@ -48,6 +49,8 @@ export type RouteHold = {
   /** Degrees clockwise. */
   rotation: number
   role: HoldRole
+  /** Which shape of its type the setter picked (e.g. which volume); left out, the app picks one. */
+  variant?: number | null
 }
 
 export type RouteTemplateInput = {
@@ -83,6 +86,11 @@ export type GenerateSpec = {
   moves: number
   hold_types: HoldType[]
   seed: number
+}
+
+/** A rotation turned by `by` degrees, kept within -180..180. */
+export function turned(rotation: number, by: number): number {
+  return ((Math.round(rotation + by) % 360) + 540) % 360 - 180
 }
 
 /** Makes `index` the route's only top hold: any other top becomes a hand hold. */
